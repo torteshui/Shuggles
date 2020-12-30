@@ -1,0 +1,1632 @@
+﻿============================================================
+  【秀】  [.Shuggles.] mpHUD Crib Sheet v1.10  【ツ】
+============================================================
+
+A short overview for customizing the HUD to your needs.
+For a complete reference, please refer to the Reference notecard.
+
+___________________________________________________________________________
+
+HUD CREATION
+
+-------------------------------------------------
+  Create HUD:HSL/HSV/HS+L/H+SV
+-------------------------------------------------
+
+- name field of the HUD-to-be before dropping the Setup script in
+
+HUD DESCRIPTION FIELD
+
+-------------------------------------------------
+  Your object/HUD name
+  Config:custom_channel:anti_rez/drop:resize_set:target_group:range:resize_options
+-------------------------------------------------
+
+- custom channel to use different communication channels for your products (recommended)
+- to use anti-rez, set this parameter to 1, for anti-drop, set it to 2
+- resize sets to resize different parts of your outfit independently with the same HUD
+  (selectable with Way button)
+- target group is the default group for the color picker, can be given as group only or
+  as group.faces, faces can be one face only or a comma-separated list
+- range is the maximum distance between HUD and target objects:
+  0: 10m, 1: 20m, 2: 100m, 3: region
+- resize options allow to disable max. size and distance checks:
+  0: all checks, 1: no distance check, 2: no size check, 3: no checks
+- default is 0 for all options
+  
+HUD CONFIGURATION NOTECARD
+
+-------------------------------------------------
+# notecard "mpHUDConfig" in the HUD (root prim)
+[Autostart]
+Button[:args][|desc]
+[ButtonMap]
+Button[:args]|desc|primname.face[|<x,y,width,height>]
+[Buttons]
+Button:faces:texture:color:texture:color[:sound]
+StretchX/Y/Z:faces:texture:color:texture:color[:sound]
+-------------------------------------------------
+
+- Autostart simulates button presses on startup (script reset)
+- ButtonMap defines areas for virtual buttons, i.e. without actual prims on it
+  - primname and face are of the prim the virtual button is on ("root" for root prim)
+  - x,y,width,height define the virtual button area (top-left to bottom-right, range 0.0 to 1.0)
+  - if area is omitted, the whole face is used
+- Buttons sets a texture and/or color for default (deselected) and selected button states and a button sound
+  - first texture and RGB color definition are for the default state
+  - second pair is for the selected state
+  - faces are the faces of the button that are affected by this (comma-separated list)
+  - sound is a sound that is played when the button is pressed
+  - Stretch buttons need an X, Y or Z added
+
+COLOR PICKER TEXTURES
+
+-------------------------------------------------
+  Palette[:HSL/HSV/HS/L/H/SV]
+  [texture[:texture]]
+-------------------------------------------------
+  Overlay[:HSL/HSV/L/SV]
+  [texture]
+-------------------------------------------------
+  Picker[:HSL/HSV/HS/L/H/SV]
+  [texture[:texture]]
+-------------------------------------------------
+  R and B and G (only one letter per prim)
+  [texture]
+-------------------------------------------------
+
+- gradients (HSL or HSV) for the color picker - either both or only one
+- overlays (L or SV) for the color picker
+- crosshairs for the color picker - either both or only one
+- font texture for RGB indicators
+- description fields can contain one or (for HSL and HSV) two custom texture UUIDs
+
+PLUGIN SYSTEM
+
+Put your own scripts into the HUD and/or the target object and receive pressed buttons or
+commands in link messages:
+
+-------------------------------------------------
+link_message ( integer sender, integer num, string msg, key id )
+-------------------------------------------------
+
+
+============================================================
+  【秀】  [.Shuggles.] mpHUD Tutorial v1.10  【ツ】
+============================================================
+
+The Guide Panel features a step-by-step instruction to build the included Demo sneakers
+HUD, starting with the Setup script, adding textures and buttons, until you've got the
+completed HUD. Please rez the Guide Panel and read or follow that excellent tutorial,
+provided by former Besieged owner Pip, to construct a complex real HUD.
+
+If you don't have the complete mpHUD scripts, but a simpler variant, or if you want to
+start with easier examples before trying more complicated ones, they are provided here.
+All these examples are also in the Example Box, so you can use them as reference. The
+prepared examples are kept simple on purpose; they were created in a way that they are
+clearly understandable and explainable and not with a perfect design in mind.
+
+Please note that, depending on the HUD you bought, not all examples will work for you.
+The necessary variant is mentioned for each example. They are still all included in this
+tutorial because they partly build upon each other and contain some necessary steps.
+Please read all examples and steps, even though you don't have to do them all. It will
+help with understanding setting up a HUD and how to modify the target objects. The
+provided examples in the Example Box contain the mpHUD scripts (no transfer) with all
+features, so you can see how they would work.
+
+The Guide Panel will be a good starting point nevertheless because it explains the basic
+concepts behind the mpHUD very clearly, so it might be useful to have it rezzed anyway.
+
+___________________________________________________________________________
+
+PREPARATION: Create a HUD and a target object
+
+1. Rez four basic prims and link three to one object.
+2. Name the single-prim object "Example HUD" - this is your HUD.
+3. Name the object with three prims "Example Shoe L" - this is your target object.
+4. Name the other two prims prim in your target object "0" and "1". You could also choose
+   another number instead of 0 or any other name. However, the default group for the
+   color picker (which we'll cover later) is "0", so we just use that.
+5. Make prim "1" in the target object like a shoe body, prim "0" like a sock and the root
+   prim a small prim that is hidden inside the shoe body.
+6. Make a copy of the target object, rename the copy to "Example Shoe R" and rename prim
+   "1" to "2".
+7. Then drop the Target script into your target objects and the HUD script into your HUD.
+8. Attach both "shoes" to your feet.
+
+Note: Always name the root prim something meaningful because these are the names of your
+products that others will see.
+
+___________________________________________________________________________
+
+EXAMPLE 1 - Simple HUD
+
+This is a pretty simple example aimed for HUDs not using the color picker:
+
+- coloring and texturing prims (needs Colorizer/Texturizer, Coverizer or mpHUD)
+- using notecards for changing several attributes (needs Colorizer/Texturizer, Coverizer or mpHUD)
+- tagged prims (needs Coverizer or mpHUD)
+- resizing objects (needs Resizer or mpHUD)
+
+The first step shows how to create a simple HUD for coloring prims in the target object:
+
+1. Take the prepared objects and add another prim to the HUD. Take care that the root
+   prim stays the same, by selecting the existing HUD last before linking.
+2. Name the new prim (the "button") in your HUD "Color:0".
+3. In the description of your button you enter the color you want to set in the form
+   "<R,G,B>", e.g. "<255,0,0>" for red.
+
+Now click on your HUD button and watch the "socks" on your target objects change their
+color. And since it's a HUD, try taking it and attach it to somewhere on your HUD screen
+area. You might need to rotate it to see your button, depending on where you put it. Then
+click it again. As long as you are in whisper chat range (which is more than enough for
+attachments), it should still work. If so, then congratulations - you successfully built
+your first HUD!
+
+The second step shows how to add functionality for texturing prims in the target object:
+
+1. Add another button to the HUD. Take care that the root prim stays the same, by
+   selecting the existing HUD last before linking.
+2. Name the new button "Texture:1.0:2.0" to tell it to texture face 0 on all prims in
+   your target objects belonging to groups 1 and 2.
+3. Add any texture UUID in the description field. You can get the UUID by right-clicking
+   on the chosen texture, select "Copy Asset UUID" and then paste it into the description
+   field. The texture UUID applies for both groups, if you want different ones, add both
+   and separete them by a colon (see also the next step).
+
+Now click on your new button and one face on your target objects changes from the default
+texture to the one you provided.
+
+Sometimes you want to change several colors and textures with just one click. For that,
+you can use the Read command:
+
+1. Add another button to the HUD. Take care that the root prim stays the same.
+2. Name the new button "Read" and write "Example" in the description field.
+3. Create a notecard named "Example" with the following content (for UUID, you can use
+   the same as before or two different ones):
+-------------------------------------------------
+Color:0:1.0,1,2,3,4:2.0,1,2,3,4|<0,255,0>:<0,0,255>:<255,255,0>
+Texture:0:1:2|plywood:UUID:UUID
+-------------------------------------------------
+4. Drop the notecard into the HUD.
+
+Now, when you click on the Read button, the "socks" (group 0) should become green and get
+a plywood texture, the left "shoe" (group 1) should become blue, the right one (group 2)
+yellow (except the soles which are face 5) and both should be completely textured by your
+provided texture(s).
+
+You can also split these lines into several ones (see below), but please keep in mind
+that each line takes 0.1s to read and the number of lines is limited to 1024.
+
+This next step shows how you can use transparency and glow effects in the target object:
+
+1. Add two other buttons to the HUD.
+2. Name the new buttons "Alpha" and "Glow".
+3. In the target object, change the prims' names to "1:AL" and "2:AL:GL", i.e. tag them.
+
+Now click on the Alpha button repeatedly and watch your tagged (with ":AL") prims being
+hidden and shown. Do the same with the Glow button and watch the prim tagged with ":GL"
+glow. This is independent of groups and affects all tagged prims. For other tags, please
+see the Reference notecard.
+
+The last step of this example lets you resize the target object:
+
+1. Add four other buttons to the HUD.
+2. Name the three of the new buttons "Resize" and set their descriptions to "-5", "+5"
+   and "+10"; name the fourth button "Restore".
+
+By clicking on the Resize buttons, you can resize your target object now; and with
+Restore you can return it to its original size.
+
+___________________________________________________________________________
+
+EXAMPLE 2 - Multi-sided HUD with Color Picker
+
+This is a more complex example, introducing the color picker and multi-sided HUDs:
+
+- coloring prims with the color picker and tab buttons (needs Color Picker or mpHUD)
+- multi-sided HUD (works with any variant)
+- shoes with walking sounds (works with any variant)
+
+The color picker is easily setup by a simple Setup script helping you... well,
+setting it up :-)
+
+1. Rez 25 prims and link them.
+2. Name the resulting object "Create HUD:HSL".
+3. Drop the Setup script into the object and wait until it has deleted itself, then add
+   the HUD script to it.
+
+Now you should have a preconfigured HUD with a color picker on it. Usually, you'd add
+other buttons to it now, but for this example we will use it as it is. In addition to
+the picker itself, you'll find other buttons as well: Memory buttons which are similar
+to Color buttons, but can memorize user-defined colors, and Tab buttons which are used
+to change the group of prims in your target object the color picker operates on.
+
+Change the name of the second Tab button from "Tab:1" to "Tab:1.0,1,2,3,4:2.0,1,2,3,4".
+Try playing around with the two Tab buttons to choose between "socks" and "shoe bodies"
+and color them with the color picker. Try to store colors in the Memory buttons by
+clicking on the small arrow and load the stored colors by clicking on the colored area.
+If you add a simple button named "Reset", you can also reset the stored colors to their
+defaults.
+
+In the next step, you learn how to create multi-sided HUDs using the Rotate button:
+
+1. Rez your HUDs from Example 1, unlink it and delete the root prim.
+2. Add all its buttons to the color picker HUD, but to a different side. When linking,
+   take care of the root prim again.
+3. Add another button to each of the two used sides.
+4. Name both buttons "Rotate" and write the rotation angle into their description:
+   "<rot.X, rot.Y, rot.Z>" (in degrees)
+
+4. is a bit tricky. For that, take the HUD and attach it as HUD. Manually rotate it using
+the edit tools until the desired side is on the front. You can see the current rotation
+being displayed. Each angle should be a multiple of 90°, i.e. 0°, 90°, 180° or 270°.
+Remember both triplets and write them in the buttons of the OTHER side - because this
+button is supposed to rotate the HUD to that value.
+
+Now, by clicking on the new buttons, the HUD should switch (rotate) between the two
+sides. Try playing around with it and all its buttons to see if everything still works.
+
+The last step adds walking sounds to your shoes.
+
+1. Add three new buttons to the side with the Resize buttons.
+2. Name the new buttons "Sound" and set their descriptions to "0", "50" and "100".
+3. If you haven't done so already, please attach the "shoes" to your feet now.
+
+Now walk around in your new stylish shoes. Click on the Sound buttons to change the
+volume of the walking sounds (0 turns it off). Also try walking through water ^^
+
+___________________________________________________________________________
+
+EXAMPLE CONFIGS
+
+Here you'll find some example mpHUDConfig configuration notecards.
+Texture UUIDs are taken from SL.
+
+-------------------------------------------------
+# Simple mpHUDConfig, used in the Demo HUD
+[Buttons]
+Scale:7:transparent::6df37158-8bf1-6020-7f75-b02551073164:
+-------------------------------------------------
+
+This mpHUDConfig configures only the Scale buttons to use a transparent texture in
+deselected state and a nice arrow in selected state. Please note that the color
+definitions are empty, but the colons must stay. You can see the result in the Demo HUD.
+
+-------------------------------------------------
+# Example HUD mpHUDConfig, configuring more buttons
+[Buttons]
+Tab:0:transparent::blank:<128,0,255>:click
+Scale:0:transparent::blank:<128,0,255>
+StretchX:::<64,64,64>::<255,0,0>
+StretchY:::<64,64,64>::<0,255,0>
+StretchZ:::<64,64,64>::<0,0,255>
+-------------------------------------------------
+
+This is the example mpHUDConfig from the Reference notecard with the following configuration:
+Face 0 of deselected Tab and Scale buttons gets a transparent texture, face 0 of selected
+Tab and Scale buttons gets a blank texture and purple color, deselected StretchX/Y/Z
+buttons are colored dark gray (all faces) and selected StretchX/Y/Z buttons are colored
+red/green/blue (all faces). Please note that empty definitions for colors or textures are
+possible, but the colons must stay. Additionally, a click sound is played for Tab buttons.
+
+-------------------------------------------------
+[ButtonMap]
+Color|<255,0,0>|root.3|<0.0,0.0,0.5,0.5>
+Color:0|<0,255,0>|root.3|<0.5,0.0,0.5,0.5>
+Color:1|<0,0,255>|root.3|<0.0,0.5,0.5,0.5>
+Color:2|<255,255,0>|root.3|<0.5,0.5,0.5,0.5>
+Color|<255,255,255>|root.0
+-------------------------------------------------
+
+This creates virtual buttons on face 3 and 0 of the root prim:
+When clicking on the upper left quarter of face 3, the whole target object becomes red.
+When clicking on the upper right quarter of face 3, group 0 becomes green.
+When clicking on the lower left quarter of face 3, group 1 becomes blue.
+When clicking on the lower right quarter of face 3, group 2 becomes yellow.
+When clicking anywhere on face 0, the whole target object becomes white.
+
+___________________________________________________________________________
+
+EXAMPLE READ BUTTON NOTECARDS
+
+Here you'll find some example notecards for the Read button.
+
+-------------------------------------------------
+# Several lines
+Color:0|<0,255,0>
+Color:1.0,1,2,3,4|<0,0,255>
+Color:2.0,1,2,3,4|<255,255,0>
+Texture:0|plywood
+Texture:1|UUID
+Texture:2|UUID
+-------------------------------------------------
+
+Makes group 0 in the target object green and sets a plywood texture, faces 0-4 in group 1
+blue, in group 2 yellow and both get completely textured by the provided texture(s).
+
+-------------------------------------------------
+# Combined into one line each
+Color:0:1.0,1,2,3,4:2.0,1,2,3,4|<0,255,0>:<0,0,255>:<255,255,0>
+Texture:0:1:2|plywood:UUID:UUID
+-------------------------------------------------
+
+Same as above, but can be read and executed much faster. Reading a notecard takes around
+0.1 seconds per line and for each line a message is sent to the Target script which also
+takes some time. The color and texture changing itself is the same.
+
+-------------------------------------------------
+# Resize example
+Resize|10
+Store
+Stretch|X
+Stretch|Y
+Resize:0:1|100L:-100L
+Restore
+-------------------------------------------------
+
+Whole object gets resized by +10% into all directions and that size is stored. Then,
+groups 0 and 1 get scaled locally in Z direction, group 0 to double size, group 0 to half
+size (negative factors are given so that they reverse the effect of the positive factor
+with the same value). Then, the previous size is restored.
+
+-------------------------------------------------
+// Read button notecard, for texturing the Demo HUD sneakers
+
+// Texture:group[.faces][:group[.faces]]...|texture[:texture]...
+
+// Back Arch - Group 4 - face 0
+Texture:4.0|5912ee3a-805f-0f8a-7e50-08102eb421ce
+// Eyelet Backing - Left - Group 2 - Face 0
+// Eyelet Backing - Right - Group 6 - Face 0
+Texture:2.0:6.0|7c3b997b-4c6a-a820-ab83-a1c9fcaf7cc3:7c3b997b-4c6a-a820-ab83-a1c9fcaf7cc3
+// Eyelets - Left - Group 3 - Face 0
+// Eyelets - Right - Group 7 - Face 1
+Texture:3.0:7.1|5e62d4e9-fd8b-b9e2-98cb-9a52af8e99e2:5e62d4e9-fd8b-b9e2-98cb-9a52af8e99e2
+// Main Body - Left - Group 2 - Face 5
+Texture:2.5|98697418-942d-2788-c70b-56b877e39516
+// Main Body - Right - Group 6 - Face 1
+Texture:6.1|adff1606-e2a4-05b1-2451-6a1d23d30465
+// Sole Sides - Left - Group 1 - Face 4
+// Sole Sides - Right - Group 5 - Face 2
+Texture:1.4:5.2|db0a15fd-93ef-14e3-8d41-059102051dae:db0a15fd-93ef-14e3-8d41-059102051dae
+// Toe Front - Left - Group 1 - Face 2
+// Toe Front - Right - Group 5 - Face 6
+Texture:1.2:5.6|5a2fd90d-e6fa-f8a6-8c5d-dee4c496db98:5a2fd90d-e6fa-f8a6-8c5d-dee4c496db98
+// Tongue - Left - Group 2 - Face 2
+// Tongue - Right - Group 6 - Face 6
+Texture:2.2:6.6|7477f023-f78f-1d6e-4452-72070b5dee42:dc42ea0d-af42-7fa6-4884-7e9fefa3cbbe
+// Toe Top - Left - Group 1 - Face 1
+// Toe Top - Right - Group 5 - Face 7
+Texture:1.1:5.7|161cb807-99c7-48c6-d4b0-be9e30d4e578:772f4b1f-9515-93a2-4dbc-721c7fcd5505
+-------------------------------------------------
+
+This is a more complex example, featured in the Demo HUD sneakers. It retextures the
+sneakers with blue-style textures. Texture UUIDs are taken from SL.
+
+The pair of sneakers consist of a left and a right shoe (as with most shoe pairs). The
+mesh models of both shoes are a little different, not only because one is more or less
+the mirrored model of the other, but also faces are different and not all textures are
+the same (even though the models are created so that many textures can be used for both
+shoes).
+
+You can see in the example, that there are many lines setting equivalent textures for
+both shoes on different prim link numbers and faces. There are also lines with only one
+texture - here the link number and face are the same for both shoes.
+
+The lines starting with // are comments (same as the ones starting with # or --). They
+are good for documentation purposes or as help when creating the notecards, but in the
+final product you should remove them because each line takes 0.1 seconds to read. And
+letting your customers wait 2.8+x seconds for retexturing their shoes is a big difference
+to 0.9+x seconds without all comments and empty lines.
+
+-------------------------------------------------
+Texture:0|89556747-24cb-43ed-920b-47caed15465f
+Texture:1.3|89556747-24cb-43ed-920b-47caed15465f,<1,1,0>,<0,0,0>,0
+Texture:2.4|5748decc-f629-461c-9a36-a35a221fe21f,<2,2,0>,<1,1,0>,90
+Normal:0.3|89556747-24cb-43ed-920b-47caed15465f
+Normal:1|89556747-24cb-43ed-920b-47caed15465f,<1,1,0>,<0,0,0>,0
+Normal:2.4|5748decc-f629-461c-9a36-a35a221fe21f,<2,2,0>,<1,1,0>,90
+Specular:0.3|89556747-24cb-43ed-920b-47caed15465f
+Specular:1|plywood,<1,1,0>,<0,0,0>,0,<0,255,0>,51,0
+Specular:2.4|blank,<2,2,0>,<1,1,0>,90,<0,0,255>,255,0
+-------------------------------------------------
+
+This example shows how to use additional parameters for diffuse, normal and specular
+textures: The specified lines apply:
+
+- plywood texture on all sides of group 0, keeping repeat, offset and rotation
+- plywood texture on face 3 of group 1, no repeat, offset or rotation
+- blank texture on face 4 of group 2, repeat 2, offset 1, rotation 90°
+- plywood normal map on face 3 of group 0, keeping repeat, offset and rotation
+- plywood normal map on all sides of group 1, no repeat, offset or rotation
+- blank normal map on face 4 of group 2, repeat 2, offset 1, rotation 90°
+- plywood specular map on face 3 of group 0, keeping repeat, offset and rotation,
+  color, glossiness and env. reflection
+- plywood specular map on all sides of group 1, no repeat, offset or rotation,
+  color green, glossiness 51, no env. reflection
+- blank specular map on face 4 of group 2, repeat 2, offset 1, rotation 90°,
+  color blue, full glossiness and env. reflection
+
+It's also possible to provide several textures per line as in the previous examples,
+each with or without additional parameters.
+
+
+============================================================
+  【秀】  [.Shuggles.] mpHUD Reference v1.10  【ツ】
+============================================================
+
+The .Shuggles. mpHUD system mainly consists of 2 scripts: one for the HUD itself and one
+for the one or more (e.g. 2 shoes) target object(s) - your products. It uses prim names
+in the target object to identify the prims that shall be changed by the HUD. The HUD
+itself consists of simple prims that are used as buttons. Their functionality depends on
+their name and description. They are explained in this reference as follows:
+
+-------------------------------------------------
+  Name field
+  Description field (omitted when unused)
+-------------------------------------------------
+
+Everything is case-insensitive, except names in the description field, e.g. texture,
+notecard, landmark and animation names. Optional parts are enclosed in brackets: [...]
+
+Groups:
+
+The prims in your product basically get a name (simple number or arbitrary name) which
+identifies their "group". For each group, you can change the color, texture, sculptmap
+and other options of all prims belonging to that group. The HUD buttons use these groups
+as parameters in their prim names - and a click on such a button changes the prim(s) in
+that group in your product - or only specific faces.
+
+A special group "%tab" can be specified to use the current groups and faces selected by a
+Tab button (see below). That way, you can use Tab buttons not only for the color picker,
+but also to texture different groups with the same Texture buttons, for instance. The
+string "%tab" can appear in the name and the description field of a button, so you can
+e.g. also use Read buttons to read different notecards depending on the selected tab. It
+also works for plugins now. From v1.9 on, if you have multiple %tab in a button name and
+multiple groups in the selected Tab button, all combinations of groups and %tab are used.
+For the button description, it stays a simple string replace of %tab with the groups of
+the selected Tab button.
+
+A special group "root" denotes the root prim of your product, so you can change that one
+as well without having to use it's actual name as the group.
+
+Faces:
+
+If not otherwise mentioned, you can always supply a comma-separated list of faces when
+the script expects "faces", so only these faces of a prim are affected. Every prim
+(simple, sculpted or mesh) consists of 1 to 8 faces, their number starting with 0. You
+can think of faces as "sides" with no dividing edges, although that is not true anymore
+for sculpties or meshes. Sculpties usually only have one face, meshes up to eight, which
+have been defined by the mesh creator and can span several sides or you can have several
+faces on one side. To find out the face number, following these steps will help:
+
+- Enable the Develop menu by pressing Ctrl+Alt+Q (on version 1.x viewers,
+  instead enable the Advanced menu by pressing Ctrl+Alt+D)
+- Select the face using the "Select Texture" Tool
+- Pick Develop > Rendering > Selected Texture Info from menu, or press Ctrl+Alt+Shift+T
+
+The face number will be shown in your local chat window or as a notification.
+Some viewers also display link number and face in the edit dialog.
+See also http://wiki.secondlife.com/wiki/Face
+
+Colors:
+
+Colors are usually given as <R,G,B>, ranging from 0 to 255 for each, Red, Green and
+Blue channel - same as in the viewer's edit dialog.
+
+Textures:
+
+Textures (diffuse, normal, specular textures) and sculptmaps (which are textures as well)
+are usually given as UUID. You can also use a texture name, but then the texture has to
+be in all target objects with copy and transfer permissions (for the next owner!) due to
+an SL limitation. By using names, you could set different textures in e.g. a pair of shoes
+if you put different textures with the same name in each shoe. Instead of UUID or name,
+you can also use special shortcuts (case-sensitive):
+
+- default -> default texture
+- plywood -> plywood texture (same as default)
+- blank -> blank texture
+- transparent -> transparent texture
+- media -> media texture
+- null -> null key, e.g. to disable a normal or specular map
+- arrow -> arrow texture from Memory buttons (HUD only)
+- frame -> frame texture from Memory buttons (HUD only)
+
+To protect your texture UUIDs, you can use the Setup script to print an obfuscated UUID
+for each texture that is found in the object. UUID obfuscation is no encryption, but
+merely "security by obscurity", but it should provide a sufficient protection. It works
+per creator, so make sure that you are the creator of all objects.
+
+The Setup script will print the obfuscated UUIDs of the textures in a format usable for
+the notecards, together with a comment. You only need to change the groups and faces to
+the desired ones afterwards. Please don't forget to remove the textures from the object
+when you are done (or do it in an extra object).
+
+The comments also include the actual UUIDs, so you should not put them into the notecard.
+It is never a good idea to put unobfuscated UUIDs in a notecard if you want to protect
+them. Although "no copy" notecards can't be read by avatars, they can still be moved out
+of the object and read by a script.
+
+There are a number of special textures the HUD uses. The color picker textures are
+always set by the Setup script, but you can also use your own ones. The arrow and frame
+texture as well as the used font textures (codepage 437) and the crosshair textures are
+included in the package, so you can get their UUIDs, use them on other HUD elements as
+well or as a help to create your own.
+
+Materials:
+
+If you are using Second Life prior to 3.7.26 (299610) or any TPV using its older code,
+please note: Your diffuse textures (Texture button) should contain an alpha channel when
+using materials. Reason is an issue with the alpha mode which needs to be set correctly.
+Usually the viewer does it when the texture is set manually, but if a script sets it, the
+alpha mode is not changed to the correct one. If you want to use diffuse textures without
+alpha channel, you have to prepare the object to use alpha mode "None" in the edit dialog.
+To change it, you have to temporarily apply a texture with alpha channel, otherwise it
+stays grayed out. Afterwards, you can set your correct texture. In newer viewers, this
+issue is fixed; alpha mode "Blend" also works with textures without alpha channel now.
+
+Buttons:
+
+Often it is good practice to make the buttons transparent and put all labels, icons etc.
+onto the texture(s) you put on the root prim. You can't easily change the layout then,
+but you save a lot of upload costs for all the individual textures for each button.
+Alternatively, you can use one texture with all icons and labels on it and change the
+texture scaling and offset for all buttons that use it.
+
+If you don't use this approach, then you should at least make the sides of your buttons
+transparent. This is especially important when you use a multi-sided HUD because the
+buttons on another side could be seen otherwise since they are above the surface of the
+HUD root prim to be clickable.
+
+HUD variants:
+
+There are several HUD variants with a different feature set:
+
+- Colorizer: coloring (without picker) + common features
+- Texturizer: texturing + common features
+- Sculptor: sculptmap changer + common features
+- Lighter: light changer + common features
+- Coverizer: all of the above + tagged prims
+- Color Picker: coloring and color picker + common features
+- Resizer: resizing + common features
+- Poser: animate avatar or animesh target + common features
+- mpHUD: all of the above
+- Skin Changer: notecards only (no color picker, texture buttons etc.)
+
+If you decide to get a HUD with more features later, you don't have to update the target
+objects, too. Their scripts are the same for all variants. So you could even provide your
+customers a better HUD later without requiring them to get a new version of your product
+as well - they might already have modified it to their needs.
+
+This reference includes all options, but mentions the variants they are valid for. When
+nothing is mentioned, they work for all variants. Other, custom-made combinations are
+available on request.
+
+For the Poser HUD, you will only need the target script if you use the Anim buttons. If
+you only use the Pose buttons, no target script is necessary.
+
+Please note: There are two versions of the full mpHUD script. The normal one contains
+all features, but might not have enough memory left for extended configuration (see "HUD
+Configuration"). The XMS version and also the Color Picker HUD don't have support for the
+legacy notecard format anymore, thus providing more memory.
+
+Linking target to HUD:
+
+You might want to link a copy of the target object to the HUD, so the effects of changes
+can be seen on the HUD as well. This is possible in principle, but not everything will
+work, so you need to check it properly. A few measures have been taken to make this
+easier for you, but they also come with a few restrictions:
+
+- commands that affect whole target object are disabled if in a child prim, e.g. linked
+  to HUD, so you don't accidentally change the actual HUD, too
+- resizing and restoring the size are completely disabled
+- click action in target is not set if in a child prim, e.g. linked to HUD, so the hand
+  cursor always stays visible (in the real target objects, the hand cursor is not shown)
+- touches are passed to root prim if in a child prim, e.g. linked to HUD, so you can
+  still press HUD buttons which makes sense ^^
+
+___________________________________________________________________________
+
+TABLE OF CONTENTS
+
+-------------------------------------------------
+- Prim Appearance
+- Color Picker
+- Resizer and Stretching
+- Miscellaneous Commands
+- Reading Notecards
+- HUD Configuration
+-------------------------------------------------
+
+___________________________________________________________________________
+
+PRIM APPEARANCE
+
+-------------------------------------------------
+  Tab[#n]:group[.faces][:group[.faces]]...
+  [Face:face]
+-------------------------------------------------
+
+  Sets the target group and, optionally, the faces for the color picker and the following
+  buttons (using the special group "%tab" in those buttons). Each button affects the
+  whole group or just the specified faces of this group. By using "%tab", you can use Tab
+  buttons not only for the color picker, but also to texture different groups with the
+  same Texture buttons, for instance. Default is group 0 and all faces, unless specified
+  in the options in the description field of the HUD (see below).
+  
+  The string "%tab" can appear in the name and the description field of a button, so you
+  can e.g. also use Read buttons to read different notecards depending on the selected
+  tab. From v1.9 on, if you have multiple %tab in a button name and multiple groups in
+  the selected Tab button, all combinations of groups and %tab are used. For the button
+  description, it stays a simple string replace of %tab with the groups of the selected
+  Tab button like in the old versions.
+
+  - old: Tab:A:B:C + Alpha:%tab.0,1,2:%tab.3,4 -> Alpha:A:B:C.0,1,2:A:B:C.3,4
+  - new: Tab:A:B:C + Alpha:%tab.0,1,2:%tab.3,4 -> Alpha:A.0,1,2:A.3,4:B.0,1,2:B.3,4:C.0,1,2:C.3,4
+  
+  From v1.9 on, you can also have "sticky" Tab buttons by defining tab groups. Each
+  button in the tab group can be selected and deselected independently. If you select
+  a button in a different tab group (or a normal Tab button), it deselects all others.
+  So they DO NOT behave like groups of radiobuttons where you could only select one per
+  group, but more like groups of checkboxes where only one of those groups can be active,
+  but several checkboxes be selected in each group.
+
+  You can put a Tab button into a tab group by adding #n to the Tab button name (n being
+  a number from 0-9). So, for example, imagine you want to texture fingernails for left
+  and right hand separately, you'll define two tab groups:
+
+  - Left hand (imagining it's prim 3 with faces 0-4 for the fingers):
+    Tab#0:3.0, Tab#0:3.1, ... Tab#0:3.4
+  - Right hand (imagining it's prim 4 with faces 0-4 for the fingers):
+    Tab#1:4.0, Tab#1:4.1, ... Tab#1:4.4
+
+  Each finger can be selected independently and if you choose one from the other hand,
+  it automatically deselects all of the current hand. Of yourse you can also make just
+  one tab group if you prefer to texture them together, but maybe you want to change
+  toenails or tattoos with different textures or something like that, then different
+  tab groups can be handy.
+
+  Note: Originally, the face definition was in the description field ("Face:face").
+  However, this is been done by group.faces now and the old style got removed. The Setup
+  script still changes it to the new style, though. If you use it, the script assumes
+  there's only one group without faces definition and just uses this group and the given
+  face. Please note, this has no effect on the default group for the color picker anymore
+  (previously, if you created at least one tab button with a "Face:" parameter, then
+  group 0, face 0 was set as default for the color picker for compatibility reasons -
+  this is not true anymore).
+
+-------------------------------------------------
+  Color[:group[.faces]][:group[.faces]]...
+  color[:color]...
+-------------------------------------------------
+(only Colorizer, Coverizer, Color Picker and mpHUD, Skin Changer via notecards only)
+
+  Colors given or all faces (comma-separated list) of all prims belonging to one of the
+  specified groups. Description is the desired color's RGB value for each group. If no
+  group is given, it affects the whole object.
+
+-------------------------------------------------
+  Texture[:group[.faces]][:group[.faces]]...
+  texture[,repeat,offset,rotation][:texture[,repeat,offset,rotation]]...
+-------------------------------------------------
+(only Texturizer, Coverizer and mpHUD, Skin Changer via notecards only)
+
+  Textures given or all faces of all prims belonging to one of the specified groups.
+  Description is the name or UUID of a texture plus optional texture repeat, offset and
+  rotation for each group. Rotation is in degrees, use <1, 1, 0> for no repeat, <0, 0, 0>
+  for no offset, 0 for no rotation. Omit to leave values unchanged, either all of them or
+  single values (but keep the commas). Since the description field allows max. 127
+  characters, you are limited to 3 UUIDs (36 long) or 2 obfuscated UUIDs. If no group is
+  given, it affects the whole object.
+  
+  Since the number of textures is quite limited, you could make a larger texture
+  consisting of smaller textures and edit the texture offset and scaling in your target
+  object's prims so that they only display their part of the texure. If you omit repeat,
+  offset and rotation, texture offset and scaling are not changed by the script, so you
+  can use the same group and texture for several prims that just display a different part
+  of the texture each. This is called "Texture Atlas" and there are tools that can
+  create this for you.
+
+  Another possibility, directly supported by the HUD script, is the Read button command
+  (see below).
+
+-------------------------------------------------
+  Normal[:group[.faces]][:group[.faces]]...
+  texture[,repeat,offset,rotation][:texture[,repeat,offset,rotation]]...
+-------------------------------------------------
+(only Coverizer and mpHUD, Skin Changer via notecards only)
+
+  Changes the normal map on given or all faces of all prims belonging to one of the
+  specified groups. Description is the name or UUID of a normal texture plus optional
+  texture repeat, offset and rotation for each group. Rotation is in degrees, use
+  <1, 1, 0> for no repeat, <0, 0, 0> for no offset, 0 for no rotation. Omit to leave
+  values unchanged, either all of them or single values (but keep the commas). Since the
+  description field allows max. 127 characters, you are limited to 3 UUIDs (36 long) or
+  2 obfuscated UUIDs. If no group is given, it affects the whole object. Use "null" for
+  texture to disable.
+  
+  If you omit repeat, offset and rotation, texture offset and scaling are not changed
+  by the script, so you can use the same group and texture for several prims that just
+  display a different part of the texture each.
+
+-------------------------------------------------
+  Specular[:group[.faces]][:group[.faces]]...
+  texture[,repeat,offset,rotation,color,gloss,env][:texture[,...]]...
+-------------------------------------------------
+(only Coverizer and mpHUD, Skin Changer via notecards only)
+
+  Changes the specular map on given or all faces of all prims belonging to one of the
+  specified groups. Description is the name or UUID of a specular texture plus optional
+  texture repeat, offset and rotation as well as specular color, glossiness and environ-
+  mental reflection exponent for each group. Rotation is in degrees, use <1, 1, 0> for no
+  repeat, <0, 0, 0> for no offset, 0 for no rotation. For specular color, use <R, G, B>,
+  ranging from 0 to 255 each, the glossiness exponent and the environmental reflection
+  exponent are in the range 0 to 255. Omit these additional parameters to leave them
+  unchanged, either all of them or single values (but keep the commas). Since the
+  description field allows max. 127 characters, you are limited to 3 UUIDs (36 long) or
+  2 obfuscated UUIDs. If no group is given, it affects the whole object. Use "null" for
+  texture to disable.
+  
+  If you omit repeat, offset and rotation, texture offset and scaling are not changed
+  by the script, so you can use the same group and texture for several prims that just
+  display a different part of the texture each.
+
+-------------------------------------------------
+  AlphaMode[:group[.faces]][:group[.faces]]...
+  mode[,cutoff][:mode[,cutoff]]...
+-------------------------------------------------
+(only Coverizer and mpHUD, Skin Changer via notecards only)
+
+  Changes the alpha mode on given or all faces of all prims belonging to one of the
+  specified groups. Description is the mode: 0: None, 1: Blend, 2: Mask, 3: Emissive.
+  For mode 2 (Mask), the alpha cutoff has to be added. Use 0-100 (%) for transparency
+  (0 is opaque) to become transparent.
+
+-------------------------------------------------
+  Prim[:group][:group]...
+  type,params[:type,params]...
+-------------------------------------------------
+(only Sculptor, Coverizer and mpHUD, Skin Changer via notecards only)
+
+  Changes the prim type and parameters of all prims belonging to one of the specified
+  groups. Description is the prim type and required parameters for each group. Type is
+  either a number (0: Box, 1: Cylinder, 2: Prism, 3: Sphere, 4: Torus, 5: Tube, 6: Ring)
+  or the lowercase type name (box, cylinder, prism, sphere, torus, tube, ring). If no
+  group is given, it affects the whole object.
+
+  Required parameters per prim type:
+  Box, Cylinder, Prism: hole_shape, cut, hollow, twist, top_size, top_shear
+  Sphere:               hole_shape, cut, hollow, twist, dimple
+  Torus, Tube, Ring:    hole_shape, cut, hollow, twist, hole_size, top_shear,
+                        advanced_cut, taper, revolutions, radius_offset, skew
+  Please refer to http://wiki.secondlife.com/wiki/PRIM_TYPE for details.
+
+-------------------------------------------------
+  Sculpt[:group][:group]...
+  Sculptmap[:group][:group]...
+  Map[:group][:group]...
+  sculptmap[,type][:sculptmap[,type]]...
+-------------------------------------------------
+(only Sculptor, Coverizer and mpHUD, Skin Changer via notecards only)
+
+  Changes the sculptmap of all prims belonging to one of the specified groups.
+  Description is the name or UUID of a sculptmap for each group. If type is omitted,
+  it is set to Sphere if the target prim was no sculptie before, otherwise it is not
+  changed. If a sculptmap type is provided, it is set to the given value:
+  1: Sphere, 2: Torus, 3: Plane, 4: Cylinder, add 64 to invert and 128 to mirror it.
+  If sculptmap is "null", it is converted to a prim, depending on the sculptmap type.
+  If no group is given, it affects the whole object.
+
+-------------------------------------------------
+  Hide[:group[.faces]][:group[.faces]]...
+-------------------------------------------------
+
+  Hides/shows given or all faces of all prims belonging to one of the specified groups.
+  If no group is given, it affects the whole object.
+
+The following commands need the target object's prims to be "tagged". This means they get
+additional properties after their name, separated by ":". So if you had a prim called
+"2", i.e. belonging to group 2, it would read "2:AL" after being tagged for the Alpha
+command or "2:AL:BP:SH:GL:FB:LI:BL" after being tagged for all the following commands.
+This feature is useful to change prims in the target belonging to different groups.
+
+Please note that if you use a group definition, the tags are ignored and all prims
+belonging to the specified group(s) are affected. If group is omitted, it affects the
+tagged prims in the whole object as in version 1.0.
+
+-------------------------------------------------
+  Alpha[:group[.faces]][:group[.faces]]...
+  [transparency level in % (0-100)][:level]...
+-------------------------------------------------
+(only Coverizer and mpHUD, Skin Changer via notecards only)
+
+  Sets the transparency for all prims tagged with "AL". Level ranges from 0 (opaque) to
+  100 (fully transparent) as in the SL viewer's edit dialog (and opposite to how alpha
+  is used in script functions). If level contains a + or - sign, the value is treated as
+  relative, e.g. +5 means current transparency + 5%. If level is omitted, then it toggles
+  between current value and 100% - current value.
+
+-------------------------------------------------
+  Bump[:group[.faces]][:group[.faces]]...
+  [mode (0-17)][:mode]...
+-------------------------------------------------
+(only Coverizer and mpHUD, Skin Changer via notecards only)
+
+  Sets bumpmap for all prims tagged with "BP" to the given mode. If mode contains a +
+  or - sign, the value is treated as relative, e.g. -1 means current bumpmap + 1. If
+  mode is omitted, then it toggles between all values (0-17).
+
+-------------------------------------------------
+  Shiny[:group[.faces]][:group[.faces]]...
+  [level (0-3)][:level]...
+-------------------------------------------------
+(only Coverizer and mpHUD, Skin Changer via notecards only)
+
+  Sets shininess for all prims tagged with "SH" to the given level. If level contains a +
+  or - sign, the value is treated as relative, e.g. -1 means current shininess + 1. If
+  level is omitted, then it toggles between Off, Low, Medium and High (0-3).
+
+-------------------------------------------------
+  Glow[:group[.faces]][:group[.faces]]...
+  [level in % (0-100)][:level]...
+-------------------------------------------------
+(only Coverizer and mpHUD, Skin Changer via notecards only)
+
+  Sets glow for all prims tagged with "GL" to the given level. If level contains a + or -
+  sign, the value is treated as relative, e.g. +5 means current glow + 5%. If level is
+  omitted, then it toggles between a glow level of 10% and 0%.
+
+-------------------------------------------------
+  Fullbright[:group[.faces]][:group[.faces]]...
+  [0 (off) or 1 (on)][:0/1]...
+-------------------------------------------------
+(only Coverizer and mpHUD, Skin Changer via notecards only)
+
+  Sets (1) or resets (0) full brightness for all prims tagged with "FB". If the
+  description is omitted, then it toggles between full and normal brightness.
+  Note: "Full Bright" with space is DEPRECATED and got removed. The Setup script still
+  removes the space, though.
+
+-------------------------------------------------
+  Light[:group][:group]...
+  [level in % (0-100)][,color][:level][,color]... or [color[,level]]
+-------------------------------------------------
+(only Lighter, Coverizer and mpHUD, Skin Changer via notecards only)
+
+  Changes the light color and level for all prims tagged with "LI". Description is the
+  desired light's intensity level and an optional RGB color for each group. Level ranges
+  from 0 (off) to 100 (full light). If level contains a + or - sign, the value is treated
+  as relative, e.g. +5 means current intensity + 5%. If level is  omitted, then it toggles
+  between current value and 100% - current value. If color is  omitted, it stays unchanged.
+
+-------------------------------------------------
+  Bling[:group][:group]...
+  [0 (off) or 1 (on)][:0/1]...
+-------------------------------------------------
+(only Coverizer and mpHUD, Skin Changer via notecards only)
+
+  Sets (1) or resets (0) a bling effect for all prims tagged with "BL". If the
+  description is omitted, then it toggles between on and off. Please use sparingly.
+
+___________________________________________________________________________
+
+COLOR PICKER
+(only Picker and mpHUD)
+
+For advanced color selection, the HUD can contain a color picker which uses the HSL (Hue,
+Saturation and Lightness) or the HSV (Hue, Saturation and Value) color model. It consists
+of a selection area and a selection bar. You can choose between two different types:
+
+- HSL (default):
+  Hue and Saturation in the selection area and Lightness in the selection bar
+  (this is what the color picker in the SL edit dialog uses)
+- HSV:
+  Saturation and Value in the selection area and Hue in the selection bar
+  (this is more suitable e.g. for skintones and allows a finer control of
+   saturation and value for a selected hue)
+
+The desired type has to be in the name of the prim (see below).
+
+The color picker consists of 3 layers: Palette, Overlay and Picker. Palette contains the
+gradients for the color picker, Overlay is used for color blending effects depending on
+the selected hue and Picker contains the crosshairs. These 3 layers have to be stacked
+closely above each other.
+
+You have the option to create them as single prims with 2 faces each or to have the
+selection area and the selection bar separate to better fit your HUD layout. In the
+latter case, you have to name the prims as follows:
+
+- either Palette:HS + Palette:L or Palette:H + Palette:SV
+- either Overlay:L or Overlay:SV
+- either Picker:HS + Picker:L or Picker:H + Picker:SV (must match Palette)
+
+There is a Setup script which can help you creating, aligning and texturing these prims
+appropriately (see below).
+
+-------------------------------------------------
+  Palette[:HSL/HSV/HS/L/H/SV]
+  [texture[:texture]]
+-------------------------------------------------
+
+  Gradients (HSL or HSV) for the color picker - either both or only one. The description
+  field can contain one or (for HSL and HSV) two texture UUIDs if you want to use your
+  own. Otherwise, the default textures are used.
+
+-------------------------------------------------
+  Overlay[:HSL/HSV/L/SV]
+  [texture]
+-------------------------------------------------
+
+  Overlays (L or SV) for the color picker. It has the same shape(s) as the Palette and
+  Picker prims, but only the one containing lightness (L) or value (V) is overlaid. The
+  description field can contain a texture UUID if you want to use your own. Otherwise,
+  the default texture is used.
+
+-------------------------------------------------
+  Picker[:HSL/HSV/HS/L/H/SV]
+  [texture[:texture]]
+-------------------------------------------------
+
+  Crosshairs for the color picker - either both or only one. The description field can
+  contain one or (for HSL and HSV) two texture UUIDs if you want to use your own ones
+  (crosshair in the middle of the texture, preferred size 512x512). Otherwise, the
+  default textures are used.
+  
+  The Picker prims should be a little larger than the other ones to give the crosshairs
+  enough space at the edges. However, this is only supported for the selection area and
+  bar being separate and in the vertical direction only otherwise.
+
+-------------------------------------------------
+  Memory
+  [default_color]
+-------------------------------------------------
+
+  Stores the current color picker's color in the selected Memory button when clicked
+  on face 0. Sets the stored value to the color picker when clicked on face 2. Contains
+  a default color and can therefore replace the Color buttons as well. If default_color
+  is omitted, it is not reset, except by the Setup script which resets it to black. When
+  the Setup script creates these buttons, face 0 is textured with an arrow, face 2 with
+  a white texture and a nice frame.
+
+-------------------------------------------------
+  Picked
+-------------------------------------------------
+
+  This prim is colored in the selected color for better visualizing.
+
+-------------------------------------------------
+  Reset
+-------------------------------------------------
+
+  Reset the Memory buttons to their respective default colors.
+
+-------------------------------------------------
+  RGB
+  [timeout]
+-------------------------------------------------
+
+  Opens a dialog to input the RGB values directly as R, G, B. This dialog times out after
+  the given timeout (default: 30s) if the user doesn't input anything or clicks Ignore.
+
+-------------------------------------------------
+  Voice
+  [timeout]
+-------------------------------------------------
+
+  Lets the user say the RGB values directly in chat as R, G, B. Times out after the given
+  timeout (default: 30s) if the user doesn't say anything.
+
+-------------------------------------------------
+  Dropper
+  [timeout]
+-------------------------------------------------
+
+  Lets the user pick the RGB values directly from the target object by clicking on the
+  face with the desired color. Times out after the given timeout (default: 30s).
+
+-------------------------------------------------
+  R and B and G (only one letter per prim)
+  [texture]
+-------------------------------------------------
+
+  Shows current RGB values on special prims using the supplied or a default font texture.
+  These prims are (if necessary) created and shaped by the Setup script.
+
+Color Picker setup:
+
+To create your HUD with a preconfigured color picker, simply create a number of simple
+prims and link them. Edit the object and enter the following into the name field:
+
+-------------------------------------------------
+  Create HUD:type
+-------------------------------------------------
+
+  "type" is either HSL (default), HSV, HS+L or H+SV - the first two if you want the
+  Palette, Overlay and Picker be created as 1 prim each, the latter if you want them
+  to be separate. You need 1 prim for the HUD itself, 3 (HSL and HSV) or 5 prims for
+  Palette, Overlay and Picker, 3 prims for R, G and B, up to 16 prims for Memory and
+  all remaining for Tab buttons.
+
+Drop the Setup script into the object and wait until it has deleted itself from the
+object. Then create your HUD as you wish it to be. Whenever you changed a texture in
+the description field of the created prims, simply drop the Setup script in your HUD
+object again and it will retexture it for you.
+
+Remark: Whenever you change prim names, descriptions or types of the picker prims, you
+should setup your HUD again. To do that, simply drop the Setup script into the HUD. The
+HUD script resets itself then as well. The Setup script will also print the link number,
+name and description of all prims in the HUD.
+
+If you put textures into the HUD before dropping the Setup script in, it will print the
+obfuscated UUIDs of the textures in a format usable by the Read command (see below) as
+well, together with a comment. You only need to change the groups and faces to the desired
+ones afterwards. Please don't forget to remove the textures from the HUD when you are done
+(or do it in an extra object).
+
+The comments also include the actual UUIDs, so you should not put them into the notecard.
+It is never a good idea to put unobfuscated UUIDs in a notecard if you want to protect
+them. Although "no copy" notecards can't be read by avatars, they can still be moved out
+of the object and read by a script.
+
+Side note: The Setup script also changes old-style face definitions for Tab buttons to
+the new ones and removes the space in "Full Bright".
+
+___________________________________________________________________________
+
+RESIZING AND STRETCHING
+(only Resizer and mpHUD, Skin Changer via notecards only)
+
+-------------------------------------------------
+  SetSize[:group][:group]...
+  [size][:size]...
+-------------------------------------------------
+
+  Resizes the whole target object or the given groups only. Sizes are vectors with the
+  absolute size, e.g. <1, 1, 1> to set all axes to 1m. Add an "L" to make prims resize
+  locally (around their own center instead of the object's). If upper (64m) or lower (1cm)
+  limits are reached for any prim, it won't resize. If groups are omitted, it affects the
+  whole object. When using groups, you should also append "L" to each step for local
+  resizing.
+
+-------------------------------------------------
+  SetScale[:group][:group]...
+  [scale][:scale]...
+-------------------------------------------------
+
+  Resizes the whole target object or the given groups only. Scales are vectors with the
+  resize factors, e.g. <1.05, 2, 1> to add 5% to the X axis, double the Y size and leave
+  the Z size. Add an "L" to make prims resize locally (around their own center instead of
+  the object's). If upper (64m) or lower (1cm) limits are reached for any prim, it won't
+  resize. If groups are omitted, it affects the whole object. When using groups, you
+  should also append "L" to each step for local resizing.
+
+  Resize sets see below.
+
+-------------------------------------------------
+  Resize[:group][:group]...
+  [step][:step]...
+-------------------------------------------------
+
+  Resizes the whole target object or the given groups only. Steps are given in %, e.g.
+  -5, -1, +5, +10. Add an "L" to make prims resize locally (around their own center
+  instead of the object's). Resize affects all axes unless changed with the Stretch
+  buttons (see below). If steps are omitted, it uses the steps set by the Scale buttons
+  (see below). If groups are omitted, it affects the whole object as in version 1.0. When
+  using groups, you should also append "L" to each step for local resizing.
+  
+  Starting with this version, resize steps are always calculated from the stored size,
+  not from the current size, so increasing and decreasing by the same percentage always
+  leads to the same results without the need of special treatments.
+  
+  The script checks upper (64m) and lower (1cm) resize limits and also checks that prims
+  in the linkset never get too far apart. Since the distance check can be too restrictive,
+  it can be disabled in the object configuration. The exact way to do this by calculating
+  the bounding sphere around all prim centers and checking that its diameter is max. 54m
+  is either non-trivial or inefficient, so we just check if all prim centers stay within
+  27m of the root center. By putting the root prim near the center of the linkset, this
+  provides good results.
+
+-------------------------------------------------
+  Scale
+  step[:step]...
+-------------------------------------------------
+
+  Similar to resize, except that it doesn't resize the target object immediately. This
+  can be done by using a Resize button without description.
+
+-------------------------------------------------
+  Stretch
+  axis
+-------------------------------------------------
+
+  Sets the stretching for the Resize command along the different axes (X, Y, Z). By
+  selecting more than one button, you can stretch in XY, XZ, YZ and XYZ as well. Default
+  is XYZ, i.e. no stretching. Each prim of the target object is stretched along the axes
+  defined by its own local rotation, so please be aware that this only works if all the
+  prims have the same local rotation in the target object!
+
+-------------------------------------------------
+  Store
+-------------------------------------------------
+
+  Stores the current size. The size is first stored when the script is dropped in and any
+  time Store is used, so be careful your product has the correct size then!
+
+-------------------------------------------------
+  Restore
+-------------------------------------------------
+
+  Restores size to original or stored size. The size is first stored when the script is
+  dropped in and any time Store is used, so be careful your product has the correct size
+  then!
+
+-------------------------------------------------
+  Way
+  resize_set
+-------------------------------------------------
+
+  Defines the resize set (formerly known as resize group) in the target objects. Useful
+  to resize different parts of your outfit (e.g. jacket, dress, shoes) independently with
+  the same HUD. Simply put them into a different resize set each (see below) and select
+  between them using the Way button. Resize set 0 selects all (default).
+
+___________________________________________________________________________
+
+MISCELLANEOUS COMMANDS
+
+-------------------------------------------------
+  Rotate
+  <rot.X, rot.Y, rot.Z>
+-------------------------------------------------
+
+  Rotates a multi-sided HUD to a different side using the given rotation containing the
+  three angles in X, Y and Z direction (in degrees). When setting this up, best practice
+  is to attach the HUD, rotate it manually and then use the displayed angles.
+
+-------------------------------------------------
+  Size
+  step
+-------------------------------------------------
+  
+  Resizes the HUD. Steps are given in %, e.g. -5, -1, +5, +10. When limits are reached,
+  resizing fails.
+
+-------------------------------------------------
+  SetPos[:group][:group]...
+  <X, Y, Z>[:<X, Y, Z>]...
+-------------------------------------------------
+
+  Moves the whole target object or individual groups to the position given in the
+  description field (max. 10m). For child prims, the position is relative to the root.
+  For attachments, the position is relative to the attachment point.
+
+-------------------------------------------------
+  Move[:group][:group]...
+  <X, Y, Z>[:<X, Y, Z>]...
+-------------------------------------------------
+
+  Moves the whole target object or individual groups by the values given in the
+  description field (max. 10m). For child prims, the position is relative to the root.
+  For attachments, the position is relative to the attachment point.
+
+-------------------------------------------------
+  Pose
+  [animation]
+-------------------------------------------------
+
+  Poses and unposes your avatar using the default "Edit Appearance" animation. You can
+  add the name of a custom animation in the description field which must be in the HUD's
+  inventory. It's also possible to use several Pose buttons with different animations.
+  If "prev"/"next" is used in the description, the previous/next animation is played, if
+  it is "stop", the animation is stopped.
+  
+  If you use this feature in the Poser HUD, you won't need the target script - the HUD
+  is enough. If you use the following feature, you do need the target script inside of
+  the target object.
+
+-------------------------------------------------
+  Anim
+  [animation]
+-------------------------------------------------
+
+  Animates the target (your avatar if attached or the object if it's an animesh) using
+  the default "Edit Appearance" animation. You can add the name of a custom animation in
+  the description field which must be in the target's inventory. It's also possible to
+  use several Anim buttons with different animations. If "prev"/"next" is used in the
+  description, the previous/next animation is played, if it is "stop", the animation is
+  stopped.
+  
+  Please note: You have to enable the "Animated Mesh" feature in the edit dialog. This
+  cannot be done by script currently. See http://wiki.secondlife.com/wiki/Animesh_User_Guide
+
+-------------------------------------------------
+  Sound
+  level[,type]
+-------------------------------------------------
+
+  Enables walking sounds in your target object, which obviously is only sensible for
+  shoes. Level ranges from 0 (off) to 100 (full volume). You can use several sounds which
+  are played randomly and you can even have different sounds for walking on land and in
+  water! Your custom sounds need to be full perm for the next owner (your customer) and
+  need to be in the right attachment: right shoulder, hand, foot, ear, eye, upper arm,
+  lower arm, hip, upper leg, lower leg or pectoral. The script tries to find them there
+  in the following order (names are case-insensitve):
+  
+  1. try to find sounds named like the given type, e.g. "sneaker..." (land)
+  2. if no sounds were found, try to find sounds named "walk..." (land)
+  3. if walking sounds were found, try to find sounds "splash..." (water)
+  4. if no walking sounds were found, use ALL sounds in inventory for walking sounds
+  5. if there are none in inventory, use default sounds (also for splash sounds in case 4)
+  
+  Please note that custom sounds in the target's inventory are still used if no other
+  sound type is given.
+
+-------------------------------------------------
+  Footprint
+  time[,texture][,color]
+-------------------------------------------------
+
+  Enables footprints for your target objects, e.g. shoes, feet or paws. Time defines how
+  long these footprints will be visible. The specified texture can be one of "sneaker",
+  "heel", "foot", "paw", a texture name in inventory or a UUID; the color can be a color
+  definition or "random". If no texture is given, a fog or dust effect is used instead.
+  Please note: Using the colon as separator is deprecated and should be changed to comma.
+
+-------------------------------------------------
+  Sleep
+  time
+-------------------------------------------------
+
+  Sleeps for the given time in seconds. Can be useful with sound or to wait for something.
+
+-------------------------------------------------
+  LM
+  [landmark_name]
+-------------------------------------------------
+
+  Gives the user the landmark with the specified name from the HUD's inventory.
+  If the description is omitted, it gives the first landmark it finds.
+
+-------------------------------------------------
+  NC
+  [notecard_name]
+-------------------------------------------------
+
+  Gives the user the notecard with the specified name from the HUD's inventory.
+  If the description is omitted, it gives the first notecard it finds.
+
+-------------------------------------------------
+  Give[:folder]
+  item_name[:item_name]...
+-------------------------------------------------
+
+  Gives the user an arbitrary item or several items with the specified names from the
+  HUD's inventory. If a folder name is specified, the items are given in this folder.
+  If no folder name is specified, single items are given standalone and multiple items
+  are given in a folder with the name of the HUD object. The description must not be
+  omitted.
+  
+  Please note: The folder name is case-sensitive and doesn't support %tab.
+
+-------------------------------------------------
+  URL
+  web_address (URL)
+-------------------------------------------------
+
+  Opens the specified URL in the internal or external web browser.
+
+-------------------------------------------------
+  Group
+  group_uuid
+-------------------------------------------------
+
+  Prints a group invitation in local chat (to button presser).
+
+-------------------------------------------------
+  Close
+-------------------------------------------------
+
+  Detaches the HUD.
+
+___________________________________________________________________________
+
+READING NOTECARDS
+
+-------------------------------------------------
+  Read
+  notecard name
+-------------------------------------------------
+
+  Read the specified notecard from the HUD's inventory. The notecard must contain lines
+  in one of the two following formats:
+
+-------------------------------------------------
+# Comment (also starting with // or --)
+# Old format:
+group, color[, faces]
+group, texture[, faces]
+# New format:
+Color[:groups[.faces]]|colors
+Texture[:groups[.faces]]|textures[,repeats,offsets,rotations]
+Normal[:groups[.faces]]|textures[,repeats,offsets,rotations]
+Specular[:groups[.faces]]|textures[,repeats,offsets,rotations,colors,glosses,envs]
+Alphamode[:groups[.faces]]|modes[,cutoffs]
+Prim[:groups]|types[,params]
+Sculpt[:groups]|sculptmaps[,types]
+Sculptmap[:groups]|sculptmaps[,types]
+Map[:groups]|sculptmaps[,types]
+Hide[:groups[.faces]]
+Alpha[:groups[.faces]]|[levels]
+Bump[:groups[.faces]]|[modes]
+Shiny[:groups[.faces]]|[levels]
+Glow[:groups[.faces]]|[levels]
+Light[:groups]|[levels][,colors] or [colors[,levels]]
+Fullbright[:groups[.faces]]|[0/1]
+Bling[:groups]|[0/1]
+Picker|color - sets color picker to specified color
+Reset
+RGB|[timeout]
+Voice|[timeout]
+Dropper|[timeout]
+Tab:groups[.faces]
+SetSize[:groups]|sizes[L]
+SetScale[:group]|scales[L]
+Resize[:groups]|[steps[L]]
+Scale|steps[L]
+Stretch|axis
+Store
+Restore
+Way|resize_set
+Rotate|<rot.X, rot.Y, rot.Z>
+Size|step
+SetPos[:group]|<X, Y, Z>
+Move[:group]|<X, Y, Z>
+Pose|[animation]
+Anim|[animation]
+Sound|level[,type]
+Footprint|time[,texture][,color]
+Sleep|time
+LM|[landmark_name]
+NC|[notecard_name]
+Give[:folder]|item_names
+URL|web_address
+Group|group_uuid
+Close
+-------------------------------------------------
+
+Using the old format, it colors or textures given or all faces of all prims belonging
+to one of the specified groups in the target. You can use multiple lines for different
+faces, the max. number of lines is 1024. The old format is DEPRECATED and might get
+removed in later versions, so please switch to the new format.
+
+Using the new format, it simulates button presses, i.e. it behaves the same as if you
+pressed them yourself. The common format is "name|description" of the respective buttons.
+Please refer to their documentation. Special cases are annotated above.
+
+For examples, please see the Tutorial notecard.
+
+___________________________________________________________________________
+
+HUD CONFIGURATION
+
+Description field:
+
+The description field of the HUD and the target object (i.e. root prim) contains the
+following special options:
+
+-------------------------------------------------
+  Your object/HUD name
+  Config:custom_channel:anti_rez/drop:resize_set:target_group/notecard_filter:range:resize_options
+-------------------------------------------------
+
+  Custom channel allows you to use different communication channels for your products.
+  Channels are chosen depending on creator and owner, so items from the same creator used
+  by different customers or vice versa don't interfere with each other. However, if one
+  customer buys different products from the same creator, there could be problems when
+  using the wrong HUD or wearing e.g. shoes and a jacket that should not be changed by
+  the other HUD. So it's best to use an own custom channel for each of your products.
+  
+  If you don't want your customer to rez or drop the HUD or your product, you can prevent
+  that by the anti_rez/drop parameter. Rezzing means you drag an object from your
+  inventory to the ground, dropping means wearing an object, right-click on it and select
+  "Drop". If you drop an object, it vanishes from the inventory as well! To use anti-rez,
+  set this parameter to 1 and give copy permission to your customers, otherwise they lose
+  the item if they try to rez it. To use anti-drop, set it to 2 and give your customers a
+  backup copy, otherwise they lose it from inventory as well if they drop the item.
+  Note: For you as creator, it only prints a message, but does not get deleted.
+
+  Resize sets (formerly known as resize groups) are useful to resize different parts of
+  your outfit (e.g. jacket, dress, shoes) independently with the same HUD. Simply put
+  them into a different resize set each with this option and select between them using
+  the Way button. Resize set 0 selects all (default).
+  
+  Target group is the default group for the color picker and for buttons using the special
+  group "%tab". It can be given as group only or as group.faces and faces can be one face
+  only or a comma-separated list. If omitted, group 0 with all faces is used. This option
+  is only used in the HUD, not in the target object.
+  
+  The notecard filter lets you filter out notecards that don't belong to the target object,
+  e.g. animation notecards. Notecards which have this filter pattern as part of their name,
+  are ignored. Leave empty to use all notecards. This is only used by the Skin Changer.
+  
+  Range is the maximum distance between the HUD and your target objects, i.e. only up to
+  this distance they are able to communicate. Set to 0 for 10m (default), to 1 for 20m,
+  2 for 100m, 3 for the whole region. Be careful that your creations don't influence each
+  other; always use a custom channel to avoid this.
+
+  Resize options allow to disable max. size and distance checks in the target object. Set
+  to 0 for all checks (default), 1 to disable distance checks, 2 to disable size checks,
+  3 for no checks at all.
+  
+Remark: When changing these options, you always need to reset the script afterwards!
+The previously used "Options" instead of "Config" can still be used as well.
+
+Configuration notecard:
+
+If a notecard containing "mpHUDConfig" in its name (case-sensitive) is found in the HUD
+(root prim), it is read for advanced configuration. The notecard must contain lines in
+the following format:
+
+-------------------------------------------------
+# Comment (also starting with // or --)
+[Autostart]
+Button[:args][|desc]
+[ButtonMap]
+Button[:args]|desc|primname.face[|<x,y,width,height>]
+[Buttons]
+Button:faces:texture:color:texture:color[:sound]
+StretchX/Y/Z:faces:texture:color:texture:color[:sound]
+-------------------------------------------------
+
+  The [Autostart] section simulates button presses on startup (script reset). You can
+  use it to set a default color or texture etc. The syntax is the same as for the Read
+  command (only new format, though).
+  
+  The [ButtonMap] section defines areas for virtual buttons, i.e. without actual prims
+  on it. You need to provide button name, optionally with arguments (e.g. group.face),
+  and description, the name and face of the prim the virtual button is on (you can use
+  "root" for the root prim) and its area (top-left to bottom-right, ranging from 0.0 to
+  1.0). These should be relatively easy to obtain in your graphics program by dividing
+  the start and end points of your virtual button by the total image resolution. If the
+  area is omitted, the whole face is used. To execute commands, prim and face of the
+  virtual button are used.
+
+  The [Buttons] section allows you to set a texture and/or color for default (deselected)
+  and selected states of your buttons as well as a button sound. Button can be all
+  buttons, although it doesn't make sense for all of them. The first texture and RGB
+  color definition are for the default state of the button, the second pair for the
+  selected state. Faces are the faces of the button that are affected by this (comma-
+  separated list). Sound is a sound that is played when the button is pressed. Stretch
+  buttons are a little different as they can be colored independently: They need an X, Y
+  or Z added to their name here.
+  
+  Section names are case-insensitive.
+
+If texture and/or color are omitted (the colons must stay!) or the button is not
+configured at all, the script falls back to a default behavior:
+
+- deselected Tab, Way, Scale, RGB, Voice, StretchX/Y/Z are colored gray (all faces)
+- selected Tab, Way, Scale, RGB, Voice are colored white (all faces)
+- selected StretchX/Y/Z are colored in red/green/blue (all faces)
+- nothing happens for other buttons (unless configured)
+- no sounds are played
+
+Example:
+
+-------------------------------------------------
+# Example HUD mpHUDConfig
+[Buttons]
+Tab:0:transparent::blank:<128,0,255>:click
+Scale:0:transparent::blank:<128,0,255>
+StretchX:::<64,64,64>::<255,0,0>
+StretchY:::<64,64,64>::<0,255,0>
+StretchZ:::<64,64,64>::<0,0,255>
+-------------------------------------------------
+
+- face 0 of deselected Tab and Scale buttons gets a transparent texture
+- face 0 of selected Tab and Scale buttons gets a blank texture and purple color
+- deselected StretchX/Y/Z buttons are colored dark gray (all faces)
+- selected StretchX/Y/Z buttons are colored red/green/blue (all faces)
+- a click sound is played for Tab buttons
+
+For more examples, please see the Tutorial notecard.
+
+___________________________________________________________________________
+
+PLUGIN SYSTEM
+
+The mpHUD system allows you to include your own custom scripts. Both, HUD and Target
+scripts, send a link message to the prim they are in, before and after they handle the
+pressed buttons or commands themselves (pseudo code):
+
+HUD:
+
+-------------------------------------------------
+llMessageLinked( LINK_THIS, 10, "mphud.name:params|desc", "prim:face" );  // pre action
+handleButtons();
+llMessageLinked( LINK_THIS, 11, "mphud.name:params|desc", "prim:face" );  // post action
+-------------------------------------------------
+
+Target:
+
+-------------------------------------------------
+llMessageLinked( LINK_THIS, 20, "mphud.name:params|desc|hud_params", id );  // pre action
+handleCommands();
+llMessageLinked( LINK_THIS, 21, "mphud.name:params|desc|hud_params", id );  // post action
+-------------------------------------------------
+
+"prim" and "face" are the link number and face of the button that was pressed (-1 if done
+via notecard reading), "name" and "desc" are the button's name and description, "params"
+are parameters like groups and faces (see button descriptions), "hud_params" are
+additional parameters added by the HUD script, e.g. the Stretch factor for Resize, and
+"id" is the UUID of the HUD object. Button names are always lowercase here. Custom button
+names are also supported: Define your own buttons and handle them in your own scripts. It
+might be a good idea to use your own namespace for your buttons to not interfere with
+future versions of the mpHUD system, e.g. "mphud.my_name:params|desc" where "my" could be
+your store name or initials, for instance.
+
+You can receive these messages in your custom scripts by adding a link_message event
+handler, e.g.:
+
+-------------------------------------------------
+integer BEFORE_HUD    = 10;
+integer AFTER_HUD     = 11;
+integer BEFORE_TARGET = 20;
+integer AFTER_TARGET  = 21;
+
+default
+{
+    link_message ( integer sender, integer num, string msg, key id )
+    {
+        list    args  = llParseString2List( msg, ["|"], [] );
+        string  name  = llList2String( args, 0 );
+        string  desc  = llList2String( args, 1 );
+        list    lname = llParseStringKeepNulls( name, [":"], [] );
+        list    ldesc = llParseStringKeepNulls( desc, [":"], [] );
+        string  cmd   = llList2String( lname, 0 );
+
+        if ( num == BEFORE_HUD )  // before HUD handles it
+        {
+            if ( cmd == "mphud.pose" )  // Pose|name
+            {
+                // play button sound "Sound" only audible to owner (if it's a HUD)
+                //llPlaySound( "Sound", 1 );
+                // play inworld sound that is named like the animation plus added " Sound", audible to everyone in range
+                llTriggerSound( llList2String( ldesc, 0 ) + " Sound", 1 );
+            }
+        }
+        if ( num == AFTER_HUD )  // after HUD has handled it
+        {
+            // toggle light of a given HUD link number
+            if ( cmd == "mphud.togglelight" )  // ToggleLight:link
+            {
+                integer link   = (integer)llList2String( lname, 1 );  // link number
+                integer max    = 40;  // maximum level in %
+                list    params = llGetLinkPrimitiveParams( link, [ PRIM_POINT_LIGHT ] );
+                vector  col    = llList2Vector ( params, 1 ); if ( col == ZERO_VECTOR ) col = <1, 1, 1>;  // set to white if black
+                float   curr   = llList2Integer( params, 0 ) * llList2Float( params, 2 );
+                curr = (1 - curr) * max / 100.0;
+                llSetLinkPrimitiveParamsFast( link, [ PRIM_POINT_LIGHT, (integer)(curr > 0), col, curr, 10, 0.75 ] );
+            }
+            if ( cmd == "mphud.color" )  // standard Color button
+            {
+                // do your stuff here
+            }
+        }
+        if ( num == BEFORE_TARGET )  // before Target handles it
+        {
+        }
+        if ( num == AFTER_TARGET )  // after Target has handled it
+        {
+        }
+    }
+}
+-------------------------------------------------
+
+The num parameter is the second parameter in the llMessageLinked call above (10, 11, 20,
+21), so you can hook up yourself before or after the buttons/commands are handled by the
+HUD/Target script.
+
+Please note: The plugin system is still experimental and might change in future versions.
+

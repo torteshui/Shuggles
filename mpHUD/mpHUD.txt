@@ -1,0 +1,1180 @@
+﻿============================================================
+  【秀】  [.Shuggles.] Multi-purpose HUD v1.10  【ツ】
+============================================================
+
+The mpHUD "Multi-purpose HUD" system allows creators to easily build a HUD for their
+products, e.g. shoes, mesh dresses, body parts like hair or others. It provides versatile
+scripts with many options. You only use the ones you need, though - from simple color
+changing or resizers up to complex multi-sided HUDs with color picker, tabs, retexturing,
+materials, resizing and walking sounds. Use the scripts to design your HUD as you want it
+to be. Examples and a Guide Panel targeted at starters and experts alike are included.
+Demo HUDs with sneakers and a beanie are also available.
+
+Choose from the following variants, according to your needs. Please make sure you buy the
+correct one - this description contains all features of all variants:
+
+- Colorizer: coloring (without picker)
+- Texturizer: texturing
+- Sculptor: sculptmap and prim changer
+- Lighter: light changer
+- Coverizer: all of the above + tagged prims
+- Color Picker: coloring and color picker
+- Resizer: resizing
+- Poser: animate avatar or animesh target
+- mpHUD: all of the above
+- Skin Changer: notecards only (no color picker, buttons etc.)
+
+You can always upgrade to a better variant without needing to update your products as
+well. Custom-made combinations on request.
+
+All variants:
+
+- only one script (64KB) for HUD and one for your products
+- only one communication channel, custom channel, configurable range
+- single/multi-prim objects, sculpties, single/multi-material meshes
+- attachments (all attachment points) and rezzed objects
+- anti-rez and anti-drop support
+- UUID obfuscation to protect texture UUIDs
+- resizable single-sided or multi-sided HUD
+- runs on no script land, if started on script-allowed land or 50m above ground level
+- life-long update for same major version
+- compatible to another popular HUD system, more features+flexibility, no license system
+
+- organize your product's prims into groups, add buttons to HUD
+- unlimited number of buttons and groups, special group "root"
+- tab buttons (also sticky) to select target group and faces for color picker and others
+- show/hide groups, support faces and custom values almost everywhere
+- control how stateful buttons are textured/colored
+- move whole target or individual groups to absolute or by relative coordinates
+- avatar posing (default or custom animations) without posing stand, incl. prev/next/stop
+- animate target (avatar if attached or rezzed animesh)
+- walking sound for shoes with default or custom sounds and level
+- different sounds for walking on land and in water, several sounds per type
+- configurable footprints and fog effects when walking
+- landmark and notecard or arbitrary giver, group inviter and URL loader
+
+- read notecards to change options (textures, colors etc.) on several groups and faces
+  with one click (Skin Changer only supports this, no color picker, texture buttons etc.)
+- config notecard for advanced options, autostart commands on script reset
+- button map defining areas for buttons without prims on it, incl. button sounds
+- optionally link target object to HUD
+- plugin system for custom scripts and buttons
+
+Colorizer/Texturizer/Sculptor/Lighter, Coverizer, Skin Changer:
+
+- color and texture groups or selected faces, setting or preserving texture atlas
+- change sculptmaps, prim types+parameters or light of groups
+- materials: change alpha mode, normal and specular maps of groups or selected faces,
+  setting or preserving other parameters (only Coverizer)
+- alpha, fullbright, bumpmap, shininess, glow, bling, relative values (only Coverizer)
+  (tagged prims or specified groups)
+
+Color Picker:
+
+- HSL as in SL viewer + HSV more suitable for changing skintones
+- picker areas on one or two prims, correctly colored depending on selected hue
+- resettable memory buttons for custom colors
+- enter RGB value in dialog/chat or select from target object
+- current RGB value on prims with customizable font
+- display selected color on a prim
+- easy setup with setup script, also prints texture UUIDs and linked prims
+
+Resizer, Skin Changer:
+
+- resize with custom steps or set absolute size/relative scale with vectors
+- stretch in x, y, z or any combination, store+restore size
+- resize whole object or specified groups only (except rigged mesh)
+- resize certain parts of whole outfits with resize sets
+- check size and prim distance limits (can be disabled)
+
+The mpHUD scripts are copy and trans, but no-mod. They're licensed under the BSD license
+with the addition that they must not be resold or otherwise given away standalone in
+parts or as whole. They can be used in your creations as long as these license conditions
+are met.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+The .Shuggles. mpHUD system mainly consists of 2 scripts: one for the HUD itself and one
+for the one or more (e.g. 2 shoes) target object(s) - your products. It uses prim names
+in the target object to identify the prims that shall be changed by the HUD. The HUD
+itself consists of simple prims that are used as buttons. Their functionality depends on
+their name and description.
+
+The prims in your product basically get a name (simple number or arbitrary name) which
+identifies their "group". For each group, you can change the color, texture, sculptmap
+and other options of all prims belonging to that group. The HUD buttons use these groups
+as parameters in their prim names - and a click on such a button changes the prim(s) in
+that group in your product - or only specific faces.
+
+Sounds not so complicated, does it? The sheer number of options can be a bit overwhelming
+and the learning curve quite steep, though. Don't worry, you'll get there. You should
+start slow and follow the included Tutorial notecard - and have a look at the provided
+examples in the Example Box. They build up a complex HUD, starting with very simple
+layouts and adding more and more options. The included Guide Panel gives starters an
+introduction into HUDs and guides you through the creation of the complex, multi-sided
+HUD used in the demos in the Demo Box, telling you all you need to know. For a complete
+reference of all options, please refer to the Reference notecard. And of course, I'm glad
+to help if they are not enough or unclear or if you encounter problems or have questions.
+
+When you finally got there and want to sell your products and their HUDs, please make
+sure that you give the scripts either copy or transfer permissions only. If you forget
+it, the script will politely remind you.
+
+Please keep in mind that, although there is no license system, the license still doesn't
+allow you to give away the scripts as is, not even to an alt! It would be easy to add
+something to protect my rights, but it would cause you more work in the process and could
+raise the question how reliable it is and if it could break your products sometime. It's
+more important for me to satisfy the needs of my customers, i.e. you, than preventing the
+slightest possibility of someone abusing the permissions they get. After all, it's a
+matter of trust on both sides.
+
+___________________________________________________________________________
+
+UPGRADING
+
+Updating the .Shuggles. mpHUD system:
+
+Together with the scripts, you got an Updater. Whenever there's an update (please refer
+to the .Shuggles. group inworld or check back yourself at the store), go to the inworld
+store (using the provided landmark), look for the vendor, attach your Updater and click
+on it. You should receive the updated version at once.
+
+This only works for the same major version. Upgrades from v1.x to v2.x etc. are not
+automatically included, but you might get a new major version for a discount price.
+That is because a new major version usually is a different product with many new features
+which required a lot of work. Bugfixes and possible feature updates to older versions
+will be provided all the time as well, though.
+
+To upgrade to a better variant of the HUD system, e.g. from Texturizer to Multi-purpose
+HUD, please go to the vendor in the inworld store, wear the Updater and click on it. You
+should get a menu where you can select which variant you want to upgrade to. Control is
+given to the appropriate vendor then, which shows a reduced price now, so please right-
+click on it and select Pay and pay the specified amount to receive your upgrade. In case
+of problems, please don't hesitate to contact me.
+
+Switching from other HUD systems:
+
+When changing from the BoSH v5 Standard HUD system to this one, it should work out of
+the box, provided you change the scripts and drop the Setup script into the HUD object.
+It will change the textures on the picker prims and set them all to full brightness.
+However, to use the correct coloring of the picker depending on the selected hue, you
+need to do the following before dropping the Setup script in:
+
+1. unlink the Picker prim from the HUD
+2. duplicate it, e.g. with Ctrl+D, and rename the duplicate to "Overlay"
+3. link them all together again (selecting Overlay, Picker, and the HUD last)
+4. move the Overlay prim exactly between the Palette and the Picker prims
+   (you might need to move the Picker prim a little as well)
+
+Some features are deprecated:
+
+- the "Face:face" definition in "Tab:group" buttons - use "Tab:group.face" now
+- the "Full Bright" button - use "Fullbright" instead
+- the old notecard format for "Read" buttons - use the new one (old still supported)
+- the license string (before colon) can be changed to "Config" because it's not used
+
+Although still supported, they may get removed in future versions, so better take
+some time and change them now. The Setup script changes the first two points to the new
+style. Apart from that, the mpHUD scripts are compatible in almost all cases, but they
+could behave a little different in exotic ones.
+
+___________________________________________________________________________
+
+CHANGELOG
+
+This changelog contains information about the Skin Changer as well, because since version
+v1.1, the Skin Changer script and the mpHUD Target script are the same.
+
+- v0.47 ... Initial version
+- v0.48 ... New crosshair textures
+- v0.49 ... Bugfixes after systematic tests
+- v1.0  ... First released version
+- v1.1  ... Optional groups for Resize, Alpha, Shiny, Glow, Fullbright, Bling
+            Also optional now for Color, Texture, Map, Hide: affects whole object without
+            Footprint button for foot/paw prints or fog effects
+            Display prim with selected color from Color Picker
+            New font texture
+            Configurable range between HUD and Target
+            Timer and size limit for demos and examples
+            Simplified reading of deprecated Read button notecard format
+            [Autostart] section in .Config notecard (see Read command)
+            Setup changes "Full Bright" to "Fullbright" and "Tab:group|Face:face" to "Tab:group.face"
+- v1.2  ... Optimizations, relative values for alpha/shiny/glow, access control for SkinChanger
+- v1.3  ... Autostart and Read with button support (e.g. preselect) and Feature check
+            Picker button from Read sets given color and updates color picker
+            Added URL and Group buttons
+            Plugin system (link_message) with custom scripts and buttons in HUD and target object
+- v1.4  ... Released on 1.4.14:
+            Dropper button: click on target and update color picker with the color of the selected face
+            Autostart and Read can now select buttons, optimized ButtonConfig
+            Setup script prints UUIDs of contained textures in "Read" notecard format
+            Avination compatibility, resize uses local positioning now
+- v1.5  ... Released on 1.5.15:
+            ButtonMap section in mpHUDConfig defining areas for buttons without actual prims on it
+            Setup script prints linked prim names and descriptions
+            Use "Config" instead of "Options", mpHUDConfig as part of config name instead of .Config
+            Support light and materials (specular and normal maps)
+            SkinChanger only reacts when no one is sitting on target object
+- v1.6  ... Released on 1.6.16:
+            Added prev/next for Pose button
+            Added Sleep command (useful in Read notecards)
+            Support null as texture shortcut
+            Light is also tagged now (LI)
+            SkinChanger got menu with checkboxes
+            UUID obfuscation to protect texture UUIDs
+- v1.7  ... Released on 1.7.17:
+            Fixed resize bug for root prim (overwrote previous commands)
+            Fixed anti-rez/drop issues after owner change, set OwnerID in attach
+            Check llGetObjectPrimCount( llGetKey() ) for anti-rez/drop
+            Added alphamode and bumpiness (tag BP)
+            Allow comma-separated params for Texture, Normal, Specular, Map, Light, signs at beginning
+            Optional texture atlas, shine and color for materials
+            Sculptmap null returns to prim (special handling, depending on base shape)
+            Prim:box/sphere etc. with all prim params
+            Light level and color in any order
+            SetScale takes relative vectors, SetSize takes absolute vectors (only SkinChanger)
+            Use comma for Footprint parameters, colon is deprecated
+            Optional sound type, e.g. "sneaker", used to load sounds
+            Optimized parsing routines and notecard reading
+            Special group "%tab" replaced by TargetGroups
+            Pose|stop to stop animation, Give to give inventory items
+            Plugin for e.g. button or inworld sounds
+            Nicer menu, Demo text supports \n (only SkinChanger)
+            Disable hand cursor in target for click action None/Touch (except SkinChanger)
+- v1.8  ... Released on 1.8.18:
+            Section names case-insensitive, fixed checking for them
+            Use llRegionSayTo for user messages, so rezzed HUDs and Targets also work for non-owners
+            Use prim and face of virtual buttons from ButtonMap, also allow empty region
+            Disable commands that affect whole target object if in a child prim, e.g. linked to HUD
+            Don't set click action in target if in a child prim, e.g. linked to HUD
+            Pass touches to root prim if in a child prim, e.g. linked to HUD
+            Optimized value norming and other calculations for color picker
+            Optimized notecard reading and Setup script, init Scales with 0
+            Allow "root" as group for root prim (or single prim)
+            Check pos.xyz > 54, take size changes always from stored size, so +5% and -5% are equal
+            Added SetSize and SetScale commands (operate on current size)
+            Added ResizeOptions to Config to disable distance and size checks
+            Added Move and SetPos commands for relative and absolute position change of whole object (max. 10m)
+            Added Size command to resize HUD by given percentage
+            Added button sounds in ButtonConfig
+            Replace %tab in description to allow more cases, e.g. for Read button notecard names and plugins
+            Added HUD light toggling in plugin script
+- v1.9  ... Released on 1.9.19:
+            Sticky Tab buttons, use handleMsg instead of execute (v1.8.1)
+            Combine each tab group with each button group, TargetGroups always lowercase, %tab not for Tab anymore (v1.8.2)
+            Move and SetPos can move individual groups
+            Added Anim command to target: llStartAnimation if attached, else llStartObjectAnimation
+- v1.10 ... Released on 1.10.20:
+            Use id in handleMsg instead of OwnerID, fixed RGB/Voice/Dropper only working for owner
+            Optimizations, cleanup, only necessary features, preset Features and XMS only for mpHUD
+            Fixed Resize not working because stretch and resize set were cut off (SkinChanger v1.9.1)
+            Fixed Resize not working if no resize set was given, fixed TouchTime (SkinChanger)
+            Optimized %tab handling, allow Sculpt/Sculptmap/Map for sculptmaps
+            Give with several items in desc and folder in name
+            Each Texture/Normal/Specular param (repeat,offset,rotation,color,gloss,env) is optional
+
+___________________________________________________________________________
+
+LICENSE
+
+Copyright (c) 2013-2020, Shuichi Shinji
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+- Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
+- Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+- Standalone redistribution in parts or as whole is not permitted, it may
+  only be sold as part of your own products, either copy or transfer only,
+  keeping script name and creator intact.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+
+___________________________________________________________________________
+
+ACKNOWLEDGMENTS
+
+First and foremost I want to thank Pip, the owner of the former Besieged store, for
+providing the excellent mpHUD Guide images, the Demo HUD and sneakers, lots of testing
+and helpful insights from a creator's perspective... and for poking me into doing this
+HUD system.
+
+I also want to thank my friends Yumi and Noon for additional testing and finding the one
+or other bug. Without the two of you, they would still be crawling through the code.
+
+
+============================================================
+  【秀】  [.Shuggles.] Multi-purpose HUD v1.10 Demo  【ツ】
+============================================================
+
+The mpHUD "Multi-purpose HUD" system allows creators to easily build a HUD for their
+products, e.g. shoes, mesh dresses, body parts like hair or others. It provides versatile
+scripts with many options. You only use the ones you need, though - from simple color
+changing or resizers up to complex multi-sided HUDs with color picker, tabs, retexturing,
+materials, resizing and walking sounds. Use the scripts to design your HUD as you want it
+to be.
+
+Complete feature list of the mpHUD scripts:
+
+- only one script (64KB) for HUD and one for your products
+- only one communication channel, custom channel, configurable range
+- single/multi-prim objects, sculpties, single/multi-material meshes
+- attachments (all attachment points) and rezzed objects
+- anti-rez and anti-drop support
+- UUID obfuscation to protect texture UUIDs
+- resizable single-sided or multi-sided HUD
+- runs on no script land, if started on script-allowed land or 50m above ground level
+- life-long update for same major version
+- compatible to another popular HUD system, more features+flexibility, no license system
+
+- organize your product's prims into groups, add buttons to HUD
+- unlimited number of buttons and groups, special group "root"
+- tab buttons (also sticky) to select target group and faces for color picker and others
+- show/hide groups, support faces and custom values almost everywhere
+- control how stateful buttons are textured/colored
+- move whole target or individual groups to absolute or by relative coordinates
+- avatar posing (default or custom animations) without posing stand, incl. prev/next/stop
+- animate target (avatar if attached or rezzed animesh)
+- walking sound for shoes with default or custom sounds and level
+- different sounds for walking on land and in water, several sounds per type
+- configurable footprints and fog effects when walking
+- landmark and notecard or arbitrary giver, group inviter and URL loader
+
+- read notecards to change options (textures, colors etc.) on several groups and faces
+  with one click (Skin Changer only supports this, no color picker, texture buttons etc.)
+- config notecard for advanced options, autostart commands on script reset
+- button map defining areas for buttons without prims on it, incl. button sounds
+- optionally link target object to HUD
+- plugin system for custom scripts and buttons
+
+- color and texture groups or selected faces, setting or preserving texture atlas
+- change sculptmaps, prim types+parameters or light of groups
+- materials: change alpha mode, normal and specular maps of groups or selected faces,
+  setting or preserving other parameters (only Coverizer)
+- alpha, fullbright, bumpmap, shininess, glow, bling, relative values (only Coverizer)
+  (tagged prims or specified groups)
+
+- HSL as in SL viewer + HSV more suitable for changing skintones
+- picker areas on one or two prims, correctly colored depending on selected hue
+- resettable memory buttons for custom colors
+- enter RGB value in dialog/chat or select from target object
+- current RGB value on prims with customizable font
+- display selected color on a prim
+- easy setup with setup script, also prints texture UUIDs and linked prims
+
+- resize with custom steps or set absolute size/relative scale with vectors
+- stretch in x, y, z or any combination, store+restore size
+- resize whole object or specified groups only (except rigged mesh)
+- resize certain parts of whole outfits with resize sets
+- check size and prim distance limits (can be disabled)
+
+The mpHUD scripts in the full product are copy and trans, but no-mod. They're licensed
+under the BSD license with the addition that they must not be resold or otherwise given
+away standalone in parts or as whole. They can be used in your creations as long as these
+license conditions are met.
+
+The Demo HUDs, sneakers and beanie are copy and mod, but no-trans. The included scripts
+are copy only. So you can inspect the demos closely and try all included features. Feel
+free to wear the sneakers and the beanie as well. For the sneakers, simply attach them,
+wear the appropriate alpha layer and attach the HUD to change textures, sock color and
+size. For the beanie, just attach it and the HUD to change its color and the badge.
+Thanks to Pip, the owner of the former Besieged store, for providing these demos.
+
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Skin Changer v1.10  【ツ】
+============================================================
+
+The Skin Changer script allows creators to put notecards into their products, e.g. shoes,
+mesh dresses, body parts like hair or others. These notecards define so-called skins that
+can be selected in a menu and change the appearance of the product (colors, textures,
+materials, alpha, bumpmap, shininess, sizes and more):
+
+- only one script (64KB)
+- only one communication channel, custom channel, configurable range
+- works together with the mpHUD system (all variants)
+- for single/multi-prim objects, sculpties, single/multi-material meshes
+- attachments (all attachment points) and rezzed objects
+- anti-rez and anti-drop support
+- UUID obfuscation to protect texture UUIDs
+- runs on no script land, if started on script-allowed land or 50m above ground level
+- life-long update for same major version
+- organize your product's prims into an unlimited number of groups
+- show/hide groups, support faces and custom values almost everywhere
+- color and texture groups or selected faces, setting or preserving texture atlas
+- change sculptmaps, prim types+parameters or light of groups
+- materials: change alpha mode, normal and specular maps of groups or selected faces,
+  setting or preserving other parameters
+- alpha, fullbright, bumpmap, shininess, glow, bling, relative values
+- resize with custom steps or set absolute size/relative scale with vectors
+- stretch in x, y, z or any combination, store+restore size
+- resize whole object or specified groups only (except rigged mesh)
+- resize certain parts of whole outfits with resize sets
+- check size and prim distance limits (can be disabled)
+- move whole target or individual groups to absolute or by relative coordinates
+- animate target (avatar if attached or rezzed animesh)
+- walking sound for shoes with default or custom sounds and level
+- different sounds for walking on land and in water, several sounds per type
+- configurable footprints and fog effects when walking
+- plugin system for custom scripts
+
+Touch to open a menu only works when no avatar is seated on the object. This makes it
+usable together with sitting scripts such as AVsitter which only display a menu for
+selecting poses if an avatar is seated.
+
+The Skin Changer script is copy and trans, but no-mod. It's licensed under the BSD
+license with the addition that it must not be resold or otherwise given away standalone
+in parts or as whole. It can be used in your creations as long as these license
+conditions are met.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+The Skin Changer script uses prim names to identify the prims that shall be changed.
+Simply name all prims according to the following documentation and write notecards with
+the skin information that are put into your product - together with the script.
+
+To select a notecard, click on the object and choose them from the menu that will open.
+If you sell multiple objects, e.g. a pair of shoes, it's enough to put the notecards into
+one of them (the script must be in both, though). The skin is applied to all objects that
+use the same channel (see below). Plus: It also works together with the mpHUD system (on
+the same channel).
+
+Groups:
+
+The prims in your product basically get a name (simple number or arbitrary name) which
+identifies their "group". For each group, you can change the color, texture, sculptmap
+and other options of all prims belonging to that group. The notecards use these groups
+as parameters - and selecting them changes the prim(s) in that group in your product - or
+only specific faces.
+
+A special group "root" denotes the root prim of your product, so you can change that one
+as well without having to use it's actual name as the group.
+
+Faces:
+
+If not otherwise mentioned, you can always supply a comma-separated list of faces when
+the script expects "faces", so only these faces of a prim are affected. Every prim
+(simple, sculpted or mesh) consists of 1 to 8 faces, their number starting with 0. You
+can think of faces as "sides" with no dividing edges, although that is not true anymore
+for sculpties or meshes. Sculpties usually only have one face, meshes up to eight, which
+have been defined by the mesh creator and can span several sides or you can have several
+faces on one side. To find out the face number, following these steps will help:
+
+- Enable the Develop menu by pressing Ctrl+Alt+Q (on version 1.x viewers,
+  instead enable the Advanced menu by pressing Ctrl+Alt+D)
+- Select the face using the "Select Texture" Tool
+- Pick Develop > Rendering > Selected Texture Info from menu, or press Ctrl+Alt+Shift+T
+
+The face number will be shown in your local chat window or as a notification.
+Some viewers also display link number and face in the edit dialog.
+See also http://wiki.secondlife.com/wiki/Face
+
+Colors:
+
+Colors are usually given as <R,G,B>, ranging from 0 to 255 for each, Red, Green and
+Blue channel - same as in the viewer's edit dialog.
+
+Textures:
+
+Textures (diffuse, normal, specular textures) and sculptmaps (which are textures as well)
+are usually given as UUID. You can also use a texture name, but then the texture has to
+be in all target objects with copy and transfer permissions (for the next owner!) due to
+an SL limitation. By using names, you could set different textures in e.g. a pair of shoes
+if you put different textures with the same name in each shoe. Instead of UUID or name,
+you can also use special shortcuts (case-sensitive):
+
+- default -> default texture
+- plywood -> plywood texture (same as default)
+- blank -> blank texture
+- transparent -> transparent texture
+- media -> media texture
+- null -> null key
+
+To protect your texture UUIDs, you can use the Setup script to print an obfuscated UUID
+for each texture that is found in the object. UUID obfuscation is no encryption, but
+merely "security by obscurity", but it should provide a sufficient protection. It works
+per creator, so make sure that you are the creator of all objects.
+
+The Setup script will print the obfuscated UUIDs of the textures in a format usable for
+the notecards, together with a comment. You only need to change the groups and faces to
+the desired ones afterwards. Please don't forget to remove the textures from the object
+when you are done (or do it in an extra object).
+
+The comments also include the actual UUIDs, so you should not put them into the notecard.
+It is never a good idea to put unobfuscated UUIDs in a notecard if you want to protect
+them. Although "no copy" notecards can't be read by avatars, they can still be moved out
+of the object and read by a script.
+
+Materials:
+
+If you are using Second Life prior to 3.7.26 (299610) or any TPV using its older code,
+please note: Your diffuse textures (Texture button) should contain an alpha channel when
+using materials. Reason is an issue with the alpha mode which needs to be set correctly.
+Usually the viewer does it when the texture is set manually, but if a script sets it, the
+alpha mode is not changed to the correct one. If you want to use diffuse textures without
+alpha channel, you have to prepare the object to use alpha mode "None" in the edit dialog.
+To change it, you have to temporarily apply a texture with alpha channel, otherwise it
+stays grayed out. Afterwards, you can set your correct texture. In newer viewers, this
+issue is fixed; alpha mode "Blend" also works with textures without alpha channel now.
+
+Notecard format:
+
+The read notecards must contain lines in the following format:
+
+-------------------------------------------------
+# Comment (also starting with // or --)
+Color[:groups[.faces]]|colors
+Texture[:groups[.faces]]|textures[,repeats,offsets,rotations]
+Normal[:groups[.faces]]|textures[,repeats,offsets,rotations]
+Specular[:groups[.faces]]|textures[,repeats,offsets,rotations,colors,glosses,envs]
+Prim[:groups]|types,params
+Sculpt[:groups]|sculptmaps[,types]
+Sculptmap[:groups]|sculptmaps[,types]
+Map[:groups]|sculptmaps[,types]
+Hide[:groups[.faces]]
+Alpha[:groups[.faces]]|[levels]
+Bump[:groups[.faces]]|[modes]
+Shiny[:groups[.faces]]|[levels]
+Glow[:groups[.faces]]|[levels]
+Fullbright[:groups[.faces]]|[0/1]
+Light[:groups]|[levels][,colors] or [colors[,levels]]
+Bling[:groups]|[0/1]
+SetSize[:groups]|sizes[L][|resize_set]
+SetScale[:group]|scales[L][|resize_set]
+Resize[:groups]|steps[L]|stretch[|resize_set]
+Store[|resize_set]
+Restore[|resize_set]
+SetPos[:groups]|<X, Y, Z>
+Move[:groups]|<X, Y, Z>
+Anim|[animation]
+Sound|level[,type]
+Footprint|time[,texture][,color]
+Sleep|time
+-------------------------------------------------
+
+Everything is case-insensitive, except texture names.
+Optional parts are enclosed in brackets: [...] For examples, please look below.
+
+___________________________________________________________________________
+
+COMMAND REFERENCE
+
+Color[:group[.faces]][:group[.faces]]...|color[:color]...
+
+  Colors given or all faces (comma-separated list) of all prims belonging to one of the
+  specified groups. Description is the desired color's RGB value for each group. If no
+  group is given, it affects the whole object.
+
+Texture[:group[.faces]][:group[.faces]]...|texture[,repeat,offset,rotation][:texture[,repeat,offset,rotation]]...
+
+  Textures given or all faces of all prims belonging to one of the specified groups.
+  Description is the name or UUID of a texture plus optional texture repeat, offset and
+  rotation for each group. Rotation is in degrees, use <1, 1, 0> for no repeat, <0, 0, 0>
+  for no offset, 0 for no rotation. Omit to leave values unchanged, either all of them or
+  single values (but keep the commas). If no group is given, it affects the whole object.
+  
+  If you omit repeat, offset and rotation, texture offset and scaling are not changed
+  by the script, so you can use the same group and texture for several prims that just
+  display a different part of the texture each. This is called "Texture Atlas" and there
+  are tools that can create this for you.
+
+Normal[:group[.faces]][:group[.faces]]...|texture[,repeat,offset,rotation][:texture[,repeat,offset,rotation]]...
+
+  Changes the normal map on given or all faces of all prims belonging to one of the
+  specified groups. Description is the name or UUID of a normal texture plus optional
+  texture repeat, offset and rotation for each group. Rotation is in degrees, use
+  <1, 1, 0> for no repeat, <0, 0, 0> for no offset, 0 for no rotation. Omit to leave
+  values unchanged, either all of them or single values (but keep the commas). If no
+  group is given, it affects the whole object.
+  
+  If you omit repeat, offset and rotation, texture offset and scaling are not changed
+  by the script, so you can use the same group and texture for several prims that just
+  display a different part of the texture each.
+
+Specular[:group[.faces]][:group[.faces]]...|texture[,repeat,offset,rotation,color,gloss,env][:texture[,...]]...
+
+  Changes the specular map on given or all faces of all prims belonging to one of the
+  specified groups. Description is the name or UUID of a specular texture plus optional
+  texture repeat, offset and rotation as well as specular color, glossiness and environ-
+  mental reflection exponent for each group. Rotation is in degrees, use <1, 1, 0> for no
+  repeat, <0, 0, 0> for no offset, 0 for no rotation. For specular color, use <R, G, B>,
+  ranging from 0 to 255 each, the glossiness exponent and the environmental reflection
+  exponent are in the range 0 to 255. Omit these additional parameters to leave them
+  unchanged, either all of them or single values (but keep the commas). If no group is
+  given, it affects the whole object.
+  
+  If you omit repeat, offset and rotation, texture offset and scaling are not changed
+  by the script, so you can use the same group and texture for several prims that just
+  display a different part of the texture each.
+
+AlphaMode[:group[.faces]][:group[.faces]]...|mode[,cutoff][:mode[,cutoff]]...
+
+  Changes the alpha mode on given or all faces of all prims belonging to one of the
+  specified groups. Description is the mode: 0: None, 1: Blend, 2: Mask, 3: Emissive.
+  For mode 2 (Mask), the alpha cutoff has to be added. Use 0-100 (%) for transparency
+  (0 is opaque) to become transparent.
+
+Prim[:group][:group]...|type,params[:type,params]...
+
+  Changes the prim type and parameters of all prims belonging to one of the specified
+  groups. Description is the prim type and required parameters for each group. Type is
+  either a number (0: Box, 1: Cylinder, 2: Prism, 3: Sphere, 4: Torus, 5: Tube, 6: Ring)
+  or the lowercase type name (box, cylinder, prism, sphere, torus, tube, ring). If no
+  group is given, it affects the whole object.
+
+  Required parameters per prim type:
+  Box, Cylinder, Prism: hole_shape, cut, hollow, twist, top_size, top_shear
+  Sphere:               hole_shape, cut, hollow, twist, dimple
+  Torus, Tube, Ring:    hole_shape, cut, hollow, twist, hole_size, top_shear,
+                        advanced_cut, taper, revolutions, radius_offset, skew
+  Please refer to http://wiki.secondlife.com/wiki/PRIM_TYPE for details.
+
+Sculpt[:group][:group]...|sculptmap[,type][:sculptmap[,type]]...
+Sculptmap[:group][:group]...|sculptmap[,type][:sculptmap[,type]]...
+Map[:group][:group]...|sculptmap[,type][:sculptmap[,type]]...
+
+  Changes the sculptmap of all prims belonging to one of the specified groups.
+  Description is the name or UUID of a sculptmap for each group. If type is omitted,
+  it is set to Sphere if the target prim was no sculptie before, otherwise it is not
+  changed. If a sculptmap type is provided, it is set to the given value:
+  1: Sphere, 2: Torus, 3: Plane, 4: Cylinder, add 64 to invert and 128 to mirror it.
+  If sculptmap is "null", it is converted to a prim, depending on the sculptmap type.
+  If no group is given, it affects the whole object.
+  
+Hide[:group[.faces]][:group[.faces]]...
+
+  Hides/shows given or all faces of all prims belonging to one of the specified groups.
+  If no group is given, it affects the whole object.
+
+The following 5 commands need the prims to be "tagged". This means they get additional
+properties after their name, separated by ":". So if you had a prim called "2", i.e.
+belonging to group 2, it would read "2:AL" after being tagged for the Alpha command or
+"2:AL:BP:SH:GL:FB:LI:BL" after being tagged for all the following commands. This feature
+is useful to change prims belonging to different groups.
+
+Please note that if you use a group definition, the tags are ignored and all prims
+belonging to the specified group(s) are affected. If group is omitted, it affects the
+tagged prims in the whole object as in version 1.0.
+
+Alpha[:group[.faces]][:group[.faces]]...|[transparency level in % (0-100)][:level]...
+
+  Sets the transparency for all prims tagged with "AL". Level ranges from 0 (opaque) to
+  100 (fully transparent) as in the SL viewer's edit dialog (and opposite to how alpha
+  is used in script functions). If level contains a + or - sign, the value is treated as
+  relative, e.g. +5 means current transparency + 5%. If level is omitted, then it toggles
+  between current value and 100% - current value.
+
+Bump[:group[.faces]][:group[.faces]]...|[mode (0-17)][:mode]...
+
+  Sets bumpmap for all prims tagged with "BP" to the given mode. If mode contains a +
+  or - sign, the value is treated as relative, e.g. -1 means current bumpmap + 1. If
+  mode is omitted, then it toggles between all values (0-17).
+
+Shiny[:group[.faces]][:group[.faces]]...|[level (0-3)][:level]...
+
+  Sets shininess for all prims tagged with "SH" to the given level. If level contains a +
+  or - sign, the value is treated as relative, e.g. -1 means current shininess + 1. If
+  level is omitted, then it toggles between Off, Low, Medium and High (0-3).
+
+Glow[:group[.faces]][:group[.faces]]...|[level in % (0-100)][:level]...
+
+  Sets glow for all prims tagged with "GL" to the given level. If level contains a + or -
+  sign, the value is treated as relative, e.g. +5 means current glow + 5%. If level is
+  omitted, then it toggles between a glow level of 10% and 0%.
+
+Fullbright[:group[.faces]][:group[.faces]]...|[0 (off) or 1 (on)][:0/1]...
+
+  Sets (1) or resets (0) full brightness for all prims tagged with "FB". If the
+  description is omitted, then it toggles between full and normal brightness.
+
+Light[:group][:group]...|[level in % (0-100)][,color][:level][,color]... or [color[,level]]
+
+  Changes the light color and level for all prims tagged with "LI". Description is the
+  desired light's intensity level and an optional RGB color for each group. Level ranges
+  from 0 (off) to 100 (full light). If level contains a + or - sign, the value is treated
+  as relative, e.g. +5 means current intensity + 5%. If level is  omitted, then it toggles
+  between current value and 100% - current value. If color is  omitted, it stays unchanged.
+
+Bling[:group][:group]...|[0 (off) or 1 (on)][:0/1]...
+
+  Sets (1) or resets (0) a bling effect for all prims tagged with "BL". If the
+  description is omitted, then it toggles between on and off. Please use sparingly.
+
+SetSize[:group][:group]...|[size][:size]...[|resize_set]
+
+  Resizes the whole object or the given groups only. Sizes are vectors with the absolute
+  size, e.g. <1, 1, 1> to set all axes to 1m. Add an "L" to make prims resize locally
+  (around their own center instead of the object's). If upper (64m) or lower (1cm) limits
+  are reached for any prim, it won't resize. If groups are omitted, it affects the whole
+  object. When using groups, you should also append "L" to each step for local resizing.
+
+  Resize sets see below.
+
+SetScale[:group][:group]...|[scale][:scale]...[|resize_set]
+
+  Resizes the whole object or the given groups only. Scales are vectors with the resize
+  factors, e.g. <1.05, 2, 1> to add 5% to the X axis, double the Y size and leave the Z
+  size. Add an "L" to make prims resize locally (around their own center instead of
+  the object's). If upper (64m) or lower (1cm) limits are reached for any prim, it won't
+  resize. If groups are omitted, it affects the whole object. When using groups, you
+  should also append "L" to each step for local resizing.
+
+  Resize sets see below.
+
+Resize[:group][:group]...|[step][:step]...|stretch[|resize_set]
+
+  Resizes the whole object or the given groups only. Steps are given in %, e.g. -5, -1,
+  +5, +10. Add an "L" to make prims resize locally (around their own center instead of
+  the object's). Resize affects all axes unless changed with stretching (see below).
+  If groups are omitted, it affects the whole object as in version 1.0. When using
+  groups, you should also append "L" to each step for local resizing.
+  
+  Starting with this version, resize steps are always calculated from the stored size,
+  not from the current size, so increasing and decreasing by the same percentage always
+  leads to the same results without the need of special treatments.
+  
+  The script checks upper (64m) and lower (1cm) resize limits and also checks that prims
+  in the linkset never get too far apart. Since the distance check can be too restrictive,
+  it can be disabled in the object configuration. The exact way to do this by calculating
+  the bounding sphere around all prim centers and checking that its diameter is max. 54m
+  is either non-trivial or inefficient, so we just check if all prim centers stay within
+  27m of the root center. By putting the root prim near the center of the linkset, this
+  provides good results.
+
+  Stretching allows you to resize along the different axes (X, Y, Z) or their combinations
+  (XY, XZ, YZ and XYZ). XYZ means no stretching. Each prim is stretched along the axes
+  defined by its own local rotation, so please be aware that this only works if all the
+  prims have the same local rotation!
+
+  Resize sets (formerly known as resize groups) are useful to resize different parts of
+  your outfit (e.g. jacket, dress, shoes) independently. Simply put them into a different
+  resize set each (see below) and specify the resize set in the Resize command. Resize
+  set 0 selects all (default).
+
+Store[|resize_set]
+
+  Stores the current size. The size is first stored when the script is dropped in and any
+  time Store is used, so be careful your product has the correct size then!
+
+Restore[|resize_set]
+
+  Restores size to original or stored size. The size is first stored when the script is
+  dropped in and any time Store is used, so be careful your product has the correct size
+  then!
+
+SetPos[:group][:group]...|<X, Y, Z>[:<X, Y, Z>]...
+
+  Moves the whole target object or individual groups to the position given in the
+  description field (max. 10m). For child prims, the position is relative to the root.
+  For attachments, the position is relative to the attachment point.
+
+Move[:group][:group]...|<X, Y, Z>[:<X, Y, Z>]...
+
+  Moves the whole target object or individual groups by the values given in the
+  description field (max. 10m). For child prims, the position is relative to the root.
+  For attachments, the position is relative to the attachment point.
+
+Anim|[animation]
+
+  Animates the target (your avatar if attached or the object if it's an animesh) using
+  the default "Edit Appearance" animation. You can add the name of a custom animation
+  which must be in the target's inventory. It's also possible to use several Anim commands
+  with different animations. If "prev"/"next" is used, the previous/next animation is
+  played, if it is "stop", the animation is stopped.
+  
+  Please note: You have to enable the "Animated Mesh" feature in the edit dialog. This
+  cannot be done by script currently. See http://wiki.secondlife.com/wiki/Animesh_User_Guide
+
+Sound|level[,type]
+
+  Enables walking sounds in your target object, which obviously is only sensible for
+  shoes. Level ranges from 0 (off) to 100 (full volume). You can use several sounds which
+  are played randomly and you can even have different sounds for walking on land and in
+  water! Your custom sounds need to be full perm for the next owner (your customer) and
+  need to be in the right attachment: right shoulder, hand, foot, ear, eye, upper arm,
+  lower arm, hip, upper leg, lower leg or pectoral. The script tries to find them there
+  in the following order (names are case-insensitve):
+  
+  1. try to find sounds named like the given type, e.g. "sneaker..." (land)
+  2. if no sounds were found, try to find sounds named "walk..." (land)
+  3. if walking sounds were found, try to find sounds "splash..." (water)
+  4. if no walking sounds were found, use ALL sounds in inventory for walking sounds
+  5. if there are none in inventory, use default sounds (also for splash sounds in case 4)
+  
+  Please note that custom sounds in the target's inventory are still used if no other
+  sound type is given.
+
+Footprint|time[,texture][,color]
+
+  Enables footprints for your target objects, e.g. shoes, feet or paws. Time defines how
+  long these footprints will be visible. The specified texture can be one of "sneaker",
+  "heel", "foot", "paw", a texture name in inventory or a UUID; the color can be a color
+  definition or "random". If no texture is given, a fog or dust effect is used instead.
+  Please note: Using the colon as separator is deprecated and should be changed to comma.
+
+Sleep|time
+
+  Sleeps for the given time in seconds. Can be useful with sound or to wait for something.
+
+___________________________________________________________________________
+
+CONFIGURATION
+
+The description field of your object (i.e. root prim) contains the following special
+options:
+
+-------------------------------------------------
+  Your object name
+  Config:custom_channel:anti_rez/drop:resize_set:notecard_filter:range:resize_options
+-------------------------------------------------
+
+  Custom channel allows you to use different communication channels for your products.
+  Channels are used for the mpHUD system to communicate with your script, but also if you
+  have several objects that should be changed together, e.g. a pair of shoes.
+  Channels are chosen depending on creator and owner, so items from the same creator used
+  by different customers or vice versa don't interfere with each other. However, if one
+  customer buys different products from the same creator, there could be problems. So
+  it's best to use an own custom channel for each of your products.
+  
+  If you don't want your customer to rez or drop your product, you can prevent that by
+  the anti_rez/drop parameter. Rezzing means you drag an object from your inventory to
+  the ground, dropping means wearing an object, right-click on it and select "Drop". If
+  you drop an object, it vanishes from the inventory as well! To use anti-rez, set this
+  parameter to 1 and give copy permission to your customers, otherwise they lose the item
+  if they try to rez it. To use anti-drop, set it to 2 and give your customers a backup
+  copy, otherwise they lose it from inventory as well if they drop the item.
+  Note: For you as creator, it only prints a message, but does not get deleted.
+
+  Resize sets (formerly known as resize groups) are useful to resize different parts of
+  your outfit (e.g. jacket, dress, shoes) independently. Simply put them into a different
+  resize set each with this option and specify the resize set in the resize commands. All
+  objects which use the same channel are informed by the one that issued the command.
+  Resize set 0 selects all (default). This feature makes the most sense together with the
+  mpHUD system. Please also refer to the documentation there.
+  
+  The notecard filter lets you filter out notecards that don't belong to the target object,
+  e.g. animation notecards. Notecards which have this filter pattern as part of their name,
+  are ignored. Leave empty to use all notecards.
+  
+  Range is the maximum distance between your objects, i.e. only up to this distance they
+  are able to communicate. Set to 0 for 10m (default), to 1 for 20m, 2 for 100m, 3 for
+  the whole region. Be careful that your creations don't influence each other; always use
+  a custom channel to avoid this.
+
+  Resize options allow to disable max. size and distance checks in the target object. Set
+  to 0 for all checks (default), 1 to disable distance checks, 2 to disable size checks,
+  3 for no checks at all.
+  
+Remark: When changing these options, you always need to reset the script afterwards!
+The previously used "Options" instead of "Config" can still be used as well.
+
+___________________________________________________________________________
+
+PLUGIN SYSTEM
+
+The Skin Changer allows you to include your own custom scripts. It sends a link message
+to the prim it is in, before and after it handles the commands itself (pseudo code):
+
+-------------------------------------------------
+llMessageLinked( LINK_THIS, 20, "mphud.name:params|desc|hud_params", id );  // pre action
+handleCommands();
+llMessageLinked( LINK_THIS, 21, "mphud.name:params|desc|hud_params", id );  // post action
+-------------------------------------------------
+
+"name" and "desc" are the command's name and description, "params" are parameters like
+groups and faces (see command descriptions), "hud_params" are additional parameters, e.g.
+the Stretch factor for Resize, and "id" is the UUID of the avatar that clicked on the
+object. Command names are always lowercase here.
+
+You can receive these messages in your custom scripts by adding a link_message event
+handler, e.g.:
+
+-------------------------------------------------
+integer BEFORE_TARGET = 20;
+integer AFTER_TARGET  = 21;
+
+default
+{
+    link_message ( integer sender, integer num, string msg, key id )
+    {
+        list    args  = llParseString2List( msg, ["|"], [] );
+        string  name  = llList2String( args, 0 );
+        string  desc  = llList2String( args, 1 );
+        list    lname = llParseStringKeepNulls( name, [":"], [] );
+        list    ldesc = llParseStringKeepNulls( desc, [":"], [] );
+        string  cmd   = llList2String( lname, 0 );
+
+        if ( num == BEFORE_TARGET )  // before Target handles it
+        {
+        }
+        if ( num == AFTER_TARGET )  // after Target has handled it
+        {
+            // react on color message after the Skin Changer has handled it
+            if ( cmd == "mphud.color" )  // standard Color command
+            {
+                // do your stuff here
+            }
+        }
+    }
+}
+-------------------------------------------------
+
+The num parameter is the second parameter in the llMessageLinked call above (20, 21), so
+you can hook up yourself before or after the commands are handled by the Skin Changer.
+
+Please note: The plugin system is still experimental and might change in future versions.
+
+___________________________________________________________________________
+
+EXAMPLE NOTECARDS
+
+Here you'll find some example notecards:
+
+-------------------------------------------------
+# Several lines
+Color:0|<0,255,0>
+Color:1.0,1,2,3,4|<0,0,255>
+Color:2.0,1,2,3,4|<255,255,0>
+Texture:0|plywood
+Texture:1|UUID
+Texture:2|UUID
+-------------------------------------------------
+
+Makes group 0 in the target object green and sets a plywood texture, faces 0-4 in group 1
+blue, in group 2 yellow and both get completely textured by the provided texture(s).
+
+-------------------------------------------------
+# Combined into one line each
+Color:0:1.0,1,2,3,4:2.0,1,2,3,4|<0,255,0>:<0,0,255>:<255,255,0>
+Texture:0:1:2|plywood:UUID:UUID
+-------------------------------------------------
+
+Same as above, but can be read and executed much faster. Reading a notecard takes around
+0.1 seconds per line. The color and texture changing itself is the same.
+
+-------------------------------------------------
+# Resize example
+Resize|10|XYZ
+Store
+Resize:0:1|100L:-100L|Z
+Restore
+-------------------------------------------------
+
+Whole object gets resized by +10% into all directions and that size is stored. Then,
+groups 0 and 1 get scaled locally in Z direction, group 0 to double size, group 0 to half
+size (negative factors are given so that they reverse the effect of the positive factor
+with the same value). Then, the previous size is restored.
+
+-------------------------------------------------
+// Read button notecard, for texturing the Demo HUD sneakers
+
+// Texture:group[.faces][:group[.faces]]...|texture[:texture]...
+
+// Back Arch - Group 4 - face 0
+Texture:4.0|5912ee3a-805f-0f8a-7e50-08102eb421ce
+// Eyelet Backing - Left - Group 2 - Face 0
+// Eyelet Backing - Right - Group 6 - Face 0
+Texture:2.0:6.0|7c3b997b-4c6a-a820-ab83-a1c9fcaf7cc3:7c3b997b-4c6a-a820-ab83-a1c9fcaf7cc3
+// Eyelets - Left - Group 3 - Face 0
+// Eyelets - Right - Group 7 - Face 1
+Texture:3.0:7.1|5e62d4e9-fd8b-b9e2-98cb-9a52af8e99e2:5e62d4e9-fd8b-b9e2-98cb-9a52af8e99e2
+// Main Body - Left - Group 2 - Face 5
+Texture:2.5|98697418-942d-2788-c70b-56b877e39516
+// Main Body - Right - Group 6 - Face 1
+Texture:6.1|adff1606-e2a4-05b1-2451-6a1d23d30465
+// Sole Sides - Left - Group 1 - Face 4
+// Sole Sides - Right - Group 5 - Face 2
+Texture:1.4:5.2|db0a15fd-93ef-14e3-8d41-059102051dae:db0a15fd-93ef-14e3-8d41-059102051dae
+// Toe Front - Left - Group 1 - Face 2
+// Toe Front - Right - Group 5 - Face 6
+Texture:1.2:5.6|5a2fd90d-e6fa-f8a6-8c5d-dee4c496db98:5a2fd90d-e6fa-f8a6-8c5d-dee4c496db98
+// Tongue - Left - Group 2 - Face 2
+// Tongue - Right - Group 6 - Face 6
+Texture:2.2:6.6|7477f023-f78f-1d6e-4452-72070b5dee42:dc42ea0d-af42-7fa6-4884-7e9fefa3cbbe
+// Toe Top - Left - Group 1 - Face 1
+// Toe Top - Right - Group 5 - Face 7
+Texture:1.1:5.7|161cb807-99c7-48c6-d4b0-be9e30d4e578:772f4b1f-9515-93a2-4dbc-721c7fcd5505
+-------------------------------------------------
+
+This is a more complex example, featured in the Demo HUD sneakers. It retextures the
+sneakers with blue-style textures. Texture UUIDs are taken from SL.
+
+The pair of sneakers consist of a left and a right shoe (as with most shoe pairs). The
+mesh models of both shoes are a little different, not only because one is more or less
+the mirrored model of the other, but also faces are different and not all textures are
+the same (even though the models are created so that many textures can be used for both
+shoes).
+
+You can see in the example, that there are many lines setting equivalent textures for
+both shoes on different prim link numbers and faces. There are also lines with only one
+texture - here the link number and face are the same for both shoes.
+
+The lines starting with // are comments (same as the ones starting with # or --). They
+are good for documentation purposes or as help when creating the notecards, but in the
+final product you should remove them because each line takes 0.1 seconds to read. And
+letting your customers wait 2.8+x seconds for retexturing their shoes is a big difference
+to 0.9+x seconds without all comments and empty lines.
+
+___________________________________________________________________________
+
+FINAL REMARK
+
+When you finally got there and want to sell your products, please make sure that you give
+the script either copy or transfer permissions only. If you forget it, the script will
+politely remind you.
+
+Please keep in mind that, although there is no license system, the license still doesn't
+allow you to give away the script as is, not even to an alt! It would be easy to add
+something to protect my rights, but it would cause you more work in the process and could
+raise the question how reliable it is and if it could break your products sometime. It's
+more important for me to satisfy the needs of my customers, i.e. you, than preventing the
+slightest possibility of someone abusing the permissions they get. After all, it's a
+matter of trust on both sides.
+
+___________________________________________________________________________
+
+CHANGELOG
+
+This changelog contains information about the whole mpHUD system, because since version
+v1.1, the Skin Changer script and the mpHUD Target script are the same.
+
+- v1.0  ... First released version
+- v1.1  ... Optional groups for Resize, Alpha, Shiny, Glow, Fullbright, Bling
+            Also optional now for Color, Texture, Map, Hide: affects whole object without
+            Footprint button for foot/paw prints or fog effects
+            Display prim with selected color from Color Picker
+            New font texture
+            Configurable range between HUD and Target
+            Timer and size limit for demos and examples
+            Simplified reading of deprecated Read button notecard format
+            [Autostart] section in .Config notecard (see Read command)
+            Setup changes "Full Bright" to "Fullbright" and "Tab:group|Face:face" to "Tab:group.face"
+- v1.2  ... Optimizations, relative values for alpha/shiny/glow, access control for SkinChanger
+- v1.3  ... Autostart and Read with button support (e.g. preselect) and Feature check
+            Picker button from Read sets given color and updates color picker
+            Added URL and Group buttons
+            Plugin system (link_message) with custom scripts and buttons in HUD and target object
+- v1.4  ... Released on 1.4.14:
+            Dropper button: click on target and update color picker with the color of the selected face
+            Autostart and Read can now select buttons, optimized ButtonConfig
+            Setup script prints UUIDs of contained textures in "Read" notecard format
+            Avination compatibility, resize uses local positioning now
+- v1.5  ... Released on 1.5.15:
+            ButtonMap section in mpHUDConfig defining areas for buttons without actual prims on it
+            Setup script prints linked prim names and descriptions
+            Use "Config" instead of "Options", mpHUDConfig as part of config name instead of .Config
+            Support light and materials (specular and normal maps)
+            SkinChanger only reacts when no one is sitting on target object
+- v1.6  ... Released on 1.6.16:
+            Added prev/next for Pose button
+            Added Sleep command (useful in Read notecards)
+            Support null as texture shortcut
+            Light is also tagged now (LI)
+            SkinChanger got menu with checkboxes
+            UUID obfuscation to protect texture UUIDs
+- v1.7  ... Released on 1.7.17:
+            Fixed resize bug for root prim (overwrote previous commands)
+            Fixed anti-rez/drop issues after owner change, set OwnerID in attach
+            Check llGetObjectPrimCount( llGetKey() ) for anti-rez/drop
+            Added alphamode and bumpiness (tag BP)
+            Allow comma-separated params for Texture, Normal, Specular, Map, Light, signs at beginning
+            Optional texture atlas, shine and color for materials
+            Sculptmap null returns to prim (special handling, depending on base shape)
+            Prim:box/sphere etc. with all prim params
+            Light level and color in any order
+            SetScale takes relative vectors, SetSize takes absolute vectors (only SkinChanger)
+            Use comma for Footprint parameters, colon is deprecated
+            Optional sound type, e.g. "sneaker", used to load sounds
+            Optimized parsing routines and notecard reading
+            Special group "%tab" replaced by TargetGroups
+            Pose|stop to stop animation, Give to give inventory items
+            Plugin for e.g. button or inworld sounds
+            Nicer menu, Demo text supports \n (only SkinChanger)
+            Disable hand cursor in target for click action None/Touch (except SkinChanger)
+- v1.8  ... Released on 1.8.18:
+            Section names case-insensitive, fixed checking for them
+            Use llRegionSayTo for user messages, so rezzed HUDs and Targets also work for non-owners
+            Use prim and face of virtual buttons from ButtonMap, also allow empty region
+            Disable commands that affect whole target object if in a child prim, e.g. linked to HUD
+            Don't set click action in target if in a child prim, e.g. linked to HUD
+            Pass touches to root prim if in a child prim, e.g. linked to HUD
+            Optimized value norming and other calculations for color picker
+            Optimized notecard reading and Setup script, init Scales with 0
+            Allow "root" as group for root prim (or single prim)
+            Check pos.xyz > 54, take size changes always from stored size, so +5% and -5% are equal
+            Added SetSize and SetScale commands (operate on current size)
+            Added ResizeOptions to Config to disable distance and size checks
+            Added Move and SetPos commands for relative and absolute position change of whole object (max. 10m)
+            Added Size command to resize HUD by given percentage
+            Added button sounds in ButtonConfig
+            Replace %tab in description to allow more cases, e.g. for Read button notecard names and plugins
+            Added HUD light toggling in plugin script
+- v1.9  ... Released on 1.9.19:
+            Sticky Tab buttons, use handleMsg instead of execute (v1.8.1)
+            Combine each tab group with each button group, TargetGroups always lowercase, %tab not for Tab anymore (v1.8.2)
+            Move and SetPos can move individual groups
+            Added Anim command to target: llStartAnimation if attached, else llStartObjectAnimation
+- v1.10 ... Released on 1.10.20:
+            Use id in handleMsg instead of OwnerID, fixed RGB/Voice/Dropper only working for owner
+            Optimizations, cleanup, only necessary features, preset Features and XMS only for mpHUD
+            Fixed Resize not working because stretch and resize set were cut off (SkinChanger v1.9.1)
+            Fixed Resize not working if no resize set was given, fixed TouchTime (SkinChanger)
+            Optimized %tab handling, allow Sculpt/Sculptmap/Map for sculptmaps
+            Give with several items in desc and folder in name
+            Each Texture/Normal/Specular param (repeat,offset,rotation,color,gloss,env) is optional
+
+___________________________________________________________________________
+
+LICENSE
+
+Copyright (c) 2013-2020, Shuichi Shinji
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+- Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
+- Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+- Standalone redistribution in parts or as whole is not permitted, it may
+  only be sold as part of your own products, either copy or transfer only,
+  keeping script name and creator intact.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+
