@@ -1,0 +1,1689 @@
+﻿============================================================
+  【秀】  [.Shuggles.] Adboard v1.59  【ツ】
+============================================================
+
+The Adboard v1 offers you the possibility to display an ad that is divided into eight
+parts, so you can have large ad displays without losing image resolution. You can display
+different ads with the same Adboard. Faces can be defined that load the next or previous
+ad or open a menu when clicked on. An automatic timer can be configured. You can also
+select between different transition and fading effects:
+
+- only one part at a time
+- all parts at the same time in parallel
+- all parts at the same time, one after another
+- all parts at the same time, all faded out, then all new ones faded in
+- fading to black, color or transparent, scaling up and down, rotating, glowing, none or random
+
+The Adboard uses the Slideshow and Config Handler scripts. Configuration is done in
+a config notecard containing the word "Slideshow" in its name (example and manual
+included).
+
+The object is full mesh and only 1 prim at any size and it requires a mesh-compatible
+viewer. It's copy/mod/no-trans, so you can modify it, e.g. to change the size.
+I suggest making a copy before you modify it, just in case.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+For the slideshow, you need to either add your pictures to the inventory of the object
+and add their names to the config notecard (it's important that they are in the inventory
+as well) - or their UUIDs (they don't need to be in the inventory then). You can get the
+UUID by right-clicking on the texture and select "Copy Asset UUID". Other textures in the
+inventory are ignored when using a config notecard.
+
+You need to configure which pictures get displayed on which linked prim and which of its
+faces (see below). You can use prim names or link numbers which start with 1 (root prim)
+for objects with more than one prim, or it is 0 for single prim objects. Face numbers
+start with 0. The faces for the pictures range from 0 to 7 (top left to bottom right).
+
+You can set the operation modes (auto timers, direction, touch mode, transitions and
+fading mode) either in the object's description or in the config notecard (see below).
+When using the menu, you can change (almost) everything there as well:
+
++ IMAGE SETS: opens submenu to change the image set, use MAIN to return
++ IMAGES: opens submenu to change the displayed image, use MAIN to return
++ TOUCH MODE: opens submenu to change the touch mode, use MAIN to return
+  ▣ Click: image transition on click (none is when all are deselected)
+  ▣ Slide: image transition on slide left and right
++ TRANSITION: opens submenu to change image transition, use MAIN to return
+  ▣ Forward:  click goes to next image
+  ▣ Reverse:  click goes to previous image
+  ▣ Random:   random or put current image on Main face
+  ▣ One:      change only one image
+  ▣ Parallel: change all at the same time
+  ▣ Serial:   change one after another
+  ▣ Sequential: all are faded out, then all new faded in
+  ▣ Auto:     set auto timer from a list of preconfigured values (see config)
++ FADE MODE: opens submenu to change the fade mode, use MAIN to return
+  ▣ Random:  randomly select one of the following (none is when all are deselected)
+  ▣ Black:   fade to black
+  ▣ Trans:   fade to transparent
+  ▣ Scale:   scale up
+  ▣ Enlarge: scale up around the center
+  ▣ Reduce:  scale down around the center
+  ▣ Rotate:  rotate
+  ▣ Left:    slide left
+  ▣ Right:   slide left
+  ▣ Glow:    glowing effect
+  ▣ Color:   fade to (darker) color (value can only be set in config)
+- Restart: restart image set from the beginning
+- Reload:  reload config and restart
+- Reset:   reset the script
++ ACCESS: opens submenu to change the access level, use MAIN to return
+  ▣ All:   everyone can access the slideshow
+  ▣ Group: only group members and owner can access the slideshow
+  ▣ Owner: only owner can access the slideshow
+- CLOSE: closes the menu, obviously ^^
+
+You should change the level of detail (LOD) to at least 4. To do so, enable the Advanced
+menu in the Advanced Preferences, then open it and go to Show Debug Settings. Browse for
+RenderVolumeLODFactor and set it to 4.
+
+___________________________________________________________________________
+
+SLIDESHOW CONFIG NOTECARD AND OBJECT DESCRIPTION
+
+----------------------------------------------------------------
+# Example
+Menu=0.1|Prev=0.0|Next=0.3
+Auto=47,94,0|Dir=1|Touch=None|Transit=Ser|Fade=Trans|Access=All
+# Define images for textures on face prim.face
+[Textures:0.0]
+Image 1 Part 1|Image 2 Part 1|...
+[Textures:0.1]
+Image 1 Part 2|Image 2 Part 2|...
+[Textures:0.2]
+Image 1 Part 3|Image 2 Part 3|...
+[Textures:0.3]
+Image 1 Part 4|Image 2 Part 4|...
+[Textures:0.4]
+Image 1 Part 5|Image 2 Part 5|...
+[Textures:0.5]
+Image 1 Part 6|Image 2 Part 6|...
+[Textures:0.6]
+Image 1 Part 7|Image 2 Part 7|...
+[Textures:0.7]
+Image 1 Part 8|Image 2 Part 8|...
+----------------------------------------------------------------
+
+- empty lines and comment lines starting with "#", "//" or "--" are ignored
+- Textures sections are enclosed in "[]", they define each face used for displaying images
+  (DEPRECATED: omitting the colon or replacing it by a space, REMOVED: using Face instead of Textures)
+- image names and UUIDs are separated by newline or "|", please omit a trailing "|"
+- prim and face are the linked prim (name or link number, use "root" for root prim) and face number
+- Menu face is used to open the menu to select image sets and options
+- Prev face is a control face, i.e. a "button" for going to the previous image(s)
+- Next face is a control face, i.e. a "button" for going to the next image(s)
+- Auto timers are given in seconds (include 0 to allow switching it off)
+- Dir defines the direction of the images:
+  -  1: next image
+  - -1: previous image
+  -  0: random
+- Touch defines the touch mode:
+  - None:  useful with Auto timer
+  - Click: next image on click
+  - Slide: slide left and right
+- Transit defines the transition mode of the images:
+  - One: only one image
+  - Par: all at the same time
+  - Ser: one after another
+  - Seq: all are faded out, then all new faded in
+- Fade defines the fading mode of the images:
+  - None
+  - Random:  randomly select one of the following
+  - Black:   fade to black
+  - Trans:   fade to transparent
+  - Scale:   scale up
+  - Enlarge: scale up around the center
+  - Reduce:  scale down around the center
+  - Rotate:  rotate
+  - Left:    slide left
+  - Right:   slide right
+  - Glow:    glowing effect
+  - <R,G,B>: fade to (darker) color, RGB each range from 0 to 255 (can't be changed by menu)
+  - Scale, Enlarge, Reduce, Rotate, Left and Right only work well with Transit modes One and Ser
+- Access defines the access level (Owner, Group or All)
+
+The options can also be set in the object's description field (you only need to specify
+those you want to set and all in one line, of course):
+
+----------------------------------------------------------------
+Config:Menu=0.1:Prev=0.0:Next=0.3:Auto=47,94,0:Dir=1:Touch=None:Transit=Ser:Fade=Trans:Access=All
+----------------------------------------------------------------
+
+Please note: When you change the description field, you need to reset the script
+afterwards before the new values are read.
+
+
+============================================================
+  【秀】  [.Shuggles.] Adboard v2.59  【ツ】
+============================================================
+
+The Adboard v2 offers you the possibility to display an ad that is divided into eight
+parts, so you can have large ad displays without losing image resolution. You can display
+different ads with the same Adboard. Faces can be defined that load the next or previous
+ad or open a menu when clicked on. An automatic timer can be configured. You can also
+select between different transition and fading effects:
+
+- only one part at a time
+- all parts at the same time in parallel
+- all parts at the same time, one after another
+- all parts at the same time, all faded out, then all new ones faded in
+- fading to black, color or transparent, scaling up and down, rotating, glowing, none or random
+
+The Adboard uses the Slideshow and Config Handler scripts. Configuration is done in
+a config notecard containing the word "Slideshow" in its name (example and manual
+included).
+
+The object is full mesh and only 2 prims at the sold size size and it requires a mesh-
+compatible viewer. It's copy/mod/no-trans, so you can modify it, e.g. to change the size.
+You can also add your own logo at the top and replace the navigation textures if you wish.
+I suggest making a copy before you modify it, just in case.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+For the slideshow, you need to either add your pictures to the inventory of the object
+and add their names to the config notecard (it's important that they are in the inventory
+as well) - or their UUIDs (they don't need to be in the inventory then). You can get the
+UUID by right-clicking on the texture and select "Copy Asset UUID". Other textures in the
+inventory are ignored when using a config notecard.
+
+You need to configure which pictures get displayed on which linked prim and which of its
+faces (see below). You can use prim names or link numbers which start with 1 (root prim)
+for objects with more than one prim, or it is 0 for single prim objects. Face numbers
+start with 0. The faces for the pictures range from 0 to 7 (top left to bottom right).
+
+You can set the operation modes (auto timers, direction, touch mode, transitions and
+fading mode) either in the object's description or in the config notecard (see below).
+When using the menu, you can change (almost) everything there as well:
+
++ IMAGE SETS: opens submenu to change the image set, use MAIN to return
++ IMAGES: opens submenu to change the displayed image, use MAIN to return
++ TOUCH MODE: opens submenu to change the touch mode, use MAIN to return
+  ▣ Click: image transition on click (none is when all are deselected)
+  ▣ Slide: image transition on slide left and right
++ TRANSITION: opens submenu to change image transition, use MAIN to return
+  ▣ Forward:  click goes to next image
+  ▣ Reverse:  click goes to previous image
+  ▣ Random:   random or put current image on Main face
+  ▣ One:      change only one image
+  ▣ Parallel: change all at the same time
+  ▣ Serial:   change one after another
+  ▣ Sequential: all are faded out, then all new faded in
+  ▣ Auto:     set auto timer from a list of preconfigured values (see config)
++ FADE MODE: opens submenu to change the fade mode, use MAIN to return
+  ▣ Random:  randomly select one of the following (none is when all are deselected)
+  ▣ Black:   fade to black
+  ▣ Trans:   fade to transparent
+  ▣ Scale:   scale up
+  ▣ Enlarge: scale up around the center
+  ▣ Reduce:  scale down around the center
+  ▣ Rotate:  rotate
+  ▣ Left:    slide left
+  ▣ Right:   slide left
+  ▣ Glow:    glowing effect
+  ▣ Color:   fade to (darker) color (value can only be set in config)
+- Restart: restart image set from the beginning
+- Reload:  reload config and restart
+- Reset:   reset the script
++ ACCESS: opens submenu to change the access level, use MAIN to return
+  ▣ All:   everyone can access the slideshow
+  ▣ Group: only group members and owner can access the slideshow
+  ▣ Owner: only owner can access the slideshow
+- CLOSE: closes the menu, obviously ^^
+
+You should change the level of detail (LOD) to at least 4. To do so, enable the Advanced
+menu in the Advanced Preferences, then open it and go to Show Debug Settings. Browse for
+RenderVolumeLODFactor and set it to 4.
+
+___________________________________________________________________________
+
+SLIDESHOW CONFIG NOTECARD AND OBJECT DESCRIPTION
+
+----------------------------------------------------------------
+# Example
+Menu=1.0|Prev=2.0|Next=2.1
+Auto=47,94,0|Dir=1|Touch=None|Transit=Seq|Fade=Black|Access=All
+# Define images for textures on face prim.face
+[Textures:1.0]
+Image 1 Part 1|Image 2 Part 1|...
+[Textures:1.1]
+Image 1 Part 2|Image 2 Part 2|...
+[Textures:1.2]
+Image 1 Part 3|Image 2 Part 3|...
+[Textures:1.3]
+Image 1 Part 4|Image 2 Part 4|...
+[Textures:1.4]
+Image 1 Part 5|Image 2 Part 5|...
+[Textures:1.5]
+Image 1 Part 6|Image 2 Part 6|...
+[Textures:1.6]
+Image 1 Part 7|Image 2 Part 7|...
+[Textures:1.7]
+Image 1 Part 8|Image 2 Part 8|...
+----------------------------------------------------------------
+
+- empty lines and comment lines starting with "#", "//" or "--" are ignored
+- Textures sections are enclosed in "[]", they define each face used for displaying images
+  (DEPRECATED: omitting the colon or replacing it by a space, REMOVED: using Face instead of Textures)
+- image names and UUIDs are separated by newline or "|", please omit a trailing "|"
+- prim and face are the linked prim (name or link number, use "root" for root prim) and face number
+- Menu face is used to open the menu to select image sets and options
+- Prev face is a control face, i.e. a "button" for going to the previous image(s)
+- Next face is a control face, i.e. a "button" for going to the next image(s)
+- Auto timers are given in seconds (include 0 to allow switching it off)
+- Dir defines the direction of the images:
+  -  1: next image
+  - -1: previous image
+  -  0: random
+- Touch defines the touch mode:
+  - None:  useful with Auto timer
+  - Click: next image on click
+  - Slide: slide left and right
+- Transit defines the transition mode of the images:
+  - One: only one image
+  - Par: all at the same time
+  - Ser: one after another
+  - Seq: all are faded out, then all new faded in
+- Fade defines the fading mode of the images:
+  - None
+  - Random:  randomly select one of the following
+  - Black:   fade to black
+  - Trans:   fade to transparent
+  - Scale:   scale up
+  - Enlarge: scale up around the center
+  - Reduce:  scale down around the center
+  - Rotate:  rotate
+  - Left:    slide left
+  - Right:   slide right
+  - Glow:    glowing effect
+  - <R,G,B>: fade to (darker) color, RGB each range from 0 to 255 (can't be changed by menu)
+  - Scale, Enlarge, Reduce, Rotate, Left and Right only work well with Transit modes One and Ser
+- Access defines the access level (Owner, Group or All)
+
+The options can also be set in the object's description field (you only need to specify
+those you want to set and all in one line, of course):
+
+----------------------------------------------------------------
+Config:Menu=1.0:Prev=2.0:Next=2.1:Auto=47,94,0:Dir=1:Touch=None:Transit=Ser:Fade=Trans:Access=All
+----------------------------------------------------------------
+
+Please note: When you change the description field, you need to reset the script
+afterwards before the new values are read.
+
+
+============================================================
+  【秀】  [.Shuggles.] Photo Wall v1.59  【ツ】
+============================================================
+
+The Photo Wall offers you the possibility to display 16 photos or one photo divided into
+16 parts (or anything in between), so you can show a lot of images or have large displays
+without losing image resolution. Faces can be defined that load the next or previous
+image(s) or open a menu when clicked on. An automatic timer can be configured. You can
+also select between different transition and fading effects:
+
+- only one image at a time
+- all images at the same time in parallel
+- all images at the same time, one after another
+- all images at the same time, all faded out, then all new ones faded in
+- fading to black, color or transparent, scaling up and down, rotating, glowing, none or random
+
+The Photo Wall uses the Slideshow and Config Handler scripts. Configuration is done in
+a config notecard containing the word "Slideshow" in its name (example and manual
+included).
+
+The object is full mesh and only 2 prims at any size and it requires a mesh-compatible
+viewer. It's copy/mod/no-trans, so you can modify it, e.g. to change the size.
+I suggest making a copy before you modify it, just in case.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+For the slideshow, you need to either add your pictures to the inventory of the object
+and add their names to the config notecard (it's important that they are in the inventory
+as well) - or their UUIDs (they don't need to be in the inventory then). You can get the
+UUID by right-clicking on the texture and select "Copy Asset UUID". Other textures in the
+inventory are ignored when using a config notecard.
+
+You need to configure which pictures get displayed on which linked prim and which of its
+faces (see below). You can use prim names or link numbers which start with 1 (root prim)
+for objects with more than one prim, or it is 0 for single prim objects. Face numbers
+start with 0. The faces for the pictures range from 0 to 7 (top left to bottom right).
+
+You can set the operation modes (auto timers, direction, touch mode, transitions and
+fading mode) either in the object's description or in the config notecard (see below).
+When using the menu, you can change (almost) everything there as well:
+
++ IMAGE SETS: opens submenu to change the image set, use MAIN to return
++ IMAGES: opens submenu to change the displayed image, use MAIN to return
++ TOUCH MODE: opens submenu to change the touch mode, use MAIN to return
+  ▣ Click: image transition on click (none is when all are deselected)
+  ▣ Slide: image transition on slide left and right
++ TRANSITION: opens submenu to change image transition, use MAIN to return
+  ▣ Forward:  click goes to next image
+  ▣ Reverse:  click goes to previous image
+  ▣ Random:   random or put current image on Main face
+  ▣ One:      change only one image
+  ▣ Parallel: change all at the same time
+  ▣ Serial:   change one after another
+  ▣ Sequential: all are faded out, then all new faded in
+  ▣ Auto:     set auto timer from a list of preconfigured values (see config)
++ FADE MODE: opens submenu to change the fade mode, use MAIN to return
+  ▣ Random:  randomly select one of the following (none is when all are deselected)
+  ▣ Black:   fade to black
+  ▣ Trans:   fade to transparent
+  ▣ Scale:   scale up
+  ▣ Enlarge: scale up around the center
+  ▣ Reduce:  scale down around the center
+  ▣ Rotate:  rotate
+  ▣ Left:    slide left
+  ▣ Right:   slide left
+  ▣ Glow:    glowing effect
+  ▣ Color:   fade to (darker) color (value can only be set in config)
+- Restart: restart image set from the beginning
+- Reload:  reload config and restart
+- Reset:   reset the script
++ ACCESS: opens submenu to change the access level, use MAIN to return
+  ▣ All:   everyone can access the slideshow
+  ▣ Group: only group members and owner can access the slideshow
+  ▣ Owner: only owner can access the slideshow
+- CLOSE: closes the menu, obviously ^^
+
+You should change the level of detail (LOD) to at least 4. To do so, enable the Advanced
+menu in the Advanced Preferences, then open it and go to Show Debug Settings. Browse for
+RenderVolumeLODFactor and set it to 4.
+
+___________________________________________________________________________
+
+SLIDESHOW CONFIG NOTECARD AND OBJECT DESCRIPTION
+
+----------------------------------------------------------------
+# Example
+Menu=1.0|Prev=2.0|Next=2.3
+Auto=10,20,0|Dir=1|Touch=None|Transit=One|Fade=Black|Access=All
+# Define images for textures on face prim.face
+# Example for 16 images, 2 per face
+[Textures:2.0]
+Image 1|Image 2|...
+[Textures:2.1]
+Image 3|Image 4|...
+[Textures:2.2]
+Image 5|Image 6|...
+[Textures:2.3]
+Image 7|Image 8|...
+[Textures:2.4]
+Image 9|Image 10|...
+[Textures:2.5]
+Image 11|Image 12|...
+[Textures:2.6]
+Image 13|Image 14|...
+[Textures:2.7]
+Image 15|Image 16|...
+# Example for 2 images divided into 8 parts each
+[Textures:3.0]
+Image 1 Part 1|Image 2 Part 1|...
+[Textures:3.1]
+Image 1 Part 2|Image 2 Part 2|...
+[Textures:3.2]
+Image 1 Part 3|Image 2 Part 3|...
+[Textures:3.3]
+Image 1 Part 4|Image 2 Part 4|...
+[Textures:3.4]
+Image 1 Part 5|Image 2 Part 5|...
+[Textures:3.5]
+Image 1 Part 6|Image 2 Part 6|...
+[Textures:3.6]
+Image 1 Part 7|Image 2 Part 7|...
+[Textures:3.7]
+Image 1 Part 8|Image 2 Part 8|...
+----------------------------------------------------------------
+
+- empty lines and comment lines starting with "#", "//" or "--" are ignored
+- Textures sections are enclosed in "[]", they define each face used for displaying images
+  (DEPRECATED: omitting the colon or replacing it by a space, REMOVED: using Face instead of Textures)
+- image names and UUIDs are separated by newline or "|", please omit a trailing "|"
+- prim and face are the linked prim (name or link number, use "root" for root prim) and face number
+- Menu face is used to open the menu to select image sets and options
+- Prev face is a control face, i.e. a "button" for going to the previous image(s)
+- Next face is a control face, i.e. a "button" for going to the next image(s)
+- Auto timers are given in seconds (include 0 to allow switching it off)
+- Dir defines the direction of the images:
+  -  1: next image
+  - -1: previous image
+  -  0: random
+- Touch defines the touch mode:
+  - None:  useful with Auto timer
+  - Click: next image on click
+  - Slide: slide left and right
+- Transit defines the transition mode of the images:
+  - One: only one image
+  - Par: all at the same time
+  - Ser: one after another
+  - Seq: all are faded out, then all new faded in
+- Fade defines the fading mode of the images:
+  - None
+  - Random:  randomly select one of the following
+  - Black:   fade to black
+  - Trans:   fade to transparent
+  - Scale:   scale up
+  - Enlarge: scale up around the center
+  - Reduce:  scale down around the center
+  - Rotate:  rotate
+  - Left:    slide left
+  - Right:   slide right
+  - Glow:    glowing effect
+  - <R,G,B>: fade to (darker) color, RGB each range from 0 to 255 (can't be changed by menu)
+  - Scale, Enlarge, Reduce, Rotate, Left and Right only work well with Transit modes One and Ser
+- Access defines the access level (Owner, Group or All)
+
+The options can also be set in the object's description field (you only need to specify
+those you want to set and all in one line, of course):
+
+----------------------------------------------------------------
+Config:Menu=1.0:Prev=2.0:Next=2.3:Auto=10,20,0:Dir=1:Touch=None:Transit=One:Fade=Black:Access=All
+----------------------------------------------------------------
+
+Please note: When you change the description field, you need to reset the script
+afterwards before the new values are read.
+
+
+============================================================
+  【秀】  [.Shuggles.] Slideshow Frames v1.59  【ツ】
+============================================================
+
+You can fill the Slideshow Frames with 7 images of your choice, e.g. pictures of your
+dearest friends, nice photographs, your pets or anything else you can imagine. A menu
+allows you to change frame textures, color, shininess, fullbright, glow effect and
+lighting in different colors. And you can add your own frame textures; a supporting full
+perm ambient occlusion map is included in the object.
+
+Many parameters can be configured in a config notecard; a description and an example are
+included. If no config notecard can be found, textures have to start with "[]" and are
+read from the object's inventory, colors and lights use a set of 32 predefined colors:
+
+- white, light gray, gray, dark gray, black
+- red, green, blue, yellow, magenta, cyan, orange, pink, purple (normal, bright, pastel)
+
+Texture names are automatically shortened to 24 characters. They should be no longer than
+~14 characters so they can be displayed completely in the menu. If linked prims other
+than the one the script is in shall be textured, the textures must be copy and transfer
+due to an SL limitation.
+
+This bundle includes the Slideshow and Config Handler scripts. They allow you to have a
+configurable slideshow of your pictures. They can be changed by clicking or sliding them
+to the left and the right for getting the next or the previous image. By clicking on the
+picture frames, a second menu allows you to change the slideshow parameters that were
+defined in a slideshow config notecard. An automatic timer can be set as well. You can
+also select between different transition and fading effects:
+
+- only one image at a time
+- all images at the same time in parallel
+- all images at the same time, one after another
+- all images at the same time, all faded out, then all new ones faded in
+- fading to black, color or transparent, scaling up and down, rotating, glowing, none or random
+
+The object is full mesh and only 1 prim at the sold size and it requires a mesh-
+compatible viewer. It's copy/mod/no-trans, so you can modify it, e.g. to change the size.
+Included are prescaled 1:1, 4:3 and 16:9 formats, but you can also resize them, although
+not individually! Please be aware that resizing also changes the width of the frames on
+the scaled axis. I suggest making a copy before you modify them, just in case.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL see below
+
+
+============================================================
+  【秀】  [.Shuggles.] Slideshow Frames v2.59  【ツ】
+============================================================
+
+You can fill the Slideshow Frames with 7 images of your choice, e.g. pictures of your
+dearest friends, nice photographs, your pets or anything else you can imagine. A menu
+allows you to change frame textures, color, shininess, fullbright, glow effect and
+lighting in different colors. And you can add your own frame textures; a supporting full
+perm ambient occlusion map is included in the object.
+
+Many parameters can be configured in a config notecard; a description and an example are
+included. If no config notecard can be found, textures have to start with "[]" and are
+read from the object's inventory, colors and lights use a set of 32 predefined colors:
+
+- white, light gray, gray, dark gray, black
+- red, green, blue, yellow, magenta, cyan, orange, pink, purple (normal, bright, pastel)
+
+Texture names are automatically shortened to 24 characters. They should be no longer than
+~14 characters so they can be displayed completely in the menu. If linked prims other
+than the one the script is in shall be textured, the textures must be copy and transfer
+due to an SL limitation.
+
+This bundle includes the Slideshow and Config Handler scripts. They allow you to have a
+configurable slideshow of your pictures. They can be changed by clicking or sliding them
+to the left and the right for getting the next or the previous image. By clicking on the
+picture frames, a second menu allows you to change the slideshow parameters that were
+defined in a slideshow config notecard. An automatic timer can be set as well. You can
+also select between different transition and fading effects:
+
+- only one image at a time
+- all images at the same time in parallel
+- all images at the same time, one after another
+- all images at the same time, all faded out, then all new ones faded in
+- fading to black, color or transparent, scaling up and down, rotating, glowing, none or random
+
+The object is full mesh and only 1 prim at the sold size and it requires a mesh-
+compatible viewer. It's copy/mod/no-trans, so you can modify it, e.g. to change the size.
+Included are prescaled 1:1, 4:3 and 16:9 formats, but you can also resize them, although
+not individually! Please be aware that resizing also changes the width of the frames on
+the scaled axis. I suggest making a copy before you modify them, just in case.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+Click on the pictures to toggle full brightness individually.
+Click at least 1 second to get a menu:
+
+▣ Object: applies parameters to whole object
+▣ Prim: applies parameters to touched prim only
+▣ Face: applies parameters to touched face only
+▣ Fullbright: toggles full brightness (frames or pics, depending on what you clicked)
+▣ Shiny: toggles between shiny modes none/low/medium/high
+▣ Glow: toggles glow effect
++ TEXTURE: opens submenu to change the texture, use MAIN to return
++ COLOR: opens submenu to change the color, use MAIN to return
++ LIGHT: opens submenu to change light color and toggle light, use MAIN to return
++ SLIDESHOW: opens the Slideshow menu (see below)
++ OPTIONS: opens submenu to change access levels for menus, use MAIN to return
+  ▣ All: everyone can access the menu
+  ▣ Group: only group members and owner can access the menu
+  ▣ Owner: only owner can access the menu
+  ▣ AutoGlow: glow effect is toggled together with light
+  ▣ AutoBright: full brightness is toggled together with light
+  ▣ AutoColor: object/prim/face color is set to light color if light is enabled
+  - Reset: reset the script
+- CLOSE: closes the menu, obviously ^^
+
+Please note that all menu options affect the whole object, the touched prim or the
+touched face, depending on what you selected. Exceptions are textures which are only
+applied to the picture frames and fullbright which is either applied to the frames or
+the picture(s), depending on the selection in the menu and the touched part on the object.
+To change the pictures, just drag the texture you want to set onto the appropriate face.
+
+To get the slideshow menu, either use the above SLIDESHOW button or click on the frames:
+
++ IMAGE SETS: opens submenu to change the image set, use MAIN to return
++ IMAGES: opens submenu to change the displayed image, use MAIN to return
++ TOUCH MODE: opens submenu to change the touch mode, use MAIN to return
+  ▣ Click: image transition on click (none is when all are deselected)
+  ▣ Slide: image transition on slide left and right
++ TRANSITION: opens submenu to change image transition, use MAIN to return
+  ▣ Forward:  click goes to next image
+  ▣ Reverse:  click goes to previous image
+  ▣ Random:   random or put current image on Main face
+  ▣ One:      change only one image
+  ▣ Parallel: change all at the same time
+  ▣ Serial:   change one after another
+  ▣ Sequential: all are faded out, then all new faded in
+  ▣ Auto:     set auto timer from a list of preconfigured values (see config)
++ FADE MODE: opens submenu to change the fade mode, use MAIN to return
+  ▣ Random:  randomly select one of the following (none is when all are deselected)
+  ▣ Black:   fade to black
+  ▣ Trans:   fade to transparent
+  ▣ Scale:   scale up
+  ▣ Enlarge: scale up around the center
+  ▣ Reduce:  scale down around the center
+  ▣ Rotate:  rotate
+  ▣ Left:    slide left
+  ▣ Right:   slide right
+  ▣ Glow:    glowing effect
+  ▣ Color:   fade to (darker) color (value can only be set in config)
+- Restart: restart image set from the beginning
+- Reload:  reload config and restart
+- Reset:   reset the script
++ ACCESS: opens submenu to change the access level, use MAIN to return
+  ▣ All:   everyone can access the slideshow
+  ▣ Group: only group members and owner can access the slideshow
+  ▣ Owner: only owner can access the slideshow
+- CLOSE: closes the menu, obviously ^^
+
+You should change the level of detail (LOD) to at least 4. To do so, enable the Advanced
+menu in the Advanced Preferences, then open it and go to Show Debug Settings. Browse for
+RenderVolumeLODFactor and set it to 4.
+
+For creators:
+
+If you want to add your own textures, you can save the included ambient occlusion map
+(texture "[] Ambient" in the object) to your computer and multiply the texture you want
+to add to it, then upload the resulting picture and just add it to the object. Textures
+have to start with "[]" if no config notecard is used. You may also sell self-created
+texture packs if you want, I just ask you to add a reference to the original product and
+creator.
+
+___________________________________________________________________________
+
+OBJECT CONFIG NOTECARD
+
+Object textures, colors and light colors can be configured in a notecard that contains
+the string "mpMenuConfig" somewhere in its name. If none can be found, textures have to
+start with "[]" and are read from the object's inventory, colors and lights use a set of
+32 predefined colors.
+
+----------------------------------------------------------------
+# Example mpMenuConfig for Picture Frames, Shelves and Stars
+
+# Access level (Access or AccessLevel): 0/All, 1/Group, 2/Owner
+AccessLevel=All
+# Textures must start with this prefix - leave empty for none, default is []
+TexturePrefix=
+
+[Textures]
+Pages=Example Textures
+Default=default|Plywood=plywood|Blank=blank|Transparent=transparent|Media=media
+
+[Colors]
+Pages=Shades Of Gray|Normal Colors|Bright Colors|Pastel Colors
+Transparent=50|White=<255,255,255>|Light Gray=<192,192,192>|Gray=<128,128,128>|Dark Gray=<64,64,64>|Black=<10,10,10>|-=|-=|-=
+Red=<128,0,0>|Green=<0,128,0>|Blue=<0,0,128>|Yellow=<200,200,0>|Magenta=<200,0,200>|Cyan=<0,200,200>|Orange=<200,100,0>|Pink=<200,80,125>|Purple=<100,40,140>
+Br. Red=<255,0,0>|Br. Green=<0,255,0>|Br. Blue=<0,0,255>|Br. Yellow=<255,255,0>|Br. Magenta=<255,0,255>|Br. Cyan=<0,255,255>|Br. Orange=<255,128,0>|Br. Pink=<255,0,128>|Br. Purple=<200,0,200>
+Pa. Red=<255,128,128>|Pa. Green=<128,255,128>|Pa. Blue=<128,128,255>|Pa. Yellow=<255,255,128>|Pa. Magenta=<255,128,255>|Pa. Cyan=<128,255,255>|Pa. Orange=<255,200,128>|Pa. Pink=<255,128,200>|Pa. Purple=<200,128,200>
+
+[Lights]
+Pages=Shades Of Gray|Normal Colors|Bright Colors|Pastel Colors
+On/off=100|White=<255,255,255>,100|Light Gray=<192,192,192>,80|Gray=<128,128,128>,50|Dark Gray=<64,64,64>,40|Black=10,<10,10,10>|-=|-=|-=
+Red=<128,0,0>|Green=<0,128,0>|Blue=<0,0,128>|Yellow=<200,200,0>|Magenta=<200,0,200>|Cyan=<0,200,200>|Orange=<200,100,0>|Pink=<200,80,125>|Purple=<100,40,140>
+Br. Red=<255,0,0>|Br. Green=<0,255,0>|Br. Blue=<0,0,255>|Br. Yellow=<255,255,0>|Br. Magenta=<255,0,255>|Br. Cyan=<0,255,255>|Br. Orange=<255,128,0>|Br. Pink=<255,0,128>|Br. Purple=<200,0,200>
+Pa. Red=<255,128,128>|Pa. Green=<128,255,128>|Pa. Blue=<128,128,255>|Pa. Yellow=<255,255,128>|Pa. Magenta=<255,128,255>|Pa. Cyan=<128,255,255>|Pa. Orange=<255,200,128>|Pa. Pink=<255,128,200>|Pa. Purple=<200,128,200>
+----------------------------------------------------------------
+
+- empty lines and comment lines starting with "#", "//" or "--" are ignored
+- sections are enclosed in "[]"; possible sections: Textures, Colors, Lights
+- parameters are given as "name=value" pairs, separated by newline or "|"
+- texture values can be texture names (must be in inventory then) or UUIDs
+- there are some symbolic texture names to set certain default textures:
+  default, plywood, blank, transparent, media, null
+- color and light values are in the form <R,G,B>,L or L,<R,G,B>
+  - R, G and B values are the respective color channels and range from 0 to 255
+  - L is the transparency or light level and toggled between L (0-100%) and opaque/off
+  - color or level can be omitted (also the separator then)
+- if a "Pages=page1|page2|..." option is present; "page1" etc. are used in the menu as
+  heading for a group of 9 value pairs ("Pages" is case-insensitve)
+- to fill pages with empty buttons, you can add "-=" or "-=-" as often as needed
+
+___________________________________________________________________________
+
+SLIDESHOW CONFIG NOTECARD AND OBJECT DESCRIPTION
+
+The slideshow is configured in a config notecard containing the word "Slideshow" in its
+name. You need to either add your pictures to the inventory of the object and add the
+names to the slideshow config notecard (it's important that they are in the inventory as
+well) - or their UUIDs (they don't need to be in the inventory then). You can get the
+UUID by right-clicking on the texture and select "Copy Asset UUID". Other textures in the
+inventory are ignored.
+
+You need to configure which pictures get displayed on which linked prim and which of its
+faces (see below). You can use prim names or link numbers which start with 1 (root prim)
+for objects with more than one prim, or it is 0 for single prim objects. Face numbers
+start with 0. The faces for the pictures range from 1 to 7 (top left to bottom right).
+
+You can set the operation modes (auto timers, direction, touch mode, transitions and
+fading mode) either in the object's description or in the config notecard (see below).
+When using the menu, you can change (almost) everything there as well.
+
+----------------------------------------------------------------
+# Example
+Menu=root.0|Auto=20,40,60,0|Dir=1|Touch=Slide|Transit=Ser|Fade=Black|Access=All
+[Textures:prim.face]
+Image 1
+Image 2
+UUID 1
+...
+[Textures:prim.face]
+Image 3
+UUID 2
+...
+----------------------------------------------------------------
+
+- empty lines and comment lines starting with "#", "//" or "--" are ignored
+- Textures sections are enclosed in "[]", they define each face used for displaying images
+  (DEPRECATED: omitting the colon or replacing it by a space, REMOVED: using Face instead of Textures)
+- image names and UUIDs are separated by newline or "|", please omit a trailing "|"
+- prim and face are the linked prim (name or link number, use "root" for root prim) and face number
+- Menu face is used to open the menu to select image sets and options
+- Auto timers are given in seconds (include 0 to allow switching it off)
+- Dir defines the direction of the images:
+  -  1: next image
+  - -1: previous image
+  -  0: random
+- Touch defines the touch mode:
+  - None:  useful with Auto timer
+  - Click: next image on click
+  - Slide: slide left and right
+- Transit defines the transition mode of the images:
+  - One: only one image
+  - Par: all at the same time
+  - Ser: one after another
+  - Seq: all are faded out, then all new faded in
+- Fade defines the fading mode of the images:
+  - None
+  - Random:  randomly select one of the following
+  - Black:   fade to black
+  - Trans:   fade to transparent
+  - Scale:   scale up
+  - Enlarge: scale up around the center
+  - Reduce:  scale down around the center
+  - Rotate:  rotate
+  - Left:    slide left
+  - Right:   slide right
+  - Glow:    glowing effect
+  - <R,G,B>: fade to (darker) color, RGB each range from 0 to 255 (can't be changed by menu)
+  - Scale, Enlarge, Reduce, Rotate, Left and Right only work well with Transit modes One and Ser
+- Access defines the access level (Owner, Group or All)
+
+The options can also be set in the object's description field (you only need to specify
+those you want to set and all in one line, of course):
+
+----------------------------------------------------------------
+Config:Menu=root.0:Auto=20,40,60,0:Dir=1:Touch=Slide:Transit=Ser:Fade=Black:Access=All
+----------------------------------------------------------------
+
+Please note: When you change the description field, you need to reset the script
+afterwards before the new values are read.
+
+
+============================================================
+  【秀】  [.Shuggles.] Picture Frames v1.59  【ツ】
+============================================================
+
+You can fill the Picture Frames with 7 images of your choice, e.g. pictures of your
+dearest friends, nice photographs, your pets or anything else you can imagine. A menu
+allows you to change frame textures, color, shininess, fullbright, glow effect and
+lighting in different colors. And you can add your own frame textures; a supporting full
+perm ambient occlusion map is included in the object.
+
+Many parameters can be configured in a config notecard; a description and an example are
+included. If no config notecard can be found, textures have to start with "[]" and are
+read from the object's inventory, colors and lights use a set of 32 predefined colors:
+
+- white, light gray, gray, dark gray, black
+- red, green, blue, yellow, magenta, cyan, orange, pink, purple (normal, bright, pastel)
+
+Texture names are automatically shortened to 24 characters. They should be no longer than
+~14 characters so they can be displayed completely in the menu. If linked prims other
+than the one the script is in shall be textured, the textures must be copy and transfer
+due to an SL limitation.
+
+The object is full mesh and only 1 prim at the sold size and it requires a mesh-
+compatible viewer. It's copy/mod/no-trans, so you can modify it, e.g. to change the size.
+Included are prescaled 1:1, 4:3 and 16:9 formats, but you can also resize them, although
+not individually! Please be aware that resizing also changes the width of the frames on
+the scaled axis. I suggest making a copy before you modify them, just in case.
+
+When 2 of the frame sets are linked together, they still are only 1 prim - for 14
+pictures! Especially useful if you need to take care of your prims. Since the script and
+all textures need to be removed from the child prim then and that might not be so easy to
+do for everyone, the 14 picture version for the 1:1 format is already included. You may
+resize each set individually (also to get the 4:3 and 16:9 formats), but doing so might
+get the linked object above 1 prim, depending on the size.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL see below
+
+
+============================================================
+  【秀】  [.Shuggles.] Picture Frames v2.59  【ツ】
+============================================================
+
+You can fill the Picture Frames with 7 images of your choice, e.g. pictures of your
+dearest friends, nice photographs, your pets or anything else you can imagine. A menu
+allows you to change frame textures, color, shininess, fullbright, glow effect and
+lighting in different colors. And you can add your own frame textures; a supporting full
+perm ambient occlusion map is included in the object.
+
+Many parameters can be configured in a config notecard; a description and an example are
+included. If no config notecard can be found, textures have to start with "[]" and are
+read from the object's inventory, colors and lights use a set of 32 predefined colors:
+
+- white, light gray, gray, dark gray, black
+- red, green, blue, yellow, magenta, cyan, orange, pink, purple (normal, bright, pastel)
+
+Texture names are automatically shortened to 24 characters. They should be no longer than
+~14 characters so they can be displayed completely in the menu. If linked prims other
+than the one the script is in shall be textured, the textures must be copy and transfer
+due to an SL limitation.
+
+The object is full mesh and only 1 prim at the sold size and it requires a mesh-
+compatible viewer. It's copy/mod/no-trans, so you can modify it, e.g. to change the size.
+Included are prescaled 1:1, 4:3 and 16:9 formats, but you can also resize them, although
+not individually! Please be aware that resizing also changes the width of the frames on
+the scaled axis. I suggest making a copy before you modify them, just in case.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+Click on the pictures to toggle full brightness individually.
+Click at least 1 second to get a menu:
+
+▣ Object: applies parameters to whole object
+▣ Prim: applies parameters to touched prim only
+▣ Face: applies parameters to touched face only
+▣ Fullbright: toggles full brightness (frames or pics, depending on what you clicked)
+▣ Shiny: toggles between shiny modes none/low/medium/high
+▣ Glow: toggles glow effect
++ TEXTURE: opens submenu to change the texture, use MAIN to return
++ COLOR: opens submenu to change the color, use MAIN to return
++ LIGHT: opens submenu to change light color and toggle light, use MAIN to return
++ SLIDESHOW: only used in Slideshow Frames to open the Slideshow menu
++ OPTIONS: opens submenu to change access levels for menus, use MAIN to return
+  ▣ All: everyone can access the menu
+  ▣ Group: only group members and owner can access the menu
+  ▣ Owner: only owner can access the menu
+  ▣ AutoGlow: glow effect is toggled together with light
+  ▣ AutoBright: full brightness is toggled together with light
+  ▣ AutoColor: object/prim/face color is set to light color if light is enabled
+  - Reset: reset the script
+- CLOSE: closes the menu, obviously ^^
+
+Please note that all menu options affect the whole object, the touched prim or the
+touched face, depending on what you selected. Exceptions are textures which are only
+applied to the picture frames and fullbright which is either applied to the frames or
+the picture(s), depending on the selection in the menu and the touched part on the object.
+To change the pictures, just drag the texture you want to set onto the appropriate face.
+
+You should change the level of detail (LOD) to at least 4. To do so, enable the Advanced
+menu in the Advanced Preferences, then open it and go to Show Debug Settings. Browse for
+RenderVolumeLODFactor and set it to 4.
+
+For creators:
+
+If you want to add your own textures, you can save the included ambient occlusion map
+(texture "[] Ambient" in the object) to your computer and multiply the texture you want
+to add to it, then upload the resulting picture and just add it to the object. Textures
+have to start with "[]" if no config notecard is used. You may also sell self-created
+texture packs if you want, I just ask you to add a reference to the original product and
+creator.
+
+___________________________________________________________________________
+
+OBJECT CONFIG NOTECARD
+
+Object textures, colors and light colors can be configured in a notecard that contains
+the string "mpMenuConfig" somewhere in its name. If none can be found, textures have to
+start with "[]" and are read from the object's inventory, colors and lights use a set of
+32 predefined colors.
+
+----------------------------------------------------------------
+# Example mpMenuConfig for Picture Frames, Shelves and Stars
+
+# Access level (Access or AccessLevel): 0/All, 1/Group, 2/Owner
+AccessLevel=All
+# Textures must start with this prefix - leave empty for none, default is []
+TexturePrefix=
+
+[Textures]
+Pages=Example Textures
+Default=default|Plywood=plywood|Blank=blank|Transparent=transparent|Media=media
+
+[Colors]
+Pages=Shades Of Gray|Normal Colors|Bright Colors|Pastel Colors
+Transparent=50|White=<255,255,255>|Light Gray=<192,192,192>|Gray=<128,128,128>|Dark Gray=<64,64,64>|Black=<10,10,10>|-=|-=|-=
+Red=<128,0,0>|Green=<0,128,0>|Blue=<0,0,128>|Yellow=<200,200,0>|Magenta=<200,0,200>|Cyan=<0,200,200>|Orange=<200,100,0>|Pink=<200,80,125>|Purple=<100,40,140>
+Br. Red=<255,0,0>|Br. Green=<0,255,0>|Br. Blue=<0,0,255>|Br. Yellow=<255,255,0>|Br. Magenta=<255,0,255>|Br. Cyan=<0,255,255>|Br. Orange=<255,128,0>|Br. Pink=<255,0,128>|Br. Purple=<200,0,200>
+Pa. Red=<255,128,128>|Pa. Green=<128,255,128>|Pa. Blue=<128,128,255>|Pa. Yellow=<255,255,128>|Pa. Magenta=<255,128,255>|Pa. Cyan=<128,255,255>|Pa. Orange=<255,200,128>|Pa. Pink=<255,128,200>|Pa. Purple=<200,128,200>
+
+[Lights]
+Pages=Shades Of Gray|Normal Colors|Bright Colors|Pastel Colors
+On/off=100|White=<255,255,255>,100|Light Gray=<192,192,192>,80|Gray=<128,128,128>,50|Dark Gray=<64,64,64>,40|Black=10,<10,10,10>|-=|-=|-=
+Red=<128,0,0>|Green=<0,128,0>|Blue=<0,0,128>|Yellow=<200,200,0>|Magenta=<200,0,200>|Cyan=<0,200,200>|Orange=<200,100,0>|Pink=<200,80,125>|Purple=<100,40,140>
+Br. Red=<255,0,0>|Br. Green=<0,255,0>|Br. Blue=<0,0,255>|Br. Yellow=<255,255,0>|Br. Magenta=<255,0,255>|Br. Cyan=<0,255,255>|Br. Orange=<255,128,0>|Br. Pink=<255,0,128>|Br. Purple=<200,0,200>
+Pa. Red=<255,128,128>|Pa. Green=<128,255,128>|Pa. Blue=<128,128,255>|Pa. Yellow=<255,255,128>|Pa. Magenta=<255,128,255>|Pa. Cyan=<128,255,255>|Pa. Orange=<255,200,128>|Pa. Pink=<255,128,200>|Pa. Purple=<200,128,200>
+----------------------------------------------------------------
+
+- empty lines and comment lines starting with "#", "//" or "--" are ignored
+- sections are enclosed in "[]"; possible sections: Textures, Colors, Lights
+- parameters are given as "name=value" pairs, separated by newline or "|"
+- texture values can be texture names (must be in inventory then) or UUIDs
+- there are some symbolic texture names to set certain default textures:
+  default, plywood, blank, transparent, media, null
+- color and light values are in the form <R,G,B>,L or L,<R,G,B>
+  - R, G and B values are the respective color channels and range from 0 to 255
+  - L is the transparency or light level and toggled between L (0-100%) and opaque/off
+  - color or level can be omitted (also the separator then)
+- if a "Pages=page1|page2|..." option is present; "page1" etc. are used in the menu as
+  heading for a group of 9 value pairs ("Pages" is case-insensitve)
+- to fill pages with empty buttons, you can add "-=" or "-=-" as often as needed
+
+
+============================================================
+  【秀】  [.Shuggles.] Fretwork Frame v1.59  【ツ】
+============================================================
+
+The Fretwork Frame displays a nice 3D fretwork in a picture frame with a modifiable
+background image and text message (by manually changing textures). This one comes with a
+snowmen fretwork and a winter scene background. A menu allows you to change the fretwork
+texture, color, shininess, fullbright, glow effect and lighting in different colors. And
+you can add your own fretwork textures; a supporting full perm ambient occlusion map is
+included in the object.
+
+Many parameters can be configured in a config notecard; a description and an example
+are included. If no config notecard can be found, textures are read from the object's
+inventory, colors and lights use a set of 32 predefined colors:
+
+- white, light gray, gray, dark gray, black
+- red, green, blue, yellow, magenta, cyan, orange, pink, purple (normal, bright, pastel)
+
+Texture names are automatically shortened to 24 characters. They should be no longer than
+~14 characters so they can be displayed completely in the menu. If linked prims other
+than the one the script is in shall be textured, the textures must be copy and transfer
+due to an SL limitation.
+
+The object is full mesh and only 2 prims at the sold size and it requires a mesh-
+compatible viewer. It's copy/mod/no-trans, so you can modify it, e.g. to change the size.
+I suggest making a copy before you modify them, just in case.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+Click on the object to get a menu:
+
+▣ Fullbright: toggles full brightness of the fretwork
+▣ Shiny: toggles between shiny modes none/low/medium/high
+▣ Glow: toggles glow effect
++ TEXTURE: opens submenu to change the texture, use MAIN to return
++ COLOR: opens submenu to change the color, use MAIN to return
++ LIGHT: opens submenu to change light color and toggle light, use MAIN to return
++ OPTIONS: opens submenu to change access levels for menus, use MAIN to return
+  ▣ All: everyone can access the menu
+  ▣ Group: only group members and owner can access the menu
+  ▣ Owner: only owner can access the menu
+  ▣ AutoGlow: glow effect is toggled together with light
+  ▣ AutoBright: full brightness is toggled together with light
+  ▣ AutoColor: object/prim/face color is set to light color if light is enabled
+  - Reset: reset the script
+- CLOSE: closes the menu, obviously ^^
+
+Please note that all menu options only affect the fretwork. You can change the other
+parts manually, e.g. the frame color. To change the background picture or the text, just
+drag the textures you want to set onto the appropriate face. You can also use the
+Slideshow script to have a nice slideshow in the background.
+
+You should change the level of detail (LOD) to at least 4. To do so, enable the Advanced
+menu in the Advanced Preferences, then open it and go to Show Debug Settings. Browse for
+RenderVolumeLODFactor and set it to 4.
+
+For creators:
+
+If you want to add your own textures, you can save the included ambient occlusion map
+(texture "Ambient" in the object) to your computer and multiply the texture you want to
+add to it, then upload the resulting picture and just add it to the object. You may also
+sell self-created texture packs if you want, I just ask you to add a reference to the
+original product and creator.
+
+___________________________________________________________________________
+
+OBJECT CONFIG NOTECARD
+
+Object textures, colors and light colors can be configured in a notecard that contains
+the string "mpMenuConfig" somewhere in its name. If none can be found, textures are read
+from the object's inventory, colors and lights use a set of 32 predefined colors.
+
+----------------------------------------------------------------
+# Example mpMenuConfig for Picture Frames, Shelves and Stars
+
+# Access level (Access or AccessLevel): 0/All, 1/Group, 2/Owner
+AccessLevel=All
+# Textures must start with this prefix - leave empty for none, default is none
+TexturePrefix=
+
+[Textures]
+Pages=Example Textures
+Default=default|Plywood=plywood|Blank=blank|Transparent=transparent|Media=media
+
+[Colors]
+Pages=Shades Of Gray|Normal Colors|Bright Colors|Pastel Colors
+Transparent=50|White=<255,255,255>|Light Gray=<192,192,192>|Gray=<128,128,128>|Dark Gray=<64,64,64>|Black=<10,10,10>|-=|-=|-=
+Red=<128,0,0>|Green=<0,128,0>|Blue=<0,0,128>|Yellow=<200,200,0>|Magenta=<200,0,200>|Cyan=<0,200,200>|Orange=<200,100,0>|Pink=<200,80,125>|Purple=<100,40,140>
+Br. Red=<255,0,0>|Br. Green=<0,255,0>|Br. Blue=<0,0,255>|Br. Yellow=<255,255,0>|Br. Magenta=<255,0,255>|Br. Cyan=<0,255,255>|Br. Orange=<255,128,0>|Br. Pink=<255,0,128>|Br. Purple=<200,0,200>
+Pa. Red=<255,128,128>|Pa. Green=<128,255,128>|Pa. Blue=<128,128,255>|Pa. Yellow=<255,255,128>|Pa. Magenta=<255,128,255>|Pa. Cyan=<128,255,255>|Pa. Orange=<255,200,128>|Pa. Pink=<255,128,200>|Pa. Purple=<200,128,200>
+
+[Lights]
+Pages=Shades Of Gray|Normal Colors|Bright Colors|Pastel Colors
+On/off=100|White=<255,255,255>,100|Light Gray=<192,192,192>,80|Gray=<128,128,128>,50|Dark Gray=<64,64,64>,40|Black=10,<10,10,10>|-=|-=|-=
+Red=<128,0,0>|Green=<0,128,0>|Blue=<0,0,128>|Yellow=<200,200,0>|Magenta=<200,0,200>|Cyan=<0,200,200>|Orange=<200,100,0>|Pink=<200,80,125>|Purple=<100,40,140>
+Br. Red=<255,0,0>|Br. Green=<0,255,0>|Br. Blue=<0,0,255>|Br. Yellow=<255,255,0>|Br. Magenta=<255,0,255>|Br. Cyan=<0,255,255>|Br. Orange=<255,128,0>|Br. Pink=<255,0,128>|Br. Purple=<200,0,200>
+Pa. Red=<255,128,128>|Pa. Green=<128,255,128>|Pa. Blue=<128,128,255>|Pa. Yellow=<255,255,128>|Pa. Magenta=<255,128,255>|Pa. Cyan=<128,255,255>|Pa. Orange=<255,200,128>|Pa. Pink=<255,128,200>|Pa. Purple=<200,128,200>
+----------------------------------------------------------------
+
+- empty lines and comment lines starting with "#", "//" or "--" are ignored
+- sections are enclosed in "[]"; possible sections: Textures, Colors, Lights
+- parameters are given as "name=value" pairs, separated by newline or "|"
+- texture values can be texture names (must be in inventory then) or UUIDs
+- there are some symbolic texture names to set certain default textures:
+  default, plywood, blank, transparent, media, null
+- color and light values are in the form <R,G,B>,L or L,<R,G,B>
+  - R, G and B values are the respective color channels and range from 0 to 255
+  - L is the transparency or light level and toggled between L (0-100%) and opaque/off
+  - color or level can be omitted (also the separator then)
+- if a "Pages=page1|page2|..." option is present; "page1" etc. are used in the menu as
+  heading for a group of 9 value pairs ("Pages" is case-insensitve)
+- to fill pages with empty buttons, you can add "-=" or "-=-" as often as needed
+
+
+============================================================
+  【秀】  [.Shuggles.] Colorable Shelf v1.59  【ツ】
+============================================================
+
+The Colorable Shelf is a piece of furniture for your house or apartment, or for
+presenting your products in a store. A menu allows you to change textures, color,
+shininess, fullbright, glow effect and lighting in different colors. And you can add
+your own textures; a supporting full perm ambient occlusion map is included in the object.
+
+Many parameters can be configured in a config notecard; a description and an example are
+included. If no config notecard can be found, textures have to start with "#" and are
+read from the object's inventory, colors and lights use a set of 32 predefined colors:
+
+- white, light gray, gray, dark gray, black
+- red, green, blue, yellow, magenta, cyan, orange, pink, purple (normal, bright, pastel)
+
+Texture names are automatically shortened to 24 characters. They should be no longer than
+~14 characters so they can be displayed completely in the menu. If linked prims other
+than the one the script is in shall be textured, the textures must be copy and transfer
+due to an SL limitation. The shelves contain 2 textures each.
+
+The object is full mesh and only 3 prims at the sold size and it requires a mesh-
+compatible viewer. It is copy/mod/no-trans, so you can modify it, e.g. to change the
+size. I suggest making a copy before you modify it, just in case. Two versions are
+included: with and without gaps between the individual parts.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL see below
+
+
+============================================================
+  【秀】  [.Shuggles.] Colorable Shelf v2.59  【ツ】
+============================================================
+
+The Colorable Shelf is a piece of furniture for your house or apartment, or for
+presenting your products in a store. A menu allows you to change textures, color,
+shininess, fullbright, glow effect and lighting in different colors. And you can add
+your own textures; a supporting full perm ambient occlusion map is included in the object.
+
+Many parameters can be configured in a config notecard; a description and an example are
+included. If no config notecard can be found, textures have to start with "#" and are
+read from the object's inventory, colors and lights use a set of 32 predefined colors:
+
+- white, light gray, gray, dark gray, black
+- red, green, blue, yellow, magenta, cyan, orange, pink, purple (normal, bright, pastel)
+
+Texture names are automatically shortened to 24 characters. They should be no longer than
+~14 characters so they can be displayed completely in the menu. If linked prims other
+than the one the script is in shall be textured, the textures must be copy and transfer
+due to an SL limitation. The shelf contains 2 textures.
+
+The object is full mesh and only 1 prim at the sold size and it requires a mesh-
+compatible viewer. It is copy/mod/no-trans, so you can modify it, e.g. to change the
+size. I suggest making a copy before you modify it, just in case.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL see below
+
+
+============================================================
+  【秀】  [.Shuggles.] Colorable Shelf v3.59  【ツ】
+============================================================
+
+The Colorable Shelf is a piece of furniture for your house or apartment, or for
+presenting your products in a store. A menu allows you to change textures, color,
+shininess, fullbright, glow effect and lighting in different colors. And you can add
+your own textures; a supporting full perm ambient occlusion map is included in the object.
+
+Many parameters can be configured in a config notecard; a description and an example are
+included. If no config notecard can be found, textures have to start with "#" and are
+read from the object's inventory, colors and lights use a set of 32 predefined colors:
+
+- white, light gray, gray, dark gray, black
+- red, green, blue, yellow, magenta, cyan, orange, pink, purple (normal, bright, pastel)
+
+Texture names are automatically shortened to 24 characters. They should be no longer than
+~14 characters so they can be displayed completely in the menu. If linked prims other
+than the one the script is in shall be textured, the textures must be copy and transfer
+due to an SL limitation. The shelf contains 2 textures.
+
+The object is full mesh and only 2 prims at the sold size and it requires a mesh-
+compatible viewer. It is copy/mod/no-trans, so you can modify it, e.g. to change the
+size. I suggest making a copy before you modify it, just in case.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL see below
+
+
+============================================================
+  【秀】  [.Shuggles.] Tetris Shelves v1.59  【ツ】
+============================================================
+
+The Tetris Shelves are pieces of furniture for your house or apartment. This set contains
+7 shelves built after the shape of the famous Tetris game. They can be used standalone or
+be combined with each other. A menu allows you to change textures, color, shininess,
+fullbright, glow effect and lighting in different colors. And you can add your own
+textures; a supporting full perm ambient occlusion map is included in the objects.
+
+Many parameters can be configured in a config notecard; a description and an example are
+included. If no config notecard can be found, textures have to start with "#" and are
+read from the object's inventory, colors and lights use a set of 32 predefined colors:
+
+- white, light gray, gray, dark gray, black
+- red, green, blue, yellow, magenta, cyan, orange, pink, purple (normal, bright, pastel)
+
+Texture names are automatically shortened to 24 characters. They should be no longer than
+~14 characters so they can be displayed completely in the menu. If linked prims other
+than the one the script is in shall be textured, the textures must be copy and transfer
+due to an SL limitation. The shelves contain 2 textures each.
+
+The objects are full mesh and only 2 prims each at the sold size and they require a mesh-
+compatible viewer. They are copy/mod/no-trans, so you can modify them, e.g. to change the
+size. I suggest making a copy before you modify them, just in case.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL see below
+
+
+============================================================
+  【秀】  [.Shuggles.] Hollow Cube v1.59  【ツ】
+============================================================
+
+The Hollow Cube can be used as a building component or standalone as a piece of furniture
+for your house or apartment. A menu allows you to change textures, color, shininess,
+fullbright, glow effect and lighting in different colors. And you can add your own
+textures; a supporting full perm ambient occlusion map is included in the object. If you
+want to use it as building component, just remove the script and the textures.
+
+Many parameters can be configured in a config notecard; a description and an example are
+included. If no config notecard can be found, textures have to start with "#" and are
+read from the object's inventory, colors and lights use a set of 32 predefined colors:
+
+- white, light gray, gray, dark gray, black
+- red, green, blue, yellow, magenta, cyan, orange, pink, purple (normal, bright, pastel)
+
+Texture names are automatically shortened to 24 characters. They should be no longer than
+~14 characters so they can be displayed completely in the menu. If linked prims other
+than the one the script is in shall be textured, the textures must be copy and transfer
+due to an SL limitation. The cube contains 2 textures.
+
+The object is full mesh and only 1 prim (with a land impact of 0.5) at the sold size and
+it requires a mesh-compatible viewer. It is copy/mod/no-trans, so you can modify it, e.g.
+to change the size. I suggest making a copy before you modify it, just in case.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+Click at least 1 second on the object to get a menu:
+
+▣ Object: applies parameters to whole object
+▣ Prim: applies parameters to touched prim only
+▣ Face: applies parameters to touched face only
+▣ Fullbright: toggles full brightness
+▣ Shiny: toggles between shiny modes none/low/medium/high
+▣ Glow: toggles glow effect
++ TEXTURE: opens submenu to change the texture, use MAIN to return
++ COLOR: opens submenu to change the color, use MAIN to return
++ LIGHT: opens submenu to change light color and toggle light, use MAIN to return
++ OPTIONS: opens submenu to change access levels for menus, use MAIN to return
+  ▣ All: everyone can access the menu
+  ▣ Group: only group members and owner can access the menu
+  ▣ Owner: only owner can access the menu
+  ▣ AutoGlow: glow effect is toggled together with light
+  ▣ AutoBright: full brightness is toggled together with light
+  ▣ AutoColor: object/prim/face color is set to light color if light is enabled
+  - Reset: reset the script
+- CLOSE: closes the menu, obviously ^^
+
+You should change the level of detail (LOD) to at least 4. To do so, enable the Advanced
+menu in the Advanced Preferences, then open it and go to Show Debug Settings. Browse for
+RenderVolumeLODFactor and set it to 4.
+
+For creators:
+
+If you want to add your own textures, you can save the included ambient occlusion map
+(texture "# Ambient" in the object) to your computer and multiply the texture you want to
+add to it, then upload the resulting picture and just add it to the object. Textures have
+to start with "#" if no config notecard is used. You may also sell self-created
+texture packs if you want, I just ask you to add a reference to the original product and
+creator.
+
+___________________________________________________________________________
+
+OBJECT CONFIG NOTECARD
+
+Object textures, colors and light colors can be configured in a notecard that contains
+the string "mpMenuConfig" somewhere in its name. If none can be found, textures have to
+start with "#" and are read from the object's inventory, colors and lights use a set of
+32 predefined colors.
+
+----------------------------------------------------------------
+# Example mpMenuConfig for Picture Frames, Shelves and Stars
+
+# Access level (Access or AccessLevel): 0/All, 1/Group, 2/Owner
+AccessLevel=All
+# Textures must start with this prefix - leave empty for none, default is #
+TexturePrefix=
+
+[Textures]
+Pages=Example Textures
+Default=default|Plywood=plywood|Blank=blank|Transparent=transparent|Media=media
+
+[Colors]
+Pages=Shades Of Gray|Normal Colors|Bright Colors|Pastel Colors
+Transparent=50|White=<255,255,255>|Light Gray=<192,192,192>|Gray=<128,128,128>|Dark Gray=<64,64,64>|Black=<10,10,10>|-=|-=|-=
+Red=<128,0,0>|Green=<0,128,0>|Blue=<0,0,128>|Yellow=<200,200,0>|Magenta=<200,0,200>|Cyan=<0,200,200>|Orange=<200,100,0>|Pink=<200,80,125>|Purple=<100,40,140>
+Br. Red=<255,0,0>|Br. Green=<0,255,0>|Br. Blue=<0,0,255>|Br. Yellow=<255,255,0>|Br. Magenta=<255,0,255>|Br. Cyan=<0,255,255>|Br. Orange=<255,128,0>|Br. Pink=<255,0,128>|Br. Purple=<200,0,200>
+Pa. Red=<255,128,128>|Pa. Green=<128,255,128>|Pa. Blue=<128,128,255>|Pa. Yellow=<255,255,128>|Pa. Magenta=<255,128,255>|Pa. Cyan=<128,255,255>|Pa. Orange=<255,200,128>|Pa. Pink=<255,128,200>|Pa. Purple=<200,128,200>
+
+[Lights]
+Pages=Shades Of Gray|Normal Colors|Bright Colors|Pastel Colors
+On/off=100|White=<255,255,255>,100|Light Gray=<192,192,192>,80|Gray=<128,128,128>,50|Dark Gray=<64,64,64>,40|Black=10,<10,10,10>|-=|-=|-=
+Red=<128,0,0>|Green=<0,128,0>|Blue=<0,0,128>|Yellow=<200,200,0>|Magenta=<200,0,200>|Cyan=<0,200,200>|Orange=<200,100,0>|Pink=<200,80,125>|Purple=<100,40,140>
+Br. Red=<255,0,0>|Br. Green=<0,255,0>|Br. Blue=<0,0,255>|Br. Yellow=<255,255,0>|Br. Magenta=<255,0,255>|Br. Cyan=<0,255,255>|Br. Orange=<255,128,0>|Br. Pink=<255,0,128>|Br. Purple=<200,0,200>
+Pa. Red=<255,128,128>|Pa. Green=<128,255,128>|Pa. Blue=<128,128,255>|Pa. Yellow=<255,255,128>|Pa. Magenta=<255,128,255>|Pa. Cyan=<128,255,255>|Pa. Orange=<255,200,128>|Pa. Pink=<255,128,200>|Pa. Purple=<200,128,200>
+----------------------------------------------------------------
+
+- empty lines and comment lines starting with "#", "//" or "--" are ignored
+- sections are enclosed in "[]"; possible sections: Textures, Colors, Lights
+- parameters are given as "name=value" pairs, separated by newline or "|"
+- texture values can be texture names (must be in inventory then) or UUIDs
+- there are some symbolic texture names to set certain default textures:
+  default, plywood, blank, transparent, media, null
+- color and light values are in the form <R,G,B>,L or L,<R,G,B>
+  - R, G and B values are the respective color channels and range from 0 to 255
+  - L is the transparency or light level and toggled between L (0-100%) and opaque/off
+  - color or level can be omitted (also the separator then)
+- if a "Pages=page1|page2|..." option is present; "page1" etc. are used in the menu as
+  heading for a group of 9 value pairs ("Pages" is case-insensitve)
+- to fill pages with empty buttons, you can add "-=" or "-=-" as often as needed
+
+
+============================================================
+  【秀】  [.Shuggles.] Star Light v1.59  【ツ】
+============================================================
+
+The Star Light is a decorative item you can put on a shelf or table, or hang it in the
+air. It can be used as a lamp or just to decorate your room and can make for a nice
+Christmas decoration. A menu allows you to change textures, color, shininess, fullbright,
+glow effect, rotation, particle effect and lighting in different colors. And you can add
+your own textures; a supporting full perm ambient occlusion map is included in the object.
+
+Many parameters can be configured in a config notecard; a description and an example are
+included. If no config notecard can be found, textures have to start with "*" and are
+read from the object's inventory, colors and lights use a set of 32 predefined colors:
+
+- white, light gray, gray, dark gray, black
+- red, green, blue, yellow, magenta, cyan, orange, pink, purple (normal, bright, pastel)
+
+Texture names are automatically shortened to 24 characters. They should be no longer than
+~14 characters so they can be displayed completely in the menu. If linked prims other
+than the one the script is in shall be textured, the textures must be copy and transfer
+due to an SL limitation. The object contains 7 textures.
+
+The object is full mesh and only 1 prim at the sold diameter (until roughly 2.3m) and it
+requires a mesh-compatible viewer. It is copy/mod/no-trans, so you can modify it, e.g. to
+change the size. I suggest making a copy before you modify it, just in case.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL see below
+
+
+============================================================
+  【秀】  [.Shuggles.] Star Light v2.59  【ツ】
+============================================================
+
+The Star Light is a decorative item you can put on a shelf or table, or hang it in the
+air. It can be used as a lamp or just to decorate your room and can make for a nice
+Christmas decoration. A menu allows you to change textures, color, shininess, fullbright,
+glow effect, rotation, particle effect and lighting in different colors. And you can add
+your own textures; a supporting full perm ambient occlusion map is included in the object.
+
+Many parameters can be configured in a config notecard; a description and an example are
+included. If no config notecard can be found, textures have to start with "*" and are
+read from the object's inventory, colors and lights use a set of 32 predefined colors:
+
+- white, light gray, gray, dark gray, black
+- red, green, blue, yellow, magenta, cyan, orange, pink, purple (normal, bright, pastel)
+
+Texture names are automatically shortened to 24 characters. They should be no longer than
+~14 characters so they can be displayed completely in the menu. If linked prims other
+than the one the script is in shall be textured, the textures must be copy and transfer
+due to an SL limitation. The object contains 5 textures.
+
+The object is full mesh and only 3 prims at the sold diameter (roughly 1m) and it requires
+a mesh-compatible viewer. It is copy/mod/no-trans, so you can modify it, e.g. to change
+the size. I suggest making a copy before you modify it, just in case.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+Click on the object to switch light on and off.
+Click at least 1 second to get a menu:
+
+▣ Fullbright: toggles full brightness
+▣ Shiny: toggles between shiny modes none/low/medium/high
+▣ Glow: toggles glow effect
+▣ Rotation: turns rotation on and off
+▣ Particles: turns particles on and off
++ TEXTURE: opens submenu to change the texture, use MAIN to return
++ COLOR: opens submenu to change the color, use MAIN to return
++ LIGHT: opens submenu to change light color and toggle light, use MAIN to return
++ OPTIONS: opens submenu to change access levels for menus, use MAIN to return
+  ▣ All: everyone can access the menu
+  ▣ Group: only group members and owner can access the menu
+  ▣ Owner: only owner can access the menu
+  ▣ AutoGlow: glow effect is toggled together with light
+  ▣ AutoBright: full brightness is toggled together with light
+  ▣ AutoColor: object/prim/face color is set to light color if light is enabled
+  - Reset: reset the script
+- CLOSE: closes the menu, obviously ^^
+
+You should change the level of detail (LOD) to at least 4. To do so, enable the Advanced
+menu in the Advanced Preferences, then open it and go to Show Debug Settings. Browse for
+RenderVolumeLODFactor and set it to 4.
+
+For creators:
+
+If you want to add your own textures, you can save the included ambient occlusion map
+(texture "* Ambient" in the object) to your computer and multiply the texture you want to
+add to it, then upload the resulting picture and just add it to the object. Textures have
+to start with "*" if no config notecard is used. You may also sell self-created
+texture packs if you want, I just ask you to add a reference to the original product and
+creator.
+
+___________________________________________________________________________
+
+OBJECT CONFIG NOTECARD
+
+Object textures, colors and light colors can be configured in a notecard that contains
+the string "mpMenuConfig" somewhere in its name. If none can be found, textures have to
+start with "*" and are read from the object's inventory, colors and lights use a set of
+32 predefined colors.
+
+----------------------------------------------------------------
+# Example mpMenuConfig for Picture Frames, Shelves and Stars
+
+# Access level (Access or AccessLevel): 0/All, 1/Group, 2/Owner
+AccessLevel=All
+# Textures must start with this prefix - leave empty for none, default is *
+TexturePrefix=
+
+[Textures]
+Pages=Example Textures
+Default=default|Plywood=plywood|Blank=blank|Transparent=transparent|Media=media
+
+[Colors]
+Pages=Shades Of Gray|Normal Colors|Bright Colors|Pastel Colors
+Transparent=50|White=<255,255,255>|Light Gray=<192,192,192>|Gray=<128,128,128>|Dark Gray=<64,64,64>|Black=<10,10,10>|-=|-=|-=
+Red=<128,0,0>|Green=<0,128,0>|Blue=<0,0,128>|Yellow=<200,200,0>|Magenta=<200,0,200>|Cyan=<0,200,200>|Orange=<200,100,0>|Pink=<200,80,125>|Purple=<100,40,140>
+Br. Red=<255,0,0>|Br. Green=<0,255,0>|Br. Blue=<0,0,255>|Br. Yellow=<255,255,0>|Br. Magenta=<255,0,255>|Br. Cyan=<0,255,255>|Br. Orange=<255,128,0>|Br. Pink=<255,0,128>|Br. Purple=<200,0,200>
+Pa. Red=<255,128,128>|Pa. Green=<128,255,128>|Pa. Blue=<128,128,255>|Pa. Yellow=<255,255,128>|Pa. Magenta=<255,128,255>|Pa. Cyan=<128,255,255>|Pa. Orange=<255,200,128>|Pa. Pink=<255,128,200>|Pa. Purple=<200,128,200>
+
+[Lights]
+Pages=Shades Of Gray|Normal Colors|Bright Colors|Pastel Colors
+On/off=100|White=<255,255,255>,100|Light Gray=<192,192,192>,80|Gray=<128,128,128>,50|Dark Gray=<64,64,64>,40|Black=10,<10,10,10>|-=|-=|-=
+Red=<128,0,0>|Green=<0,128,0>|Blue=<0,0,128>|Yellow=<200,200,0>|Magenta=<200,0,200>|Cyan=<0,200,200>|Orange=<200,100,0>|Pink=<200,80,125>|Purple=<100,40,140>
+Br. Red=<255,0,0>|Br. Green=<0,255,0>|Br. Blue=<0,0,255>|Br. Yellow=<255,255,0>|Br. Magenta=<255,0,255>|Br. Cyan=<0,255,255>|Br. Orange=<255,128,0>|Br. Pink=<255,0,128>|Br. Purple=<200,0,200>
+Pa. Red=<255,128,128>|Pa. Green=<128,255,128>|Pa. Blue=<128,128,255>|Pa. Yellow=<255,255,128>|Pa. Magenta=<255,128,255>|Pa. Cyan=<128,255,255>|Pa. Orange=<255,200,128>|Pa. Pink=<255,128,200>|Pa. Purple=<200,128,200>
+----------------------------------------------------------------
+
+- empty lines and comment lines starting with "#", "//" or "--" are ignored
+- sections are enclosed in "[]"; possible sections: Textures, Colors, Lights
+- parameters are given as "name=value" pairs, separated by newline or "|"
+- texture values can be texture names (must be in inventory then) or UUIDs
+- there are some symbolic texture names to set certain default textures:
+  default, plywood, blank, transparent, media, null
+- color and light values are in the form <R,G,B>,L or L,<R,G,B>
+  - R, G and B values are the respective color channels and range from 0 to 255
+  - L is the transparency or light level and toggled between L (0-100%) and opaque/off
+  - color or level can be omitted (also the separator then)
+- if a "Pages=page1|page2|..." option is present; "page1" etc. are used in the menu as
+  heading for a group of 9 value pairs ("Pages" is case-insensitve)
+- to fill pages with empty buttons, you can add "-=" or "-=-" as often as needed
+
+
+============================================================
+  【秀】  [.Shuggles.] Nixie Clock v1.51  【ツ】
+============================================================
+
+An RL Nixie Clock is made of several Nixie tubes (cold cathode displays), an electronic
+device for displaying numerals or other information using glow discharge. The glass tube
+contains a wire-mesh anode and multiple cathodes, shaped like numerals or other symbols.
+Applying power to one cathode surrounds it with an orange glow discharge. The tube is
+filled with a gas at low pressure, usually mostly neon and often a little mercury or
+argon, in a Penning mixture.
+
+Although it resembles a vacuum tube in appearance, its operation does not depend on
+thermionic emission of electrons from a heated cathode. It is therefore called a cold-
+cathode tube (a form of gas-filled tube), or a variant of neon lamp. Such tubes rarely
+exceed 40 °C (104 °F) even under the most severe of operating conditions in a room at
+ambient temperature. Vacuum fluorescent displays from the same era use completely
+different technology—they have a heated cathode together with a control grid and shaped
+phosphor anodes; Nixies have no heater or control grid, typically a single anode, and
+shaped bare metal cathodes. [quoted from Wikipedia]
+
+This SL version of a Nixie Clock is made of several prims (land impact 21) for the tubes
+and the body. It displays the time and (at seconds 55-59) the current date in GMT. The
+timezone can be set in half-hour steps by a menu which opens on touch, so the clock then
+displays your local time and date.
+
+The object is copy/mod/no-trans, so you can modify it, e.g. to change the size or colors.
+After being rezzed and taken again, it displays as no-mod in your inventory because of
+the script inside. You can still modify it when rezzing it again, but just in case, I
+suggest making a copy before you rez or modify it.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Sticker HUD v1.56  【ツ】
+============================================================
+
+The Sticker HUD offers you the possibility to send stickers to your friends who also
+own the HUD or to display them in a speech bubble next to your head. It uses textures
+(sticker packs) that contain several stickers and are read from the HUD's inventory or
+(as UUIDs) from a configuration notecard. If someone sends you a sticker, it plays a
+configurable notification sound and the sticker pack gets automatically added to the
+list of your sticker packs. Three sticker packs are already included in the provided
+configuration notecard inside the HUD. If a sound is found in the HUD's inventory, it
+is used as notification sound (overwriting the default sound), unless overwritten itself
+by the sound configuration in the config notecard.
+
+To use the Sticker HUD, just attach it to your HUD area on bottom center. The interface
+consists of several buttons, a preview field and a HUD bubble. If you want to display
+stickers next to your head (in a mood bubble), please attach the Sticker Bubble as well.
+
+The buttons from left to right are:
+
+- previous sticker pack
+- open sticker pack selection menu
+- show preview area or minimize
+- send previewed sticker to mood bubble or hide mood bubble before timeout
+- toggle hold status that makes the mood bubble stay
+- send previewed sticker to another avatar within scan range
+- open options menu
+- next sticker pack
+
+You can configure the following in the options menu:
+
+- access level all, group only, owner only or list of authorized avatars
+- add and remove avatars by username to list of authorized avatars
+- list uses case insensitive usernames (first.last) or legacy names
+- only allowed avatars can send you a sticker
+- sticker timeout, scan range for avatars, sticker bubble size factor
+- option to clear list of received stickers
+- option to reset script
+
+Received stickers and sender name appear in the HUD bubble. To hide them again, just
+click the bubble. When the HUD minimizes by button press or after timeout, the bubble
+also fades out.
+
+The Sticker HUD and the Sticker Bubble are copy/mod/no-trans, so you can modify them,
+e.g. to change the size of the HUD, add new sticker packs or change the included
+configuration notecard. Resizing the Sticker Bubble makes no sense because it gets
+resized by script, but maybe you want to change the bubble texture. The included scripts
+are copy only. I suggest making a copy of the Sticker HUD and the Sticker Bubble before
+you modify them, just in case.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+CONFIG NOTECARD
+
+Sticker packs and authorized users can be configured in a configuration notecard that
+contains the word "StickerConfig" in its name. Comments start with "#", "//" or "--".
+Several configuration lines can be combined on one line for faster reading by separating
+them with "|". Sticker pack names must contain the dimension in their name, i.e. the
+number of stickers in horizontal and vertical direction (see example). The same is true
+when you put sticker pack textures in the HUD's inventory. Then you have to name your
+texture e.g. "Legcat 7x6" to indicate that the pack contains 7x6 stickers.
+
+----------------------------------------------------------------
+# Example StickerConfig
+# Sound (name, UUID or empty to disable) and sound volume (in percent)
+Sound=449bc80c-91b6-6365-8fd1-95bd91016624
+Volume=50
+
+[Stickers]
+# Sticker packs as name=value pairs, separated by line break or "|"
+Legcat 1 7x6=1eea5540-9e8f-731f-95ee-ef3a6c4aa1d7
+Legcat 2 5x4=af3c536c-c9f7-e300-b5ed-0857f21d4f02|Legcat 3 5x4=c5410ef7-b6b5-f855-d08a-27f9a8bf7b1b
+
+[Authorized]
+# Avatar names can be given as usernames or legacy names
+shuichi.shinji
+Shuichi Shinji
+----------------------------------------------------------------
+
+
+============================================================
+  【秀】  [.Shuggles.] Mushrooms v1.48  【ツ】
+============================================================
+
+These are some simple mushrooms as result of my first experiments with creating sculpties
+and meshes. Therefore I sell them for just a few bucks. Maybe you find them a nice way to
+decorate your land. They are supposed to be rezzed on the ground, preferably in a forest
+area.
+
+The "Mushrooms" are sculpties and the "Meshrooms" are full meshes. Both are only 1 prim
+at the sold size, but the latter require a mesh-compatible viewer. They are copy/mod/
+no-trans, so you can modify them, e.g. to change their size. I suggest making a copy
+before you modify them, just in case.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Yuki-kun v1.48  【ツ】
+============================================================
+
+Yuki-kun was the first thing I build in SL on my second day, specifically Dec 3rd, 2006.
+He therefore uses prims only and also doesn't contain scripts.
+
+I want to share him mostly because of nostalgical reasons, but maybe you find him
+a nice way to decorate your winterly land. He is supposed to be rezzed on the ground,
+preferably on a snow-covered one.
+
+He is copy/mod/no-trans, so you can modify him, e.g. to change his size. I suggest making
+a copy before you modify him, just in case.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Yuki-kun v2.48  【ツ】
+============================================================
+
+Yuki-kun v2 is a result of my first experiments with creating sculpties as some kind of
+update to the prim-based Yuki-kun v1. Therefore I sell him for just a few bucks. He is
+only 1 prim at any size and maybe you find him a nice way to decorate your winterly land.
+He is supposed to be rezzed on the ground, preferably on a snow-covered one.
+
+He is copy/mod/no-trans, so you can modify him, e.g. to change his size. I suggest making
+a copy before you modify him, just in case.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Yuki-kun v3.48  【ツ】
+============================================================
+
+Yuki-kun v3 is a result of my first experiments with creating sculpties and meshes as
+some kind of update to the prim- and sculptie-based Yuki-kun v1 and v2. Therefore I sell
+him for just a few bucks. The sculptie version is only 1 prim and the mesh version only
+3 prims at the sold size. Maybe you find him a nice way to decorate your winterly land.
+He is supposed to be rezzed on the ground, preferably on a snow-covered one.
+
+He is copy/mod/no-trans, so you can modify him, e.g. to change his size. I suggest making
+a copy before you modify him, just in case.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+

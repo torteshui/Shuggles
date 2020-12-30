@@ -1,0 +1,1105 @@
+﻿============================================================
+  【秀】  [.Shuggles.] Miner v0.57  【ツ】
+============================================================
+
+The Shuicraft Miner script can be used in an roleplay environment, e.g. to let avatars do
+some mining operations, by that clearing a path of blocking rocks and getting minerals or
+hints from the object for crafting or further story development. It rezzes the mined item 
+and gives it to the avatar that mined it before removing the rezzed copy of the item.
+
+The script can be put in a rock to let an avatar sit on it or into a pickaxe that must be
+attached to start mining, together with the minerals. After a random time, it gives one
+of its items randomly or depending on finding chance to the seated avatar or the one who
+has attached the pickaxe. After all items are given and optionally removed from the mine,
+it unseats the avatar and destroys itself, the pickaxe just detaches.
+
+You can use a custom sit/mining animation, have sounds played during mining, on giving
+an item and on finishing mining, configure texts, the sit target and time interval after
+which an item is given and the chance any item can be found. It can also be used together
+with a sitter script. If you also own the Shuicraft Crafter scripts, you can use the
+minerals as ingredients for new products.
+
+A maximum number of tries can be configured after which the mining avatar is kicked off
+and the mine can be temporarily disabled for a configurable time interval. This makes it
+harder to receive rare items and forces the avatar to seek out other mines or try again
+later. After the time passes, the mine becomes available for use again. Optionally,
+a secret code word or passphrase can be setup that must be provided on a specified or
+random channel before the mine can be used. This would work well in a fantasy environment
+or for bank safes.
+
+Many parameters can be configured in a config notecard; a description and an example are
+included. All parameters can be set in the script as well. Detailed configuration options:
+
+- rezzing offset and rotation of mined item, rezzing can be disabled
+- sit target and sit rotation, can be disabled if used with another sitter script
+- whether to give the mined item after completion or only on touch of the rezzed item
+- whether only the operator can pick up the mined item or everyone
+- attachment point if attach on touch after rezzing is to be used
+- uses temporary attachments, so that it works for everyone and not just the owner
+- access level all, group or owner, also works for deeded objects
+- deliver items from object's inventory or from a separate server (sold separately)
+- specify time after which a rezzed item is auto-deleted if it is not picked up
+- minimum and maximum time of giving interval
+- maximum number of tries before disabling the mine
+- minimum and maximum time of interval the mine is disabled
+- whether disabled mines should be hidden (invisible, phantom, no sit target)
+- option to ignore numbers of mined items, e.g. treat "Gold 1" as "Gold"
+- whether object should pretend to speak as the seated avatar or talk as itself
+- say mode to select between region say/IM, whisper, say and shout or to disable messages
+- item type that should be given: objects, notecards, textures, all etc. (no scripts)
+- exclude list for items that shall not be given
+- whether (copiable) items should be removed from inventory after they are given
+- optionally ignore trailing numbers in item names when checking chances
+- item to give automatically on sit, e.g. a mining tool, optionally require it to be attached
+- configurable tool creator for that tool or disable tool check
+- text to display on right-click menu instead of "Sit"
+- mining animation to use, otherwise uses first found anim, or standard anim if none
+- configurable sounds that are played during mining, on giving an item and on finishing
+- spoken texts on sit, unsit, getting an item, getting empty/destroyed/disabled, entering
+  the passphrase, needing a tool, forbidden to sit, when someone else wants to pick up
+  the rezzed item and when auto-deleting mined items that were not taken
+- finding chances of the items (100% if not specified)
+- secret code word or passphrase that must be said before using the mine
+
+Delivering items from a server requires the Shuicraft Server script which will be
+included in the future Shuicraft Advanced bundles or can be bought separately.
+
+Please take the time to update all your items and miners with the new scripts because old
+communication messages between them have been made obsolete, so they will stop working
+sometime in the future, after a few more versions.
+
+This package already contains the new Updater for when the Miner will be renamed to
+Shuicraft Miner. For now, please still use the Miner Updater, but keep the new one for
+the future.
+
+The Shuicraft Miner scripts are full perm. They're licensed under the BSD license with
+the addition that they must not be resold or otherwise given away standalone in parts or
+as whole. They can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+Put the Shuicraft Miner script into the miner object and the Ingredient script in all
+mineable items. Put the items into the miner and think of a nice way or story to make
+roleplayers mine for them.
+
+This works best if you are not giving the miner object away and only let others work on
+it. If you want to give it away, the next owner could just take out the items instead of
+mining for them. To prevent that, you can use the Shuicraft Server script (included in
+the Advanced bundle and available separately) and put it into a separate server object
+which you keep, together with all items, instead of having them in the miner object.
+
+Then just put the server object anywhere in the same region and don't give it away. If
+you want to use rezzing, you need to make sure that object entry is allowed on all
+parcels, else you need to put it on the same parcel. Please note that all possible items
+must be inside the server object, all copiable and transferable (for you, not necessarily
+for next owner)! Don't forget to set USE_SERVER in the Miner script then (see below).
+
+If you want to use the rezzing feature on group-owned land, you need to deed the object
+that is rezzing the items: either the miner object or the server object! Rezzing on
+group-owned land only works if owner is present or object is set to group AND group can
+rez or object is deeded to group ('can always rez' in group role is not enough).
+
+To configure the Miner script, please open it and change the following constants
+according to your needs:
+
+FIND_CHANCES
+
+List the finding chances (in percent) of the items here. Items are read from the inventory
+of the object. If an item is not in the list, 100% is used, so in the example below, the
+last item could be left out. If you want all items to be treated equally (i.e. just to be
+drawn randomly), please remove everything between the brackets. If you are configuring the
+chances in the notecard, this list is ignored.
+
+list FIND_CHANCES =
+[
+      1, "a small diamond",    // diamonds are very rare - only 1% chance to find them
+      5, "some platinum",      // platinum is rare - only 5% chance to find it
+     20, "a gold nugget",      // gold is uncommon - 20% chance to find it
+     50, "some silver",        // silver is common - 50% chance to find it
+     80, "a piece of copper",  // copper is very common - 80% to find it
+    100, "a worthless stone"   // stones can always be found
+];
+
+The drawing algorithm looks into the object's inventory and puts all found items in a
+list, each with their finding chance plus the sum of the finding chances of all previous
+items. Assuming, there is one item each of the above example, the script creates a list
+like this:
+
+      1, "a small diamond",
+      6, "some platinum",
+     26, "a gold nugget",
+     76, "some silver",
+    156, "a piece of copper",
+    256, "a worthless stone"
+
+It then draws a random number between 0 and 256 and finds the item whose finding chance
+in this list is at least the drawn number, e.g. if 100 is drawn, copper matches it best
+with its value of 156.
+
+So the actual chance depends on the sum of all finding chances and the number of equal
+items in the object's inventory. It is only equal to the given percentage if the sum is
+100. If the sum is larger (as in this example), the individual finding chances will be
+smaller, if the sum is smaller, the individual chances will be higher. The actual chance
+of copper being drawn in the above example would be: (156-76)/256 = 31%.
+
+If you remove items after giving them (no copy or REMOVE_ITEMS set to TRUE), you should
+have more common items in the mine and only a few rare ones, so that their distribution
+roughly matches their finding chances. Otherwise the common item would be drawn quite
+early and then there would be only rarer items left, so they would be drawn with much
+higher chance.
+
+For the above example, put e.g. 5 stones, 4 copper, 3 silver, 2 gold and only 1 platinum
+and 1 diamond in and set IGNORE_NUMBERS to TRUE because SL will append a number for items
+with the same name. The above example would then be as follows (internally):
+
+      1, "a small diamond",
+      6, "some platinum",
+     26, "a gold nugget",
+     46, "a gold nugget 1",
+     96, "some silver",
+    146, "some silver 1",
+    196, "some silver 2",
+    276, "a piece of copper",
+    356, "a piece of copper 1",
+    436, "a piece of copper 2",
+    516, "a piece of copper 3",
+    616, "a worthless stone",
+    716, "a worthless stone 1",
+    816, "a worthless stone 2",
+    916, "a worthless stone 3",
+   1016, "a worthless stone 4"
+
+The actual drawing chance for copper would then be: (516-196)/1016 = 31.5%, which is
+still about the same as before, but this is more a coincidence. By adding more of an
+item, its drawing chance increases while the chance for rare items becomes even smaller
+(from 2/256 to 2/1016 for diamonds).
+
+To circumvent this or if you don't like the added numbers, you could just have several
+different common items in the mine instead of more of the same. This wouldn't change the
+underlying calculation, though. If you don't remove items after they have been drawn, you
+only need one of each item inside the mine anyway and the probabilities stay the same.
+
+REZ_OFFSET and REZ_ROTATION
+
+Define the offset to the root prim the mined item is rezzed at in the form <X, Y, Z>.
+Rezzing needs permission to do so; if you are on group-owned land, you need to deed the
+object that is rezzing the items to the group: either the miner or the server object!
+If you can't rez or don't want to, use ZERO_VECTOR to disable rezzing altogether;
+GIVE_ITEM is implicitly assumed then.
+
+The rezzed item's rotation is in the form <X, Y, Z> (in degrees). This can be helpful
+if the normal rotation of the item is not zero, so you can just set it to the same value
+here. Use ZERO_VECTOR for none.
+
+SIT_TARGET and SIT_ROTATION
+
+Set the sit target position in the form <X, Y, Z>. If you have another script providing
+this already (e.g. a sitter script) or if you want to put the script in the axe, use
+ZERO_VECTOR to disable it here.
+
+The sit target rotation is in the form <X, Y, Z> (in degrees). Use ZERO_VECTOR for none.
+Sit positions and rotations are usually output by a sitter script, so you can use the
+values from there and add them here instead of using the sitter script directly.
+
+GIVE_ITEM
+
+If item is rezzed, it can be configured to be given immediately (TRUE) or to be given
+or attached on touch (FALSE). For attach on touch, ATTACH_POINT needs to be configured
+then.
+
+ATTACH_POINT
+
+Attachment point to use for attaching when item is touched after rezzing, see
+http://wiki.secondlife.com/wiki/LlAttachToAvatarTemp for a list of possible values.
+Normal attachments only work for the owner due to an SL limitation, so temporary ones are
+used here. Because temporary attachments don't appear in inventory, they give themselves
+when you click them to attach. Use 0 to disable, then the item will give and delete
+itself on touch directly.
+
+ACCESS_LEVEL
+
+Set the access level: 0 for all, 1 for group only, 2 for owner only.
+
+SAY_MODE
+
+Set to 0 to suppress any chat messages, 1 to use region say or IM, 2 for whisper, 3 for
+say (default) and 4 for shout.
+
+USE_SERVER
+
+Set to TRUE if you want to give the miner object away and don't want the next owner to
+just take out the items. It then uses an external server object in the same region, with
+all items in there instead of the miner object. If you want to use rezzing, you need to
+make sure that object entry is allowed on all parcels, else you need to put it on the
+same parcel. Please note that all possible items must be inside the server object,
+copiable and transferable (for you, not necessarily for next owner)! Leave as FALSE to
+use the miner object directly. Default is FALSE.
+
+Please note: This requires the Shuicraft Server script, included in the Advanced bundle
+and available separately.
+
+PASS_CHANNEL
+
+The channel for providing the passphrase: -1 to use a random channel between 1 and 100
+(default), 0 for public chat, >0 for any other channel.
+
+PASS_TIMER
+
+Number of seconds to enter the passphrase. Default is 20.
+
+MIN_TIME and MAX_TIME
+
+Minimum and maximum time interval in seconds between giving the items. If you want a
+fixed time, set both constants to the same value. Default is 60 to 300 seconds.
+
+MAX_TRIES
+
+Maximum number of tries before the mine is temporarily disabled. Use 0 or -1 to disable
+this feature and allow unlimited tries (default).
+
+MIN_DISABLE_TIME and MAX_DISABLE_TIME
+
+Minimum and maximum time interval in seconds the mine is temporarily disabled after the
+maximum number of tries has been exceeded. Default is 120 to 300 seconds.
+
+HIDE_DISABLED
+
+Set to TRUE to turn the mine invisible and phantom while being disabled (default), FALSE
+to leave it as is. The sit target is disabled in any case so the mine can't be used in
+the meantime.
+
+CHECK_TOOL_FIRST
+
+Set to TRUE to check ATTACHED_TOOL when sitting and giving and to FALSE to only check it
+when giving. If you enable this, you should provide the tool before and not just use
+GIVE_ON_SIT for that purpose. Default is FALSE.
+
+REMOVE_ITEMS
+
+Set to TRUE to delete (copiable) items after giving them and to FALSE otherwise. Default
+is TRUE. If you set it to FALSE, the mine will never get empty and never destroy itself.
+
+Please note that removing items does not work when using a server. However, they are
+removed from an internal list, so it still behaves as if the items were removed.
+
+AUTO_DEL_ITEM
+
+Auto-delete mined item if no one picks it up after this time (in seconds).
+Use 0 to disable. Default is 60.
+
+PROTECT_ITEM
+
+TRUE to check worker ID for rezzed item, so no one else can get it (theft protection),
+FALSE to let everyone grab it. Default is FALSE.
+
+IGNORE_NUMBERS
+
+Set to TRUE to ignore trailing numbers in item names when checking chances, e.g. treat
+"gold" and "gold 1" the same, and to FALSE otherwise. So you can add several items with
+the same name which SL will change to "gold 1", "gold 2" etc. because inventory items
+cannot have the same name. Default is FALSE.
+
+GIVE_ITEM_TYPE
+
+The type of items you want to give: objects, notecards, textures, clothing, all etc.
+Use the following values: INVENTORY_OBJECT, INVENTORY_NOTECARD, INVENTORY_TEXTURE,
+INVENTORY_CLOTHING, INVENTORY_ALL etc. For a complete list, please refer to
+https://wiki.secondlife.com/wiki/LlGetInventoryType
+
+Please note: Scripts and configured sit animation and sounds are never given.
+
+EXCLUDE_ITEMS
+
+This is a list of items that are not included, e.g. mining tools or anything else that
+needs to be in the object, but shall not be given. Define it the following way:
+
+list EXCLUDE_ITEMS = [ "Pick Axe", "Some Texture" ];
+
+Use the empty list [] if you don't need this. It automatically contains the sit animation
+and configured sounds, so they are never given.
+
+GIVE_ON_SIT
+
+This item is given automatically on sit. You can use it to give the avatar a mining tool.
+It should also be added to the EXCLUDE_ITEMS list (not done automatically). When putting
+the script in the axe, this should be empty. Leave empty to disable.
+
+ATTACHED_TOOL
+
+This item needs to be attached before starting to work. It should be same as GIVE_ON_SIT
+if you use that. It is enough if only a substring matches, e.g. if the required tool is
+"Cool Axe", you can just configure "Axe" here. To prevent cheating, it must have same the
+creator as the Miner object itself. Leave empty to disable.
+
+TOOL_CREATOR
+
+The UUID of the required creator of the attached tool. Use NULL_KEY to use this object's
+creator as in previous versions (default). Use "" to disable the tool check entirely.
+
+SIT_TEXT
+
+The text to display on the right-click or pie menu instead of "Sit".
+
+SIT_ANIMATION
+
+The sit or mining animation to use, which needs to be in the prim's inventory as well.
+Set to "" to simply use the first found animation in the inventory. If none is found,
+the standard sit animation is used.
+
+Please note: The avatar needs to give permissions to animate them. When the script is
+used in the axe, the permissions are granted automatically.
+
+WORKING_SOUND, GIVING_SOUND and FINISH_SOUND
+
+Sounds that are played during working, on giving an item and when finished mining (as the
+mine gets destroyed). Set to "" to use the first, second or third found sound in the
+inventory, respectively. The finishing sound is also used when disabling a mine.
+
+PASSPHRASE
+
+The secret passphrase that must be said before the mine can be used. Leave empty to
+disable this feature.
+
+MSG_START, MSG_STOP, MSG_FOUND, MSG_FINISHED, MSG_DISABLED, MSG_PASSPHRASE, MSG_TOOL,
+MSG_FORBIDDEN, MSG_NOT_OWNER and MSG_AUTO_DEL
+
+These messages are printed when an avatar starts or stops mining, when they found an
+item, after the object getting empty and destroyed, when a mine is temporarily disabled,
+when a passphrase is expected, when a tool needs to be attached and when an avatar is not
+allowed to mine (e.g. when they don't belong to the group or didn't provide the correct
+passphrase), when someone else wants to pick up the rezzed item and when a mined item
+is auto-deleted. To MSG_FOUND, the found item name, to MSG_TOOL, the tool to attach and
+to MSG_PASSPHRASE, the expected channel number is appended.
+
+If the message starts with "/me", it's said with the avatar's name, otherwise the display
+name is prepended. In the first case, the object pretends to be saying things as the
+seated/attached avatar. It uses the display name if possible (i.e. if it only contains
+normal ASCII characters) or the legacy name otherwise. As an exception, MSG_FINISHED,
+MSG_DISABLED and MSG_PASSPHRASE are said as the object and MSG_AUTO_DEL is said as the
+mined item that is auto-deleted.
+
+___________________________________________________________________________
+
+CONFIG NOTECARD
+
+Instead of editing the script, you can also configure most parameters in a notecard
+containing the word "MinerConfig" in its name. Parameter and section names are case-
+insensitive. With a notecard, the EXCLUDE_ITEMS and FIND_CHANCES lists inside the
+script are not used anymore.
+
+----------------------------------------------------------------
+# Offset to the root prim the mined item is rezzed at, use <0,0,0> to disable
+RezOffset=<0.0,0.0,1.0>
+# Rezzed item's rotation (in degrees) or <0,0,0> for none
+RezRotation=<0.0,0.0,0.0>
+# Sit target position, use <0,0,0> if provided by other script
+SitTarget=<0.0,-3.3,-1.2>
+# Sit target rotation (in degrees) or <0,0,0> for none
+SitRotation=<0.0,0.0,90.0>
+# Access level (Access or AccessLevel): 0/All, 1/Group, 2/Owner
+AccessLevel=All
+# Minimum time interval
+MinTime=60
+# Maximum time interval
+MaxTime=300
+# Maximum number of tries before mine is temporarily disabled, use 0 or -1 to disable
+MaxTries=0
+# Minimum time the mine is temporarily disabled after max tries
+MinDisableTime=120
+# Maximum time the mine is temporarily disabled after max tries
+MaxDisableTime=300
+# Channel for passphrase: -1=random, 0=public, >0=other channel
+PassChannel=-1
+# Auto-delete mined item if no one picks it up after this time, use 0 to disable
+AutoDelItem=60
+# Type of item: All, Texture, Sound, Landmark, Clothing, Object, Notecard, Script,
+# Bodypart, Animation, Gesture
+GiveItemType=Object
+# This item is given automatically on sit, e.g. a tool
+GiveOnSit=Enki's Pick Axe
+# This item needs to be attached before starting to work
+AttachedTool=
+# The creator of the tool must have the following UUID, leave empty to disable, comment to use script's default
+#ToolCreator=
+# Text to display on right-click menu instead of "Sit"
+SitText=Mine
+# Working animation to use, uses first found anim if empty, or standard anim if none
+SitAnimation=
+# Sound played during working, uses first found sound if empty
+WorkingSound=
+# Sound played on giving an item, uses second found sound if empty
+GivingSound=
+# Sound played when finished, uses third found sound if empty
+FinishSound=
+# Secret passphrase that must be said before the mine can be used, leave empty to disable
+Passphrase=
+
+# These items are not included (automatically contains sit anim, giving sound and the script)
+[ExcludeItems]
+Enki's Pick Axe|Sitter Script
+Some Object
+Some Texture
+
+# Finding chances (in percent) of the items
+[FindChances]
+1=a small diamond
+5=some platinum
+20=a gold nugget|50=some silver
+80=a piece of copper|100=a worthless stone
+----------------------------------------------------------------
+
+Please note: ExcludeItems and FindChances have their own sections now. Items are one per
+line or separated by "|" (without spaces in between). For FindChances, the finding chance
+and the item are separated by "=". The old definition with comma-separated lists is not
+supported anymore.
+
+
+============================================================
+  【秀】  [.Shuggles.] Product Maker v0.57  【ツ】
+============================================================
+
+The Shuicraft Crafter (formerly Product Maker) script can be used to craft products out
+of provided ingredients, rezzed near the crafter object. It rezzes the completed product
+and gives it to the avatar that crafted it before removing the ingredients and the rezzed
+copy of the finished product.
+
+The script can be used in an roleplay environment, e.g. to let avatars create products
+out of things they collected during a previous roleplay etc. The finished product can be
+used as ingredient again for another product to be made. You can use an optional custom
+sit animation, have sounds played during chopping and on finishing, configure texts, the
+sit target and whether all possible products shall be made from the available ingredients
+or just the first possible one. It can also be used together with a sitter script.
+
+Many parameters can be configured in a config notecard; a description and an example are
+included. All parameters can be set in the script as well. Detailed configuration options:
+
+- rezzing offset and rotation of finished product, rezzing can be disabled
+- sit target and sit rotation, can be disabled if used with another sitter script
+- whether to give the product after completion or only on touch of the rezzed product
+- whether everyone's ingredients can be used or only the operator's
+- whether only the operator can pick up the finished product or everyone
+- attachment point if attach on touch after rezzing is to be used
+- uses temporary attachments, so that it works for everyone and not just the owner
+- access level all, group or owner, also works for deeded objects
+- don't craft product if ingredients are removed before finishing
+- check that ingredients are rezzed, not attached (can't be removed if not rezzed)
+- theft protection: optionally only use worker's ingredients
+- deliver products from object's inventory or from a separate server (sold separately)
+- specify whether a whisper broadcast or sensor should be used to scan for ingredients
+- whether to craft all possible products from the available ingredients or just one
+- configure the time it takes to complete each product, optionally display remaining time
+- specify time after which a finished product is auto-deleted if it is not picked up
+- option to ignore numbers of ingredients and products, e.g. treat "Flour 1" as "Flour"
+- whether object should pretend to speak as the seated avatar or talk as itself
+- say mode to select between region say/IM, whisper, say and shout or to disable messages
+- item to give automatically on sit, e.g. a tool, optionally require it to be attached
+- configurable tool creator for that tool or disable tool check
+- text to display on right-click menu instead of "Sit"
+- sit animation to use, otherwise uses first found anim, or standard anim if none
+- configurable sounds that are played during crafting and on finishing
+- spoken texts on sit, unsit, touch, crafting and completing a product, needing a tool,
+  forbidden to sit, when someone else wants to pick up the rezzed product and when auto-
+  deleting finished products that were not taken
+
+Delivering products from a server requires the Shuicraft Server script which will be
+included in the future Shuicraft Advanced bundles or can be bought separately.
+
+Please take the time to update all your ingredients and product makers with the new
+scripts because old communication messages between them have been made obsolete, so they
+will stop working sometime in the future, after a few more versions.
+
+This package already contains the new Updater for when the Product Maker will be renamed
+to Shuicraft Crafter. For now, please still use the Product Maker Updater, but keep the
+new one for the future.
+
+The Shuicraft Crafter scripts are full perm. They're licensed under the BSD license with
+the addition that they must not be resold or otherwise given away standalone in parts or
+as whole. They can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+Put the Shuicraft Crafter script into the crafter object and the Ingredient script in all
+ingredients and completed products. Put the products into the crafter and think of a nice
+way or story to provide the ingredients to the roleplayers.
+
+This works best if you are not giving the crafter object away and only let others work on
+it. If you want to give it away, the next owner could just take out the products instead
+of crafting them. To prevent that, you can use the Shuicraft Server script (included in
+the Advanced bundle and available separately) and put it into a separate server object
+which you keep, together with all products, instead of having them in the crafter object.
+
+Then just put the server object anywhere in the same region and don't give it away. If
+you want to use rezzing, you need to make sure that object entry is allowed on all
+parcels, else you need to put it on the same parcel. Please note that all possible
+products must be inside the server object, all copiable and transferable (for you, not
+necessarily for next owner)! Don't forget to set USE_SERVER in the Crafter script then
+(see below).
+
+If you want to use the rezzing feature on group-owned land, you need to deed the object
+that is rezzing the products: either the crafter object or the server object! Rezzing on
+group-owned land only works if owner is present or object is set to group AND group can
+rez or object is deeded to group ('can always rez' in group role is not enough).
+
+To configure the Crafter script, please open it and change the following constants
+according to your needs:
+
+PRODUCTS
+
+The list of products that can be crafted, their crafting times and ingredients. Products
+need to be in the inventory of the crafter, ingredients in close range to it when crafting
+the product. Use strings except for the separator; separate the products with a 0:
+
+list PRODUCTS =
+[
+    "Cake",  "20", "Flour", "Sugar", "Egg", 0,
+    "Bread", "10", "Flour", "Egg", 0
+];
+
+A product can be crafted from different or multiple equal ingredients. It's also possible
+to have some equal ingredients for several products. The Crafter script always tries to
+create the products from first to last in the list.
+
+Ingredients can be from different creators and owners, but they need to contain the
+Ingredient script with the same creator as the Crafter script! Products also need to
+contain the Ingredient script so their rezzed copy can be deleted by the script. This
+way they can also be used as ingredients for the next product.
+
+If PROTECT_INGRED is set, then only ingredients of the avatar operating the object are
+used, otherwise all ingredients in range. If PROTECT_PRODUCT is set, only the operator
+can pick up the crafted product, otherwise everyone.
+
+Please note that this list is not used anymore when a notecard is used, so you need to
+put all your products and ingredients there instead.
+
+TEXT_COLOR
+
+The color of floating text in the form <R, G, B> (range from 0 to 255 each). Used to
+display the remaining time (if configured). Default is white.
+
+REZ_OFFSET and REZ_ROTATION
+
+Define the offset to the root prim the product is rezzed at in the form <X, Y, Z>.
+Rezzing needs permission to do so; if you are on group-owned land, you need to deed the
+object that is rezzing the products to the group: either the crafter or the server object!
+If you can't rez or don't want to, use ZERO_VECTOR to disable rezzing altogether;
+GIVE_PRODUCT is implicitly assumed then.
+
+The rezzed product's rotation is in the form <X, Y, Z> (in degrees). This can be helpful
+if the normal rotation of the product is not zero, so you can just set it to the same
+value here. Use ZERO_VECTOR for none.
+
+SIT_TARGET and SIT_ROTATION
+
+Set the sit target position in the form <X, Y, Z>. If you have another script providing
+this already (e.g. a sitter script), use ZERO_VECTOR to disable it here, so the other
+script won't be influenced.
+
+The sit target rotation is in the form <X, Y, Z> (in degrees). Use ZERO_VECTOR for none.
+Sit positions and rotations are usually output by a sitter script, so you can use the
+values from there and add them here instead of using the sitter script directly.
+
+GIVE_PRODUCT
+
+If product is rezzed, it can be configured to be given immediately (TRUE) or to be given
+or attached on touch (FALSE). For attach on touch, ATTACH_POINT needs to be configured
+then.
+
+ATTACH_POINT
+
+Attachment point to use for attaching when product is touched after rezzing, see
+http://wiki.secondlife.com/wiki/LlAttachToAvatarTemp for a list of possible values.
+Normal attachments only work for the owner due to an SL limitation, so temporary ones are
+used here. Because temporary attachments don't appear in inventory, they give themselves
+when you click them to attach. Use 0 to disable, then the product will give and delete
+itself on touch directly.
+
+ACCESS_LEVEL
+
+Set the access level: 0 for all, 1 for group only, 2 for owner only.
+
+SAY_MODE
+
+Set to 0 to suppress any chat messages, 1 to use region say or IM, 2 for whisper, 3 for
+say (default) and 4 for shout.
+
+DISPLAY_TIME
+
+Set to TRUE to display the remaining time while crafting and to FALSE otherwise. If the
+displayed time is at least one minute, time is shown as m:ss; if it's at least one hour,
+it is shown as h:mm:ss. Default is FALSE.
+
+USE_SERVER
+
+Set to TRUE if you want to give the crafter object away and don't want the next owner to
+just take out the products. It then uses an external server object in the same region,
+with all products in there instead of the crafter object. If you want to use rezzing, you
+need to make sure that object entry is allowed on all parcels, else you need to put it on
+the same parcel. Please note that all possible products must be inside the server object,
+copiable and transferable (for you, not necessarily for next owner)! Leave as FALSE to
+use the crafter object directly. Default is FALSE.
+
+Please note: This requires the Shuicraft Server script, included in the Advanced bundle
+and available separately.
+
+USE_SENSOR
+
+Set to TRUE to scan for ingredients using sensors or to FALSE to use a whisper broadcast
+and listen. Using the broadcast requires the Ingredient scripts in all ingredients, which
+should be in there anyway, though (for deleting them). When using sensor, fake (i.e.
+self-made) ingredients could be used instead of provided ones, so it shouldn't be used in
+most cases.
+
+ONLY_ONE_PRODUCT
+
+Set to TRUE to craft only one product out of the provided ingredients. Set to FALSE to
+craft all possible products. For instance, you can put all ingredients you collected near
+the crafter object and it starts to create the first possible product, removes the used
+ingredients, then starts over with the first product from its internal list and creates
+the next possible product until no further products can be crafted.
+
+AUTO_DEL_PRODUCT
+
+Auto-delete finished product if no one picks it up after this time (in seconds).
+Use 0 to disable. Default is 60.
+
+PROTECT_INGRED
+
+TRUE to check worker ID in ingredients, so only their ingredients are used, FALSE to use
+all found ingredients. Default is FALSE.
+
+PROTECT_PRODUCT
+
+TRUE to check worker ID for rezzed product, so no one else can get it (theft protection),
+FALSE to let everyone grab it. Default is FALSE.
+
+IGNORE_NUMBERS
+
+If you obtained ingredients from another object, they might have a number as last part
+of their name because inventory items in an object can't have the same name, so they get
+numbered. With this option, you can tell the Crafter script to ignore those numbers for
+ingredients and products, e.g. treat "Flour 1" as "Flour".
+
+GIVE_ON_SIT
+
+This item is given automatically on sit. You can use it to give the avatar a crafting
+tool. Leave empty to disable.
+
+ATTACHED_TOOL
+
+This item needs to be attached before starting to work. It should be same as GIVE_ON_SIT
+if you use that. It is enough if only a substring matches, e.g. if the required tool is
+"Cooking Spoon", you can just configure "Spoon" here. To prevent cheating, it must have
+same the creator as the crafter object itself. Leave empty to disable.
+
+TOOL_CREATOR
+
+The UUID of the required creator of the attached tool. Use NULL_KEY to use this object's
+creator as in previous versions (default). Use "" to disable the tool check entirely.
+
+SIT_TEXT
+
+The text to display on the right-click or pie menu instead of "Sit".
+
+SIT_ANIMATION
+
+The sit animation to use, which needs to be in the prim's inventory as well. Set to "" to
+simply use the first found animation in the inventory. If none is found, the standard sit
+animation is used.
+
+Please note: The avatar needs to give permissions to animate them.
+
+WORKING_SOUND and FINISH_SOUND
+
+Sounds that are played during working and when finished (as the product is crafted). Set
+to "" to use the first or second found sound in the inventory, respectively.
+
+MSG_PREPARE, MSG_START, MSG_STOP, MSG_MAKING, MSG_FINISHED, MSG_REMOVED, MSG_TOOL,
+MSG_FORBIDDEN, MSG_NOT_OWNER and MSG_AUTO_DEL
+
+These messages are printed when an avatar sits, touches to start crafting, stands up to
+stop crafting, when they are crafting and finished a product, if ingredients were removed
+before finishing the product, when a tool needs to be attached, if an avatar is not
+allowed to sit or touch (e.g. when they don't belong to the group or notecard was not
+read yet), when someone else wants to pick up the rezzed product and when a finished
+product is auto-deleted. To MSG_MAKING and MSG_FINISHED, the completed product's name, to
+MSG_REMOVED, the removed ingredient's name and to MSG_TOOL, the tool to attach is appended.
+
+If the message starts with "/me", it's said with the avatar's name, otherwise the display
+name is prepended. In the first case, the object pretends to be saying things as the
+seated/attached avatar. It uses the display name if possible (i.e. if it only contains
+normal ASCII characters) or the legacy name otherwise. As an exception, MSG_AUTO_DEL is
+said as the finished product that is auto-deleted.
+
+___________________________________________________________________________
+
+CONFIG NOTECARD
+
+Instead of editing the script, you can also configure most parameters in a notecard
+containing the word "CrafterConfig" in its name. Parameter and section names are case-
+insensitive. With a notecard, the PRODUCTS list inside the script is not used anymore.
+
+Please note that even though the old name "MakerConfig" still works as well, it has been
+made obsolete and will stop working sometime in the future, after a few more versions.
+
+----------------------------------------------------------------
+# Offset to the root prim the product is rezzed at, use <0,0,0> to disable
+RezOffset=<0.0,0.0,1.0>
+# Rezzed product's rotation (in degrees) or <0,0,0> for none
+RezRotation=<0.0,0.0,0.0>
+# Sit target position, use <0,0,0> if provided by other script
+SitTarget=<0.0,0.0,0.1>
+# Sit target rotation (in degrees) or <0,0,0> for none
+SitRotation=<0.0,0.0,0.0>
+# Access level (Access or AccessLevel): 0/All, 1/Group, 2/Owner
+AccessLevel=All
+# Auto-delete finished product if no one picks it up after this time, use 0 to disable
+AutoDelProduct=60
+# This item is given automatically on sit, e.g. a tool
+GiveOnSit=Cooking Spoon
+# This item needs to be attached before starting to work
+AttachedTool=Cooking Spoon
+# The creator of the tool must have the following UUID, leave empty to disable, comment to use script's default
+#ToolCreator=
+# Text to display on right-click menu instead of "Sit"
+SitText=Craft
+# Working animation to use, uses first found anim if empty, or standard anim if none
+SitAnimation=
+# Sound played during working, uses first found sound if empty
+WorkingSound=
+# Sound played when finished, uses second found sound if empty
+FinishSound=
+
+# List of products, their crafting time and their ingredients (no spaces in between!)
+[Products]
+Cake=20:Flour,Sugar,Egg
+Bread=10:Flour,Egg
+----------------------------------------------------------------
+
+
+============================================================
+  【秀】  [.Shuggles.] Tree Feller v0.57  【ツ】
+============================================================
+
+The Shuicraft Woodcutter (formerly Tree Feller) script rezzes a tree on top of a tree
+stump. Then an avatar can sit on it to start cutting the tree. After a random time the
+tree is cut and falls over where it can be taken by clicking it, with optional payment.
+Then you can start anew.
+
+The scripts can be used in an roleplay environment, e.g. to let avatars do some lumbering
+to get wood for further story development. If you also own the Shuicraft Crafter scripts,
+you could e.g. use the wood as ingredient for new products you make. You can use a custom
+sit/chopping animation, have sounds played during chopping and on finishing, configure
+texts, the sit target and the time interval after which the tree is cut. It can also be
+used together with a sitter script.
+
+Many parameters can be configured in a config notecard; a description and an example are
+included. All parameters can be set in the script as well. Detailed configuration options:
+
+- rezzing offset and rotation of the tree above the stump
+- sit target and sit rotation, can be disabled if used with another sitter script
+- whether only the operator can pick up the cut tree or everyone
+- access level all, group or owner, also works for deeded objects
+- deliver trees from object's inventory or from a separate server (sold separately)
+- specify whether a whisper broadcast or sensor should be used to scan for trees
+- minimum and maximum time of cutting interval
+- specify time after which a new tree top is rezzed automatically
+- specify time after which a cut tree is auto-deleted if it is not picked up
+- whether object should pretend to speak as the seated avatar or talk as itself
+- say mode to select between region say/IM, whisper, say and shout or to disable messages
+- the object name of the tree to rez and to give
+- optionally pay cut tree to get it
+- item to give automatically on sit, e.g. an axe, optionally require it to be attached
+- configurable tool creator for that tool or disable tool check
+- text to display on right-click menu instead of "Sit"
+- chopping animation to use, otherwise uses first found anim, or standard anim if none
+- configurable sounds that are played during chopping and on finishing
+- spoken texts on sit, unsit, finish chopping, needing a tool, forbidden to sit, when
+  someone else wants to pick up the rezzed fallen tree and when auto-deleting cut trees
+  that were not taken
+
+Delivering the cut tree top from a server requires the Shuicraft Server script which will
+be included in the future Shuicraft Advanced bundles or can be bought separately.
+
+Please take the time to update all your trees and tree tops with the new scripts because
+old communication messages between them have been made obsolete, so they will stop
+working sometime in the future, after a few more versions.
+
+This package already contains the new Updater for when the Tree Feller will be renamed
+to Shuicraft Woodcutter. For now, please still use the Tree Feller Updater, but keep the
+new one for the future.
+
+The Shuicraft Woodcutter scripts are full perm. They're licensed under the BSD license
+with the addition that they must not be resold or otherwise given away standalone in
+parts or as whole. They can be used in your creations as long as these license conditions
+are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+Put the Shuicraft Woodcutter script into the tree stump object and the Ingredient script
+in the top part of the tree that is chopped. If you want the user to pay for the cut tree,
+add the price in the top part's description field, otherwise leave it empty. Put the top
+part into the stump and think of a nice way or story to make your roleplayers lumber for
+wood.
+
+This works best if you are not giving the stump object away and only let others work on
+it. If you want to give it away, the next owner could just take out the tree top instead
+of chopping it. To prevent that, you can use the Shuicraft Server script (included in the
+Advanced bundle and available separately) and put it into a separate server object which
+you keep, together with all tree tops, instead of having them in the stump object.
+
+Then just put the server object anywhere in the same region and don't give it away. If
+you want to use rezzing, you need to make sure that object entry is allowed on all
+parcels, else you need to put it on the same parcel. Please note that all possible
+tree tops must be inside the server object, all copiable and transferable (for you, not
+necessarily for next owner)! Don't forget to set USE_SERVER in the Woodcutter script then
+(see below).
+
+If you want to use the rezzing feature on group-owned land, you need to deed the object
+that is rezzing the tree top: either the woodcutter object or the server object! Rezzing
+on group-owned land only works if owner is present or object is set to group AND group
+can rez or object is deeded to group ('can always rez' in group role is not enough).
+
+To configure the Tree Feller script, please open it and change the following constants
+according to your needs:
+
+REZ_OFFSET and REZ_ROTATION
+
+Define the offset to the stump object the tree is rezzed on top of in the form <X, Y, Z>.
+Rezzing needs permission to do so; if you are on group-owned land, you need to deed the
+object that is rezzing the tree top to the group: either the stump or the server object!
+If you can't rez or don't want to, use ZERO_VECTOR to disable rezzing altogether and give
+the cut tree instead.
+
+Please note: You won't see the tree being cut and fall down if you disable rezzing; you
+will just finish chopping and receive the cut tree. This means that you need to place not
+only the tree stump, but a complete tree and the cut tree that is given should match the
+real tree. Paying for the tree is also not possible then.
+
+The rezzed tree's rotation is in the form <X, Y, Z> (in degrees). This can be helpful
+if the normal rotation of the tree top is not zero, so you can just set it to the same
+value here. Use ZERO_VECTOR for none.
+
+SIT_TARGET and SIT_ROTATION
+
+Set the sit target position in the form <X, Y, Z>. If you have another script providing
+this already (e.g. a sitter script), use ZERO_VECTOR to disable it here, so the other
+script won't be influenced.
+
+The sit target rotation is in the form <X, Y, Z> (in degrees). Use ZERO_VECTOR for none.
+Sit positions and rotations are usually output by a sitter script, so you can use the
+values from there and add them here instead of using the sitter script directly.
+
+ACCESS_LEVEL
+
+Set the access level: 0 for all, 1 for group only, 2 for owner only.
+
+SAY_MODE
+
+Set to 0 to suppress any chat messages, 1 to use region say or IM, 2 for whisper, 3 for
+say (default) and 4 for shout.
+
+USE_SERVER
+
+Set to TRUE if you want to give the woodcutter object away and don't want the next owner
+to just take out the tree top. It then uses an external server object in the same region,
+with all tree tops in there instead of the woodcutter object. If you want to use rezzing,
+you need to make sure that object entry is allowed on all parcels, else you need to put
+it on the same parcel. Please note that all possible tree tops must be inside the server
+object, copiable and transferable (for you, not necessarily for next owner)! Leave as
+FALSE to use the woodcutter object directly. Default is FALSE.
+
+Please note: This requires the Shuicraft Server script, included in the Advanced bundle
+and available separately.
+
+USE_SENSOR
+
+Set to TRUE to scan for tree tops using sensors or to FALSE to use a whisper broadcast
+and listen. Using the broadcast requires the Ingredient scripts in the tree top, which
+should be in there anyway, though (for deleting it). This is only necessary when using
+a server to rez the tree top, so the woodcutter object finds it; it is not used when
+USE_SERVER is FALSE or when rezzing is disabled.
+
+Please note: If scanning is used (sensor or listen), the creator of the woodcutter object
+and the owner of the tree top (in the server object) must be the same.
+
+AUTO_REZ_TREE
+
+Auto-rez new tree top after the specified time in seconds after cutting, so there is no
+need to click first. Use 0 to disable. Default is disabled.
+
+AUTO_DEL_TREE
+
+Auto-delete cut tree if no one picks it up after this time in seconds. Use 0 to disable.
+Default is 60 seconds.
+
+PROTECT_TREE
+
+TRUE to check worker ID for fallen tree, so no one else can get it (theft protection),
+FALSE to let everyone grab it. Default is FALSE.
+
+MIN_TIME and MAX_TIME
+
+Minimum and maximum time interval in seconds before a tree is cut. If you want a fixed
+time, set both constants to the same value. Default is 60 to 120 seconds.
+
+CHECK_TOOL_FIRST
+
+Set to TRUE to check ATTACHED_TOOL when sitting and giving and to FALSE to only check it
+when giving. If you enable this, you should provide the tool before and not just use
+GIVE_ON_SIT for that purpose. Default is FALSE.
+
+GIVE_ITEM_NAME
+
+The item to rez/give (the top part of the tree that is cut), uses first found object if
+empty. Please note that this must be provided when a server is used.
+
+GIVE_ON_SIT
+
+This item is given automatically on sit. You can use it to give the avatar an axe.
+
+ATTACHED_TOOL
+
+This item needs to be attached before starting to work. It should be same as GIVE_ON_SIT
+if you use that. It is enough if only a substring matches, e.g. if the required tool is
+"Cool Axe", you can just configure "Axe" here. To prevent cheating, it must have same the
+creator as the Tree Feller object itself. Leave empty to disable.
+
+TOOL_CREATOR
+
+The UUID of the required creator of the attached tool. Use NULL_KEY to use this object's
+creator as in previous versions (default). Use "" to disable the tool check entirely.
+
+SIT_TEXT
+
+The text to display on the right-click or pie menu instead of "Sit".
+
+SIT_ANIMATION
+
+The sit or chopping animation to use, which needs to be in the prim's inventory as well.
+Set to "" to simply use the first found animation in the inventory. If none is found,
+the standard sit animation is used.
+
+Please note: The avatar needs to give permissions to animate them.
+
+WORKING_SOUND and FINISH_SOUND
+
+Sounds that are played during working and when finished (as the tree is cut). Set to ""
+to use the first or second found sound in the inventory, respectively.
+
+MSG_START, MSG_STOP, MSG_FINISHED, MSG_TOOL, MSG_FORBIDDEN, MSG_NOT_OWNER and MSG_AUTO_DEL
+
+These messages are printed when an avatar starts or stops chopping, when finishing, when
+a tool needs to be attached, when an avatar is not allowed to chop (e.g. when they don't
+belong to the group), when someone else wants to pick up the fallen tree and when a cut
+tree is auto-deleted.
+
+If the message starts with "/me", it's said with the avatar's name, otherwise the display
+name is prepended. In the first case, the object pretends to be saying things as the
+seated/attached avatar. It uses the display name if possible (i.e. if it only contains
+normal ASCII characters) or the legacy name otherwise. As an exception, MSG_FINISHED
+and MSG_TOOL are said as the object and MSG_AUTO_DEL as the cut tree that is auto-deleted.
+To MSG_TOOL, the tool to attach is appended.
+
+___________________________________________________________________________
+
+CONFIG NOTECARD
+
+Instead of editing the script, you can also configure most parameters in a notecard
+containing the word "WoodcutterConfig" in its name. Parameter names are case-insensitive.
+
+Please note that even though the old name "FellerConfig" still works as well, it has been
+made obsolete and will stop working sometime in the future, after a few more versions.
+
+----------------------------------------------------------------
+# Offset to the root prim the tree top is rezzed at, use <0,0,0> to disable
+RezOffset=<0.0,0.0,1.75>
+# Rezzed tree's rotation (in degrees) or <0,0,0> for none
+RezRotation=<0.0,0.0,0.0>
+# Sit target position, use <0,0,0> if provided by other script
+SitTarget=<0.0,-1.0,0.55>
+# Sit target rotation (in degrees) or <0,0,0> for none
+SitRotation=<0.0,0.0,90.0>
+# Access level (Access or AccessLevel): 0/All, 1/Group, 2/Owner
+AccessLevel=All
+# Auto-delete cut tree if no one picks it up after this time, use 0 to disable
+AutoDelTree=60
+# Minimum time interval
+MinTime=60
+# Maximum time interval
+MaxTime=120
+# The item to rez/give, uses first found object if empty
+GiveItemName=Cut Tree
+# This item is given automatically on sit, e.g. a tool
+GiveOnSit=Shui's Axe
+# This item needs to be attached before starting to work
+AttachedTool=
+# The creator of the tool must have the following UUID, leave empty to disable, comment to use script's default
+#ToolCreator=
+# Text to display on right-click menu instead of "Sit"
+SitText=Chop
+# Working animation to use, uses first found anim if empty, or standard anim if none
+SitAnimation=
+# Sound played during working, uses first found sound if empty
+WorkingSound=
+# Sound played when finished, uses second found sound if empty
+FinishSound=
+----------------------------------------------------------------
+
+
+============================================================
+  【秀】  [.Shuggles.] Shuicraft Server v0.57  【ツ】
+============================================================
+
+The Shuicraft Server script is an addon for Shuicraft Crafter (formerly Product Maker),
+Shuicraft Miner and Shuicraft Woodcutter (formerly Tree Feller) scripts. It will also be
+included in the future Advanced bundles.
+
+You don't need the server if you are not giving the objects from above packages away and
+only let others work on them. If you want to give them away, the next owner could just
+take out the items from their inventory instead of working for them. To prevent that, you
+can use the Shuicraft Server script and put it into a separate server object which you
+keep, together with all items, instead of having them in the actual object.
+
+Then just put the server object anywhere in the same region and don't give it away. If
+you want to use rezzing, you need to make sure that object entry is allowed on all
+parcels, else you need to put it on the same parcel. Please note that all possible
+items must be inside the server object, all copiable and transferable (for you, not
+necessarily for next owner)! Don't forget to set USE_SERVER in the other scripts then.
+Please see their respective documentation for more information.
+
+If you want to use the rezzing feature on group-owned land, you need to deed the server
+object! Rezzing on group-owned land only works if owner is present or object is set to
+group AND group can rez or object is deeded to group ('can always rez' in group role is
+not enough).
+
+The Shuicraft Server script is full perm. It's licensed under the BSD license with the
+addition that it must not be resold or otherwise given away standalone in parts or as
+whole. It can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+

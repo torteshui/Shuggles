@@ -1,0 +1,1815 @@
+﻿============================================================
+  【秀】  [.Shuggles.] Config Handler v0.59  【ツ】
+============================================================
+
+The purpose of the Config Handler script is to read configuration notecards. It provides
+a link message and listen interface to get and set configuration options in different
+sections which is described in detail in the included documentation. When using the link
+message interface, all scripts need to be in the same prim or object; when using the
+listen interface, they can be in different ones and you need to configure the channel in
+the scripts - messages will also be limited to 1024 bytes then (1024 ASCII characters,
+UTF-8 characters can use more bytes). You can also have several options on one line
+(separated by "|") to increase reading speed:
+
+----------------------------------------------------------------
+# Example
+General option 1=Value
+General option 2=Another value
+[Section 1]
+Option 1=Value 1
+Option 2=Value 2
+Option 3=Value 3|Option 4=Value 4|Option 5=Value 5
+[Section 2]
+List item 1
+List item 2
+List item 3|List item 4|List item 5
+----------------------------------------------------------------
+
+Interface:
+
+- read (from notecard) and write (to local chat) config
+- optionally append to existing config or explicitly clear it
+- get sections and number of sections
+- get and set values by name or index
+- add values at the end of a section
+- delete values by name, index or value
+- remove whole sections
+- get names and values in a section as well as their number
+- error codes and human-readable error messages
+
+PLEASE NOTE: This version is incompatible with releases before v0.58 because it uses "|"
+as separator in messages now instead of ":" and section names are case-insensitive now.
+That means that all scripts using the Config Handler need to be adjusted. It also affects
+the Slideshow and Tip Jar scripts which were updated in Slideshow v0.58 and Tip Jar v0.63.
+
+The Config Handler script is full perm, so it can be adapted to your needs and
+requirements. It's licensed under the BSD license with the addition that it must not be
+resold or otherwise given away standalone in parts or as whole. It can be used in your
+creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+The Config Handler package contains a full perm test script to test some typical usecases
+and special cases as well as a simpler example script. Both can be taken as reference on
+how to operate the actual Config Handler script. Just rez a prim, drop the Config Handler
+and Config Test scripts as well as the Example Config in and touch it. Check the output
+manually and verify your usecases as well. If you want to use the listen interface, both
+scripts can be in different prims and you need to configure the channel in the scripts.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+CONFIG HANDLER INTERFACE
+
+- llMessageLinked + link_message event or llRegionSay(To) + listen event
+- num and id are just passed between calls (num not with listen interface)
+- num can be used as session ID or for classes of commands, for instance
+- id can be used to keep track of the calling user (with listen interface, replies are only sent to id)
+- see also the included Shui_Config_Test and Shui_Config_Example scripts for a reference
+- best practice is to copy the constants section from one of these scripts to your script
+
+llMessageLinked( link, num, msg ) with the following messsages:
+
+- config.read|config_name - read the notecard named config_name
+- config.append|config_name - read the notecard named config_name and append to existing config
+- config.write|config_name - write the current config to local chat (llOwnerSay)
+- config.get|section|name|default_value - get the value for option "name" in "section"
+- config.get|section|index|default_value - get the value of the list item at "index" in "section"
+- config.set|section|name|value - set/add the value for option "name" in "section" ("name=value" is also allowed)
+- config.set|section|index|value - set the value of the list item at an existing "index" or after the last one in "section"
+- config.add|section|value - add a list item in "section"
+- config.del|section|name - delete the name-value pair for option "name" in "section"
+- config.del|section|index - delete the value of the list item at "index" in "section"
+- config.del|section - delete "section"
+- config.delv|section|value - delete list item with "value" in "section"
+- config.clear - clear whole config
+
+Special variants of config.get:
+
+- config.get|section|Count| - Get number of items in "section" (pairs now count as one)
+- config.get|section|Names| - Get list of all names in "section", separated by "|"
+- config.get|section|Values| - Get list of all values in "section", separated by "|"
+- config.get||SectionCount| - Get number of sections, including (unnamed) default section
+- config.get||Sections| - Get list of section names, separated by "|"
+
+link_message ( integer sender, integer num, string msg, key id ) with:
+
+- config.ret|section|name/index|value - Return value from config.get (default_value if it doesn't exist)
+- config.reading|line - Sent every 10th line = ~1s when reading a notecard
+- config.ready|code|text|free_memory - Return value when ready with ready code and human-readable text
+- config.error|code|text - Return value on error with error code and human-readable text
+
+Return values can be parsed like this:
+
+  list   args    = llParseStringKeepNulls( msg, ["|"], [] );
+  string cmd     = llList2String( args, 0 );
+  string section = llList2String( args, 1 );
+  string name    = llList2String( args, 2 );
+  string value   = llList2String( args, 3 );    // single value
+  list   values  = llList2List( args, 3, -1 );  // multiple values
+
+Ready and error codes:
+
+- CONFIG_RDY_REZ - ready after rezzing
+- CONFIG_RDY_READ - read command finished
+- CONFIG_RDY_WRITE - write command finished
+- CONFIG_ERR_READ_MISSING - error: no config found
+- CONFIG_ERR_READ_TIMEOUT - error: read timeout
+- CONFIG_ERR_SET_INVALID - error: invalid index in set
+- CONFIG_ERR_DEL_INVALID - error: invalid index, name or section in delete
+- CONFIG_ERR_TYPE_INVALID - error: invalid section type
+
+Notecard format:
+
+- see example above
+- empty lines and comment lines starting with "#", "//" or "--" are ignored
+- sections are enclosed in "[]" and are case-insensitive now!
+- options are separated by newline or "|"
+
+
+============================================================
+  【秀】  [.Shuggles.] Slideshow v0.59  【ツ】
+  【秀】  [.Shuggles.] Slideshow Advanced v0.59  【ツ】
+============================================================
+
+The purpose of the Slideshow script is to display different images on several faces of an
+object. The object can consist of multiple prims as well. The images can be changed by
+clicking or sliding them to the left and the right for getting the next or the previous
+image. Alternatively, faces can be defined that load the next or previous image(s) or
+open a menu when clicked on. An automatic timer can be set as well. You can also select
+between different transition and fading effects. For faster loading, images can optionally
+be preloaded on a configurable (hidden) face and you can define a larger face that shows
+the image you clicked on, e.g on various smaller faces.
+
+Config notecards containing the word "Slideshow" in the object are added to the menu and
+the first one is read and all parameters and images are taken from there. Otherwise you
+are asked to touch the faces for displaying and preloading the images which must all be
+in the object's inventory in that case. Operation modes can be set in the notecard or in
+the object description, so they also work without notecards. From the menu, you can load
+various image sets (notecards) and change options, so you can display different images
+with different effects without having to replace the picture frame.
+
+Detailed configuration options:
+
+- access level owner, group or all
+- the face the images should be displayed (usually first face in config notecard is used)
+- the face used to preload images on a hidden face
+- the face used to open the menu to select image sets and options
+- the face used to display the image that was clicked on as larger image (main face)
+- the control faces (buttons) for going to the next or previous image(s)
+- auto timers in seconds (selectable by menu)
+- direction of image transitions: next, previous, random or current image on main face
+- touch mode: none, next image on click, slide left and right, display larger on main face
+- transition mode: only one image, all at same time, one after another or all out, then all in
+- fading mode: none, random, fade to black/transparent/(darker) color, glowing effect,
+  scale up, scale up/down around the center, rotate, slide left/right
+  (scaling, rotating and sliding only work well with single or serialized transition modes)
+- use prim names or link numbers, faces can also be specified in prims' description
+- support link message "slide.menu" to open menu, send "mpmenu.menu" on CLOSE
+
+Reading the config notecard requires the Config Handler script which is only included
+in the Slideshow Advanced bundle or can be bought separately. The Slideshow script also
+works without it, but you won't be able to use more than one face for displaying the
+images. Both scripts also work with the Shuggles Picture Frames, and another bundle
+called Slideshow Frames is available, too. Please note that you need at least Config
+Handler v0.58 to work with Slideshow v0.58 and above.
+
+The Slideshow script and the optional Config Handler script are full perm, so they can be
+adapted to your needs and requirements. They're licensed under the BSD license with the
+addition that they must not be resold or otherwise given away standalone in parts or as
+whole. They can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+For the slideshow, you need to either add your pictures to the inventory of the object
+and, if using config notecards, add their names to the config notecard (it's important
+that they are in the inventory as well) - or their UUIDs (they don't need to be in the
+inventory then). You can get the UUID by right-clicking on the texture and select "Copy
+Asset UUID". Other textures in the inventory are ignored when using a config notecard.
+And of course, you need to add the Slideshow script and optionally the Config Handler
+script to the object as well.
+
+You need to configure which pictures get displayed on which linked prim and which of its
+faces (see below). You can use prim names or link numbers which start with 1 (root prim)
+for objects with more than one prim, or it is 0 for single prim objects. If you are
+unsure about which face number to use, following these steps will help:
+
+- Enable the Develop menu by pressing Ctrl+Alt+Q (on version 1.x viewers,
+  instead enable the Advanced menu by pressing Ctrl+Alt+D)
+- Select the face using the "Select Texture" Tool
+- Pick Develop > Rendering > Selected Texture Info from the menu,
+  or press Ctrl+Alt+Shift+T 
+
+The face number will be shown in your local chat window or as a notification.
+See also http://wiki.secondlife.com/wiki/Face
+
+If you don't want to use config notecards, it's enough to just add the pictures to the
+object's inventory. You won't be able to use more than one face for displaying the images
+then, though. To try the example with the config notecard, just add the Config Handler
+script and the Example Slideshow Config to the Example.
+
+You can set the operation modes (auto timers, direction, touch mode, transitions and
+fading mode) either in the object's description or in the config notecard (see below).
+When using the menu, you can change (almost) everything there as well:
+
++ IMAGE SETS: opens submenu to change the image set, use MAIN to return
++ IMAGES: opens submenu to change the displayed image, use MAIN to return
++ TOUCH MODE: opens submenu to change the touch mode, use MAIN to return
+  ▣ Click: image transition on click (none is when all are deselected)
+  ▣ Slide: image transition on slide left and right
+  ▣ Large: display image larger on Main face
++ TRANSITION: opens submenu to change image transition, use MAIN to return
+  ▣ Forward:  click goes to next image
+  ▣ Reverse:  click goes to previous image
+  ▣ Random:   random or put current image on Main face
+  ▣ One:      change only one image
+  ▣ Parallel: change all at the same time
+  ▣ Serial:   change one after another
+  ▣ Sequential: all are faded out, then all new faded in
+  ▣ Auto:     set auto timer from a list of preconfigured values (see config)
++ FADE MODE: opens submenu to change the fade mode, use MAIN to return
+  ▣ Random:  randomly select one of the following (none is when all are deselected)
+  ▣ Black:   fade to black
+  ▣ Trans:   fade to transparent
+  ▣ Scale:   scale up
+  ▣ Enlarge: scale up around the center
+  ▣ Reduce:  scale down around the center
+  ▣ Rotate:  rotate
+  ▣ Left:    slide left
+  ▣ Right:   slide right
+  ▣ Glow:    glowing effect
+  ▣ Color:   fade to (darker) color (value can only be set in config)
+- Restart: restart image set from the beginning
+- Reload:  reload config and restart
+- Reset:   reset the script
++ ACCESS: opens submenu to change the access level, use MAIN to return
+  ▣ All:   everyone can access the slideshow
+  ▣ Group: only group members and owner can access the slideshow
+  ▣ Owner: only owner can access the slideshow
+- CLOSE: closes the menu, obviously ^^
+
+___________________________________________________________________________
+
+SLIDESHOW CONFIG NOTECARD AND OBJECT DESCRIPTION
+(config notecard requires Config Handler)
+
+----------------------------------------------------------------
+# Example
+Display=prim.face|Preload=prim.face
+Menu=prim.face|Main=prim.face
+Prev=prim.face|Next=prim.face
+Auto=47,94,0|Dir=1|Touch=Slide|Transit=Ser|Fade=Black|Access=All
+[Textures:prim.face]
+Image 1
+Image 2
+UUID 1
+...
+[Textures:prim.face]
+Image 3
+UUID 2
+...
+----------------------------------------------------------------
+
+- empty lines and comment lines starting with "#", "//" or "--" are ignored
+- Textures sections are enclosed in "[]", they define each face used for displaying images
+  (DEPRECATED: omitting the colon or replacing it by a space, REMOVED: using Face instead of Textures)
+- image names and UUIDs are separated by newline or "|", please omit a trailing "|"
+- prim and face are the linked prim (name or link number, use "root" for root prim) and face number
+- faces can also be specified in prims' description
+- Display face is the face the images should be displayed (only makes sense when used
+  in the object description, otherwise the first Face in the config notecard is used)
+- Preload face is used to preload images on a hidden face
+- Menu face is used to open the menu to select image sets and options
+- Main face is used to display the image that was clicked on as larger image
+- Prev face is a control face, i.e. a "button" for going to the previous image(s)
+- Next face is a control face, i.e. a "button" for going to the next image(s)
+- Auto timers are given in seconds (include 0 to allow switching it off)
+- Dir defines the direction of the images:
+  -  1: next image
+  - -1: previous image
+  -  0: random or put current image on Main face
+- Touch defines the touch mode:
+  - None:  useful with Auto timer
+  - Click: next image on click
+  - Slide: slide left and right
+  - Large: display image larger on Main face
+- Transit defines the transition mode of the images:
+  - One: only one image
+  - Par: all at the same time
+  - Ser: one after another
+  - Seq: all are faded out, then all new faded in
+- Fade defines the fading mode of the images:
+  - None
+  - Random:  randomly select one of the following
+  - Black:   fade to black
+  - Trans:   fade to transparent
+  - Scale:   scale up
+  - Enlarge: scale up around the center
+  - Reduce:  scale down around the center
+  - Rotate:  rotate
+  - Left:    slide left
+  - Right:   slide right
+  - Glow:    glowing effect
+  - <R,G,B>: fade to (darker) color, RGB each range from 0 to 255 (can't be changed by menu)
+  - Scale, Enlarge, Reduce, Rotate, Left and Right only work well with Transit modes One and Ser
+- Access defines the access level (Owner, Group or All)
+
+The options can also be set in the object's description field (you only need to specify
+those you want to set and all in one line, of course):
+
+----------------------------------------------------------------
+Config:Display=prim.face:Preload=prim.face:Menu=prim.face:Main=prim.face:Prev=prim.face:Next=prim.face:
+Auto=47,94,0:Dir=1:Touch=Slide:Transit=Ser:Fade=Black:Access=All
+----------------------------------------------------------------
+
+Please note: When you change the description field, you need to reset the script
+afterwards before the new values are read.
+
+
+============================================================
+  【秀】  [.Shuggles.] Sound on Touch v0.50  【ツ】
+============================================================
+
+The Sound on Touch script plays a configurable sound on touch. If no sound is configured,
+it plays the first from the object's contents. The access level (all, group or owner) can
+be configured as well.
+
+The script scans the nearby region for avatars and preloads the sound if any is in the
+range of 5 meters. If an avatar is nearby and the sound has been preloaded, it increases
+the scanning interval to reduce lag. The sound is guaranteed to stop, it is stopped by a
+timer after playing ends so it doesn't get triggered again.
+
+The Sound on Touch script is full perm. It's licensed under the BSD license with the
+addition that it must not be resold or otherwise given away standalone in parts or as
+whole. It can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Sound Preloader v0.50  【ツ】
+============================================================
+
+The Sound Preloader script scans the nearby region for avatars and preloads the sounds
+from the object's contents (one at a time) if any is in the range of 5 meters. If an
+avatar is nearby and all sounds have been preloaded, it increases the scanning interval
+to reduce lag. Additionally, it preloads sounds given via a link message before switching
+back to the sounds from the inventory. This is used by the also available Sound Player
+script.
+
+The Preloader script is necessary because sound preloading causes significant delay in
+the calling script. It can be used standalone, but is also available as a bundle with
+the Player script.
+
+The Sound Preloader script is full perm. It's licensed under the BSD license with the
+addition that it must not be resold or otherwise given away standalone in parts or as
+whole. It can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Sound Player v0.50  【ツ】
+============================================================
+
+The Sound Player script displays sounds contained in the object's contents on touch in a
+multi-page menu. Upon selecting a sound, it plays it. It already tries to play the sounds
+on the current menu page with a very low volume to preload them fast. Additionally, it
+tries to send a message to the Sound Preloader script for proper preloading.
+
+The Preloader script is necessary because sound preloading causes significant delay in
+the calling script. It is also available - standalone or as a bundle with this Player
+script, but not included in this package.
+
+Sound names must not be longer than 24 characters. They should be no longer than ~14
+characters so they can be displayed completely in the menu.
+
+The sounds are guaranteed to stop, they are stopped by a timer after playing ends so they
+don't get triggered again.
+
+The Sound Player script is full perm. It's licensed under the BSD license with the
+addition that it must not be resold or otherwise given away standalone in parts or as
+whole. It can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Sound Player Advanced v0.50  【ツ】
+============================================================
+
+The Sound Player script displays sounds contained in the object's contents on touch in a
+multi-page menu. Upon selecting a sound, it plays it. It already tries to play the sounds
+on the current menu page with a very low volume to preload them fast. Additionally, it
+tries to send a message to the Sound Preloader script for proper preloading.
+
+Sound names must not be longer than 24 characters. They should be no longer than ~14
+characters so they can be displayed completely in the menu.
+
+The sounds are guaranteed to stop, they are stopped by a timer after playing ends so they
+don't get triggered again.
+
+The Sound Preloader script scans the nearby region for avatars and preloads the sounds
+from the object's contents (one at a time) if any is in the range of 5 meters. If an
+avatar is nearby and all sounds have been preloaded, it increases the scanning interval
+to reduce lag. Additionally, it preloads sounds given via a link message before switching
+back to the sounds from the inventory. This is used by the Sound Player script.
+
+The Preloader script is necessary because sound preloading causes significant delay in
+the calling script. It can be used standalone, but also together with the Player script.
+
+The Sound Player Advanced scripts are full perm. They're licensed under the BSD license
+with the addition that they must not be resold or otherwise given away standalone in
+parts or as whole. They can be used in your creations as long as these license conditions
+are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Song Titler v0.64  【ツ】
+============================================================
+
+The Song Titler script can be used by a DJ in an attachment to display song titles and
+stream information as floating text as well as to announce the currently played song in
+public chat. You can configure most options by chat commands and some only in the script.
+In the object's description field, you can configure the headline, your DJ group, the
+channel some viewers (e.g. Firestorm) can send the song title to, and the URL of the
+streaming server. If the headline is empty, a default headline is displayed.
+
+The package contains a tool script to get song and stream info from a streaming server
+(Shoutcast v1+2 or Icecast), display them as floating text and optionally announce the
+current song in public chat. If the title is too long, it scrolls back and fore. This
+contains fixes for JIRA BUG-100737 which changed HTTP request handling.
+
+Detailed configuration options:
+
+- configurable floating text, headline can be set in description field
+- DJ's group UUID, use DJ's active group if none is configured
+- streaming server URL, incl. Shoutcast v2 stream ID (sid)
+- get parcel music URL from own land or when rezzed+deeded
+- color of floating text for title, current song and stream info
+- optional hue cycle for floating text in configurable steps
+- announce mode (whisper/say/shout/off) for new song title in public chat
+- optional intervals for song title, group invitations and promotion to be announced
+- whether stream info (status, bitrate, listeners, time) should be shown
+- optionally play configurable sound and particles on song change
+- the channel some viewers (e.g. FS) can send the song title to
+- configurable command channel and command prefix
+- particle system parameters
+
+The Song Titler scripts are full perm. They're licensed under the BSD license with the
+addition that they must not be resold or otherwise given away standalone in parts or as
+whole. They can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+You can make your own attachment or use the provided example. The description field of
+the song titler object (root prim) can contain the following options:
+
+Config:default_title:group_uuid:song_channel:stream_url
+
+Please see the according script constants which are described below for their meaning.
+When an option is not used, leave the according field empty, but don't omit the colon.
+
+Put all included scripts into your attachment. To configure the Song Titler script
+(the other one doesn't need to be edited), please open it and change the following
+constants according to your needs:
+
+----------------------------------------------------------------
+ Appearance configuration
+----------------------------------------------------------------
+
+TEXT_COLOR
+
+Set to the color of floating text in the form <R, G, B> where R, G and B range from 0 to
+255.
+
+COLOR_MODE
+
+Floating text color mode: 0=off, 1=static color, 2=cycle through hues. Default is 1.
+
+HUE_STEP
+
+Configure the hue cycle step for hue cycling: the bigger, the faster the color changes,
+but it also becomes more jumpy. Values from 0.01 to 0.1 are sensible.
+
+DEFAULT_TITLE
+
+The default title if not configured in the object description (see above). It's displayed
+as floating text (hovertext). You can also use %u which is replaced by the DJ's name and
+\n which is replaced by a line break.
+
+GROUP_UUID
+
+The DJ's group UUID if not configured in the object description (see above). A group
+invite message is displayed in configurable intervals. Leave empty to use the DJ's active
+group.
+
+----------------------------------------------------------------
+ Command configuration
+----------------------------------------------------------------
+
+Many options can be changed by chat commands. On attaching the object, the following help
+is displayed:
+
+----------------------------------------------------------------
+Usage: /477 + command:
+- titler.help - Show this help
+- titler.status - Show current status
+- titler.config - Reload config
+- titler.stream:url|off - Set stream URL
+- titler.announce:owner|whisper|say|shout|off[:seconds|off] - Announce songs in chat
+- titler.promote:seconds|off - Announce group and promotion in chat
+- titler.color:blue|orange|cyan|pink|green|red|yellow|purple|black|white|<R,G,B>|cycle - Set color of floating text
+- titler.particles[:on|off] - Show/test particles
+- titler.name:name - Name used for announcements
+- titler.title:title - Title for floating text
+- titler.channel:number - Change channel
+----------------------------------------------------------------
+
+Channel and command prefix can be configured:
+
+CMD_CHANNEL
+
+Default command channel. Default is 477.
+
+CMD_PREFIX
+
+Default command prefix, use "" for none. Default is "titler.".
+
+----------------------------------------------------------------
+ Stream and song info configuration
+----------------------------------------------------------------
+
+SONG_CHANNEL
+
+Some viewers (e.g. FS) can send the song title to a configurable channel. Set this
+constant to the same channel to get the song title from the viewer if it's not configured
+in the object description (see above). You don't need to configure the streaming server
+in that case. Use -1 to disable.
+
+SONG_ANNOUNCE
+
+Announce the currently played song in public chat: Set to 0 to disable, to 1 for owner
+only (for testing), to 2 for whisper, to 3 for say and to 4 for shout. Default is 3 (say).
+
+STREAM_URL
+
+The stream URL if not configured in the object description (see above).
+It's taken from land settings if both are empty and if the object owner is also the land
+owner.
+
+The following stream URL formats are supported:
+
+- http://<host>[:<port>][/listen.pls] (Shoutcast v1)
+- http://<host>[:<port>][/listen[.{pls|m3u|...}]?sid=<sid>] (Shoutcast v2)
+- http://<host>[:<port>]/stream/<sid>/ (Shoutcast v2)
+- http://<host>[:<port>]/<streampath> (Shoutcast v2) - please add "/<sid>" in this case
+- http://<host>[:<port>]/<mountpoint> (Icecast)
+
+The stream ID (sid) for Shoutcast v2 always needs to be provided as last parameter in the
+URL even if a streampath is used. Please just add the sid as last parameter in this case
+yourself. If no stream ID is provided, it defaults to 1.
+
+The streaming server needs to have stream info enabled in order to request it. Shoutcast
+servers usually have, for Icecast servers, status.xsl and status-json.xsl are tried, but
+parsing the former can't be done reliably and the latter is only supported by newer
+Icecast versions.
+
+Please note that requesting stream info changed on the SL server side, using the old
+method (which was a hack) is not possible anymore. The new, cleaner method is not as
+reliable yet, though, so certain streaming servers might send an error response. For more
+information, please see:
+
+- https://community.secondlife.com/forums/topic/406941-dj-board-display-not-working-properly/
+- https://jira.secondlife.com/browse/BUG-100737
+
+----------------------------------------------------------------
+ Poofer and sound configuration
+----------------------------------------------------------------
+
+ANNOUNCE_SOUND
+
+Sound that is played on new song. It has to be in the prim's inventory or a UUID.
+If empty, the first found sound in the prim's inventory is used (unless there is none).
+
+POOFER_TEXTURE
+
+Texture that is used for the internal poofer on new song. It has to be in the prim's
+inventory or a UUID. If empty, the first found texture in the prim's inventory is used
+(unless there is none). Particles can be enabled or disabled by chat command.
+
+For configuring the internal poofer to your needs, please refer to:
+http://wiki.secondlife.com/wiki/LlParticleSystem
+There is also a nice tutorial at:
+https://eloisepasteur.wordpress.com/learning-about-particles/
+
+PARTICLE_PATTERN
+
+The object can use the particle system to emit particles on a new song, e.g. a heart
+texture.
+
+Here you can set the source pattern, e.g. PSYS_SRC_PATTERN_EXPLODE,
+PSYS_SRC_PATTERN_ANGLE_CONE etc. Default is PSYS_SRC_PATTERN_EXPLODE.
+
+PARTICLE_TURN_DIRECT
+
+Set to TRUE to make particles turn towards their flying direction, FALSE otherwise.
+Default is FALSE.
+
+PARTICLE_EMIT
+
+Duration in seconds particles are emitted. Default is 10.
+
+PARTICLE_LIFE
+
+Duration in seconds particles live. Default is 1.
+
+PARTICLE_BURST_RATE
+
+Particle burst rate in seconds, i.e. how often bursts occur. Default is 0.3 which means
+that every 0.3 seconds a burst happens.
+
+PARTICLE_BURST_COUNT
+
+Particle burst count, i.e. number of particles during burst. Default is 2.
+
+PARTICLE_BURST_RADIUS
+
+Particle burst radius, i.e. the distance from the emitter where particles will be created.
+Default is 0.1.
+
+PARTICLE_START_SCALE and PARTICLE_END_SCALE
+
+Particle start and end scale during their lifetime. Defaults are <0.1, 0.1, 0.0> and
+<0.2, 0.2, 0.0>.
+
+PARTICLE_START_COLOR and PARTICLE_END_COLOR
+
+Particle start and end color during their lifetime, ranging from 0-255 for each channel.
+Defaults are <100, 100, 100> (gray) and <255, 255, 255> (white).
+
+PARTICLE_START_TRANS and PARTICLE_END_TRANS
+
+Particle start and end transparency in percent during their lifetime.
+Defaults are 10 and 100.
+
+PARTICLE_ACCEL
+
+Particle acceleration, use negative values to slow down. Valid values are 0 to 100 for
+each direction, positive and negative, in region coordinates. Default is <0.0, 0.0,-0.1>.
+
+PARTICLE_SPEED_MIN and PARTICLE_SPEED_MAX
+
+Particle minimum and maximum speed. Defaults are 0.2 and 0.4.
+
+PARTICLE_ANGLE_BEGIN and PARTICLE_ANGLE_END
+
+Specifies a half angle in degrees, of a circular or spherical "dimple" or conic section
+(starting from the emitter facing) within which particles will (END) or will not (BEGIN)
+be emitted. Valid values for END are 0 (particles emitted in a straight line in direction
+of the emitter facing) to 180 (particles emitted in a full circular/spherical arc around
+the emitter, not including the "dimple" or conic section defined by BEGIN).
+
+If PARTICLE_PATTERN is PSYS_SRC_PATTERN_ANGLE, the presentation is a 2D flat circular
+section, for ANGLE_CONE or ANGLE_CONE_EMPTY, it is a 3D spherical section. For BEGIN,
+valid values are the same as for END, though the effects are reversed accordingly.
+
+Please note that the value of BEGIN and END are internally re-ordered such that END gets
+the larger of the two values. Default is 180 for both values.
+
+PARTICLE_OMEGA
+
+Sets how far to rotate the "pattern" after each particle burst, approximately degrees per
+burst around the prim's global (not local) axes. Has no visible effect on DROP, EXPLODE
+and certain specific ANGLE and ANGLE_CONE patterns, depending on prim orientation.
+Default is <0, 0, 0>.
+
+----------------------------------------------------------------
+ Configurable texts
+----------------------------------------------------------------
+
+INFO_TEXT, MSG_PROMOTE and MSG_GROUP
+
+The info texts are display as floating hovertext.
+The messages are sent in public chat.
+
+They accept the following placeholders:
+
+- %u for user's display name (was %s in older versions)
+- %g for group name (GROUP_UUID)
+- %n for texture name (POOFER_TEXTURE)
+- %h for configured title (DEFAULT_TITLE or from config)
+- %s for current song title
+- %i for stream info (status, bitrate, listeners) and playing time
+
+Leave empty to disable.
+
+
+============================================================
+  【秀】  [.Shuggles.] Tip Jar v0.64  【ツ】
+  【秀】  [.Shuggles.] Tip Jar DJ v0.64  【ツ】
+  【秀】  [.Shuggles.] Tip Jar Advanced v0.64  【ツ】
+  【秀】  [.Shuggles.] Tip Jar Pro v0.64  【ツ】
+============================================================
+
+The Tip Jar script can be used in a tip jar to tip DJ's, dancers etc. When an avatar pays
+the tip jar, it notifies the owner, thanks the tipper and displays the last tip and total
+tips as floating text, the total amount also on a prim. On touch, a group invite can be
+displayed. It also supports buttons for group invite and website as well as buttons and
+config commands for the owner. A command can be sent to external particle emitter/poofer
+on a configurable channel; a simple internal poofer is included. Optionally, a slideshow
+of textures in the object's inventory can be shown on a configurable face.
+
+On tipping, the script scans the inventory of the prim it is in and randomly selects
+a gift which is delivered in a folder or as single item. All items whose names start with
+the gift name, e.g. images, are also included.
+
+Choose from the following variants, according to your needs. Please make sure you buy the
+correct one - this description contains all features of all variants:
+
+- Tip Jar: simple tip jar
+- Tip Jar DJ: tip jar incl. stream info, for DJs
+- Tip Jar Advanced: tip jar incl. config notecard, for creators
+- Tip Jar Pro: tip jar incl. stream info and config notecard
+
+You can later upgrade to a better variant for a reduced price using the included Updater.
+If you already own v0.58 which contains the Pro Updater, you can upgrade for free. For
+v0.57 or earlier which do not include the Pro Updater, please contact me.
+
+Tip Jar DJ and Pro packages contain a tool script to get song and stream info from a
+streaming server (Shoutcast v1+2 or Icecast), display them as floating text and optionally
+announce the current song in public chat. If the title is too long, it scrolls back and
+fore. This contains fixes for JIRA BUG-100737 which changed HTTP request handling.
+
+Tip Jar Advanced and Pro packages use the Config Handler script to read parameters from
+a config notecard. This script is also buyable separately and part of other packages as
+well, e.g. Slideshow Advanced. If you already have it, you can just use it without
+needing to buy a more expensive package. From v0.63 on, you need at least Config Handler
+v0.58.
+
+If a config notecard containing the word "TipJarConfig" in its name is found in the tip
+jar, it is read and all parameters are taken from there. All configuration parameters can
+be set in the script (for tip jar creators), some can be set in the config notecard (for
+users), in the object's description field (without config notecard) or by chat commands.
+In the description you can configure the headline, your DJ group, the channel some viewers
+(e.g. Firestorm) can send the song title to, and the URL of the streaming server. If the
+headline is empty, a default headline is displayed.
+
+Detailed configuration options:
+
+- configurable floating text, headline can be set in description field
+- DJ's group UUID, use object's group if none is configured, group invitation on touch
+- display group or website by button press
+- streaming server URL, incl. Shoutcast v2 stream ID (sid)
+- get parcel music URL from own land or when rezzed+deeded
+- color of floating text for title, tips, current song and stream info
+- announce mode (whisper/say/shout/off) for new song title in public chat
+- optional intervals for song title, group invitations and promotion to be announced
+- whether stream info (status, bitrate, listeners, time) should be shown
+- play configurable sound, send particles and configurable texts when being tipped
+- optional rotation, static or dynamic based on tipped amount, configurable axis and speed
+- default amount and amount list that is displayed to the tipper
+- prim and faces to display the total amount
+- prim and face of a display area (e.g. with DJ images) for visual feedback
+- slideshow of textures in inventory with configurable delay and fade mode
+- optional hue cycle for floating text and on a prim and face in configurable steps
+- face(s) can also be put in the prims' description fields
+- number texture for the digits of the total amount
+- the channel some viewers (e.g. FS) can send the song title to
+- configurable command channel and command prefix
+- channel to external particle emitter/poofer
+- particle system parameters and target for integrated poofer
+- random gift for tipper
+
+The Tip Jar scripts are full perm. They're licensed under the BSD license with the
+addition that they must not be resold or otherwise given away standalone in parts or as
+whole. They can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+The description field of the tip jar object (root prim) and/or a config notecard contain
+options that can be changed by the tip jar owner, so if you are a tip jar creator, you
+can configure the script, but allow your customers to change these parameters in the
+description field or the notecard later (the script is only allowed to be given away no
+modify and copy or transfer only). See below for the possible options.
+
+Put all included scripts into your tip jar object; the Tip Jar script is required, the
+Config Handler script (Tip Jar Advanced and Pro packages) is only necessary to read the
+configuration notecard and the Tool Stream script is only needed to display stream and
+song information.
+
+To configure the Tip Jar script (the others don't need to be edited), please open it and
+change the following constants according to your needs:
+
+----------------------------------------------------------------
+ Appearance configuration
+----------------------------------------------------------------
+
+TEXT_COLOR
+
+Set to the color of floating text in the form <R, G, B> where R, G and B range from 0 to
+255.
+
+COLOR_MODE
+
+Floating text color mode: 0=off, 1=static color, 2=cycle through hues. Default is 1.
+
+ROTATION_AXIS
+
+Arbitrary axis to rotate the object around, <0, 0, 1> is usually the up direction.
+
+ROTATION_RATE and ROTATION_GAIN
+
+Rate of rotation in radians per second. The first one is for the static rate, 0.1 is a
+good value. Use 0 if you don't want a static rotation. The second one is for dynamic gain
+that is added per L$/C$ 100, 0.05 is a good value if you get tipped around L$/C$ 1000 in
+the end. Use 0 to disable the dynamic gain. Use 0 for both to disable rotation completely.
+
+DEFAULT_TITLE
+
+The default title if not configured in the object description or config notecard (see
+below). It's displayed as floating text (hovertext) above the tip jar. You can also use
+%u which is replaced by the DJ's name and \n which is replaced by a line break.
+
+GROUP_UUID
+
+The DJ's group UUID if not configured in the object description or config notecard (see
+below). A group invite message is displayed on touch. Leave empty to use the tip jar's
+group.
+
+WEBSITE_URL
+
+The DJ's website URL which is opened on touch. Leave empty to disable.
+
+TOUCH_TEXT
+
+Additional text that is displayed when the tip jar is touched (after the group invite).
+Leave empty to disable.
+
+----------------------------------------------------------------
+ Display and tipped amount configuration
+----------------------------------------------------------------
+
+SLIDESHOW
+
+Enable a slideshow of textures in the tip jar's inventory by setting the delay between
+images in seconds. Default is 30, use 0 to disable. The textures need to be copy and
+transfer.
+
+FADE_MODE
+
+The fade mode of displayed images: 0=none, 1=fade to black, 2=fade to transparent.
+
+DISPLAY_PRIM
+
+To display e.g. images of the DJ on a possible display area, specify the linked prim name
+or number and the face in the form of "prim.face" (".face" is optional), e.g. "Display"
+or "2.2" or leave empty to disable. You can also use "root" as prim name for the root
+prim. If face is not specified, it can be given in the prim's description field. The face
+on the prim gets colored when someone tips for some visual feedback.
+
+Prim numbers start with 1 (root prim) for objects with more than one prim, or it is 0 for
+single prim objects. Face numbers start with 0. If you are unsure about which face number
+to use, following these steps will help:
+
+- Enable the Develop menu by pressing Ctrl+Alt+Q (on version 1.x viewers,
+  instead enable the Advanced menu by pressing Ctrl+Alt+D)
+- Select the face using the "Select Texture" Tool
+- Pick Develop > Rendering > Selected Texture Info from the menu,
+  or press Ctrl+Alt+Shift+T 
+
+The face number will be shown in your local chat window or as a notification.
+Some viewers also display link number and face in the edit dialog.
+See also http://wiki.secondlife.com/wiki/Face
+
+AMOUNT_PRIM
+
+For displaying the total amount on a prim, specify the linked prim name or number and the
+face in the form of "prim.faces", e.g. "Amount.1234" or leave empty to disable. You can
+also use "root" as prim name for the root prim. If face is not specified, it can be given
+in the prim's description field.
+
+You need to configure four faces because the total amount can range from 0 to 9999 and
+each digit gets displayed on a separate face, e.g. configure it to 1234 to use faces 1
+for the thousands, 2 for the hundreds, 3 for the tens and 4 for the ones. Leading zeros
+are displayed.
+
+DEFAULT_AMOUNT and DEFAULT_AMOUNTS
+
+When someone tips, they get a dialog asking them for the amount to tip. It consists of a
+default amount and a list of four pre-defined amounts. These can be configured here.
+
+DIGITS, DIGITS_OFFSET and DIGITS_SCALE
+
+To display the total amount, a numbers texture with the digits 0 to 9 is used. They are
+assumed to be on the texture in equal distance, using 10% of the width each. Two textures
+are provided, one for Second Life (SL) and one for Avination (AVN) - either one will only
+work where it is intended for.
+
+For an ideal texture, DIGITS_OFFSET would be -0.45 and DIGITS_SCALE 0.1. For the provided
+textures, they slightly differ.
+
+----------------------------------------------------------------
+ Hue cycle configuration
+----------------------------------------------------------------
+
+HUE_PRIM
+
+To display a nice color changing effect (hue cycle) on your tip jar, specify the linked
+prim name or number and the face in the form of "prim.face" (".face" is optional), e.g.
+"Hue" or "3.0" or leave empty to disable. You can also use "root" as prim name for the
+root prim. If face is not specified, it can be given in the prim's description field.
+
+HUE_STEP
+
+Configure the hue cycle step: the bigger, the faster the color changes, but it also
+becomes more jumpy. Values from 0.01 to 0.1 are sensible.
+
+HUE_LIGHT
+
+Configure whether the hue cycle should emit light (TRUE) or not (FALSE).
+
+----------------------------------------------------------------
+ Command configuration
+----------------------------------------------------------------
+
+Many options can be changed by chat commands. On rezzing the object, the following help
+is displayed:
+
+----------------------------------------------------------------
+Usage: /477 + command:
+- tipjar.help - Show this help
+- tipjar.status - Show current status
+- tipjar.config - Reload config
+- tipjar.stream:url|off - Set stream URL
+- tipjar.announce:owner|whisper|say|shout|off[:seconds|off] - Announce songs in chat
+- tipjar.promote:seconds|off - Announce group and promotion in chat
+- tipjar.color:blue|orange|cyan|pink|green|red|yellow|purple|black|white|<R,G,B>|cycle - Set color of floating text
+- tipjar.particles[:on|off] - Show/test particles
+- tipjar.name:name - Name used for announcements
+- tipjar.title:title - Title for floating text
+- tipjar.channel:number - Change channel
+----------------------------------------------------------------
+
+Channel and command prefix can be configured:
+
+CMD_CHANNEL
+
+Default command channel. Default is 477.
+
+CMD_PREFIX
+
+Default command prefix, use "" for none. Default is "tipjar.".
+
+----------------------------------------------------------------
+ Stream and song info configuration
+----------------------------------------------------------------
+
+SONG_CHANNEL
+
+Some viewers (e.g. FS) can send the song title to a configurable channel. Set this
+constant to the same channel to get the song title from the viewer if it's not configured
+in the object description or config notecard (see below). You don't need to configure the
+streaming server in that case. Use -1 to disable.
+
+SONG_ANNOUNCE
+
+Announce the currently played song in public chat: Set to 0 to disable, to 1 for owner
+only (for testing), to 2 for whisper, to 3 for say and to 4 for shout. Default is 3 (say).
+
+STREAM_URL
+
+The stream URL if not configured in the object description or config notecard (see below).
+It's taken from land settings if both are empty and if the object owner is also the land
+owner.
+
+The following stream URL formats are supported:
+
+- http://<host>[:<port>][/listen.pls] (Shoutcast v1)
+- http://<host>[:<port>][/listen[.{pls|m3u|...}]?sid=<sid>] (Shoutcast v2)
+- http://<host>[:<port>]/stream/<sid>/ (Shoutcast v2)
+- http://<host>[:<port>]/<streampath> (Shoutcast v2) - please add "/<sid>" in this case
+- http://<host>[:<port>]/<mountpoint> (Icecast)
+
+The stream ID (sid) for Shoutcast v2 always needs to be provided as last parameter in the
+URL even if a streampath is used. Please just add the sid as last parameter in this case
+yourself. If no stream ID is provided, it defaults to 1.
+
+The streaming server needs to have stream info enabled in order to request it. Shoutcast
+servers usually have, for Icecast servers, status.xsl and status-json.xsl are tried, but
+parsing the former can't be done reliably and the latter is only supported by newer
+Icecast versions.
+
+Please note that requesting stream info changed on the SL server side, using the old
+method (which was a hack) is not possible anymore. The new, cleaner method is not as
+reliable yet, though, so certain streaming servers might send an error response. For more
+information, please see:
+
+- https://community.secondlife.com/forums/topic/406941-dj-board-display-not-working-properly/
+- https://jira.secondlife.com/browse/BUG-100737
+
+----------------------------------------------------------------
+ Poofer and sound configuration
+----------------------------------------------------------------
+
+TIPPING_SOUND
+
+Sound that is played on being tipped. It has to be in the prim's inventory or a UUID.
+If empty, the first found sound in the prim's inventory is used (unless there is none).
+
+POOFER_TEXTURE
+
+Texture that is used for the internal poofer when being tipped. It has to be in the
+prim's inventory or a UUID. If empty, the first found texture in the prim's inventory is
+used (unless there is none). Particles can be enabled or disabled by chat command.
+
+POOFER_CHANNEL
+
+The channel to an external particle emitter or poofer (not included). It sends the
+following command:
+
+"/poofer:" + TipperID
+
+The sent command cannot be configured, but of course it can be changed in the code
+directly.
+
+For configuring the internal poofer to your needs, please refer to:
+http://wiki.secondlife.com/wiki/LlParticleSystem
+There is also a nice tutorial at:
+https://eloisepasteur.wordpress.com/learning-about-particles/
+
+PARTICLE_PATTERN
+
+The object can use the particle system to blow a texture to the tipper, e.g. a heart
+texture. It can also be configured to just emit particles without targeting an avatar.
+
+Here you can set the source pattern, e.g. PSYS_SRC_PATTERN_EXPLODE,
+PSYS_SRC_PATTERN_ANGLE_CONE etc. Default is PSYS_SRC_PATTERN_EXPLODE.
+
+PARTICLE_TARGET
+
+Set to TRUE to target avatar with particles, FALSE otherwise. Default is TRUE.
+
+PARTICLE_TURN_DIRECT
+
+Set to TRUE to make particles turn towards their flying direction, FALSE otherwise.
+Default is TRUE.
+
+PARTICLE_EMIT
+
+Duration in seconds particles are emitted. Default is 10.
+
+PARTICLE_LIFE
+
+Duration in seconds particles live. Default is 1.
+
+PARTICLE_BURST_RATE
+
+Particle burst rate in seconds, i.e. how often bursts occur. Default is 0.3 which means
+that every 0.3 seconds a burst happens.
+
+PARTICLE_BURST_COUNT
+
+Particle burst count, i.e. number of particles during burst. Default is 2.
+
+PARTICLE_BURST_RADIUS
+
+Particle burst radius, i.e. the distance from the emitter where particles will be created.
+Default is 4.0.
+
+PARTICLE_START_SCALE and PARTICLE_END_SCALE
+
+Particle start and end scale during their lifetime. Defaults are <0.8, 0.8, 0.0> and
+<0.6, 1.0, 0.0>.
+
+PARTICLE_START_COLOR and PARTICLE_END_COLOR
+
+Particle start and end color during their lifetime, ranging from 0-255 for each channel.
+Defaults are <100, 100, 100> (gray) and <255, 255, 255> (white).
+
+PARTICLE_START_TRANS and PARTICLE_END_TRANS
+
+Particle start and end transparency in percent during their lifetime.
+Defaults are 10 and 100.
+
+PARTICLE_ACCEL
+
+Particle acceleration, use negative values to slow down. Valid values are 0 to 100 for
+each direction, positive and negative, in region coordinates. Default is <0.0, 0.0,-0.8>.
+
+PARTICLE_SPEED_MIN and PARTICLE_SPEED_MAX
+
+Particle minimum and maximum speed. Defaults are 2.0 and 4.0.
+
+PARTICLE_ANGLE_BEGIN and PARTICLE_ANGLE_END
+
+Specifies a half angle in degrees, of a circular or spherical "dimple" or conic section
+(starting from the emitter facing) within which particles will (END) or will not (BEGIN)
+be emitted. Valid values for END are 0 (particles emitted in a straight line in direction
+of the emitter facing) to 180 (particles emitted in a full circular/spherical arc around
+the emitter, not including the "dimple" or conic section defined by BEGIN).
+
+If PARTICLE_PATTERN is PSYS_SRC_PATTERN_ANGLE, the presentation is a 2D flat circular
+section, for ANGLE_CONE or ANGLE_CONE_EMPTY, it is a 3D spherical section. For BEGIN,
+valid values are the same as for END, though the effects are reversed accordingly.
+
+Please note that the value of BEGIN and END are internally re-ordered such that END gets
+the larger of the two values. Default is 180 for both values.
+
+PARTICLE_OMEGA
+
+Sets how far to rotate the "pattern" after each particle burst, approximately degrees per
+burst around the prim's global (not local) axes. Has no visible effect on DROP, EXPLODE
+and certain specific ANGLE and ANGLE_CONE patterns, depending on prim orientation.
+Default is <0, 0, 0>.
+
+----------------------------------------------------------------
+ Giver onfiguration
+----------------------------------------------------------------
+
+GIVE_ITEM_TYPE
+
+The type of gift you want to give: objects, notecards, textures, clothing, all etc.
+Use the following values: INVENTORY_OBJECT, INVENTORY_NOTECARD, INVENTORY_TEXTURE,
+INVENTORY_CLOTHING, INVENTORY_ALL etc. For a complete list, please refer to
+https://wiki.secondlife.com/wiki/LlGetInventoryType
+
+All items that start with the same string as the gift name are given as well. This can be
+used to give additional items together with the gift, e.g. images or even whole outfits.
+For instance, you can put some pants called "Sexy Pants" inside, configure the script to
+give INVENTORY_CLOTHING and then add objects like "Sexy Pants Left Cuff", "Sexy Pants
+Right Cuff" and "Sexy Pants Belt", maybe also a texture called "Sexy Pants Image". All
+these items are given together with the pants themselves.
+
+EXCLUDE_ITEMS
+
+This is a list of items that are not included, e.g. a color changing script or anything
+else that needs to be in the Tip Jar, but shall not be given. This applies to the gift
+items itself, but also to the items that are automatically added because their name
+starts with the gift name. Define it the following way:
+
+list EXCLUDE_ITEMS = [ "Some Notecard", "Some Object", "Some Texture" ];
+
+Use the empty list [] if you don't need this.
+
+INCLUDE_ITEMS
+
+These items are always included with the gift. You can use it to give store landmarks or
+notecards or a small gift with all gifts. Define it the following way:
+
+list INCLUDE_ITEMS = [ "Store LM", "Store NC", "Small Gift" ];
+
+Use the empty list [] if you don't need this.
+
+FOLDER_NAME
+
+The folder name of the gift when it's given. If empty, it uses the object name of the
+tip jar. It always appends the gift name.
+
+----------------------------------------------------------------
+ Configurable texts when being tipped or touched + hovertexts
+----------------------------------------------------------------
+
+INFO_TEXT and INFO_NO_TIPS
+MSG_TIP_TIPPER, MSG_TIP_CHAT, MSG_TIP_OWNER, MSG_PROMOTE, MSG_GROUP and MSG_PAY
+
+The info texts are display as floating hovertext above the tip jar.
+The messages are sent to the tipper, in public chat or to the owner when being tipped
+and the last two to the person touching the tip jar.
+
+They accept the following placeholders:
+
+- %u for user's display name (was %s in older versions)
+- %t for tipper's display name
+- %f for tipper's first name
+- %a for link to the tipper's profile (only chat messages, not floating text)
+- %m for tipped amount (incl. currency)
+- %x for total tipped amount (incl. currency)
+- %g for group name (GROUP_UUID)
+- %n for texture name (POOFER_TEXTURE)
+- %h for configured tip jar title (DEFAULT_TITLE or from config)
+- %s for current song title
+- %i for stream info (status, bitrate, listeners) and playing time
+
+If the message starts with "/me", it's said with the owner's name.
+Leave empty to disable.
+
+___________________________________________________________________________
+
+CONFIG NOTECARD AND OBJECT DESCRIPTION
+
+For creators of tip jars which want to sell them, but keep them configurable without
+letting the script stay full perm (which is not allowed by the license), the parameters
+which are useful to be configured by the tip jar owner can be configured in a notecard
+or in the description field. The notecard needs to contain the word "TipJarConfig" in
+its name. You should include the config notecard format and a short description to your
+customers together with the tip jar you are selling.
+
+In the object's description field, use:
+Config:default_title:group_uuid:song_channel:stream_url
+
+Please see the according script constants which are described above for their meaning.
+When an option is not used, leave the according field empty, but don't omit the colon.
+
+The configuration notecard contains the following options:
+----------------------------------------------------------------
+# The stream URL
+StreamURL=
+# The channel some viewers (e.g. FS) can send the song title to, use -1 to disable
+SongChannel=-1
+# Announce the current song in local chat: off (0), owner (1), whisper (2), say (3), shout (4)
+SongAnnounce=say
+# Floating text color mode: 0=off, 1=static, 2=cycle
+ColorMode=1
+# Color of the floating text (RGB each range from 0 to 255)
+TextColor=<R,G,B>
+# Title, %u is replaced by owner's display name
+Title=%u's Tip Jar
+# The DJ's group UUID, displayed on touch, empty to use tip jar's group
+Group=
+# The DJ's website URL, opened on touch, empty to disable
+Website=
+# Additional text that is displayed when the tip jar is touched (after group invite), empty to disable
+TouchText=
+# Sound played on being tipped, uses first from inventory if empty, disabled if none found
+TippingSound=
+# Texture to use for a simple internal poofer, uses first from inventory if empty, disabled if none found
+PooferTexture=
+# Default tipping amount in pay dialog
+DefaultAmount=25
+# Default tipping amount buttons in pay dialog
+DefaultAmounts=25,50,100,200
+# Type of gift: All, Texture, Sound, Landmark, Clothing, Object, Notecard, Script,
+# Bodypart, Animation, Gesture
+GiveItemType=Object
+# Folder name of gift, uses object name + gift name if empty
+FolderName=
+
+# These items are not included (automatically contains giving sound and the script)
+[ExcludeItems]
+Some Object
+Some Texture
+
+# These items are always included (e.g. store landmark or notecard)
+[IncludeItems]
+Store LM|Store NC|Small Gift
+----------------------------------------------------------------
+
+Please note: ExcludeItems and IncludeItems have their own sections now. Items are one
+per line or separated by "|" (without spaces in between). The old definition with comma-
+separated lists is not supported anymore.
+
+___________________________________________________________________________
+
+BUTTON SUPPORT
+
+All commands described in "Command configuration" can also be triggered by a button press.
+Buttons are linked prims with the desired command in their name field (case-insensitive,
+without the command prefix) and additional parameters in their description field
+(separated by colons).
+
+For instance, to add a button that changes the stream, create a prim, name it "Stream",
+put the stream URL in the description field and link the prim to your tip jar. If you
+want a button to change the song title announcement to 30 seconds in local chat, name
+the prim "Announce" and put "say:30" in its description field.
+
+The above buttons are only for the tip jar owner. There are two more buttons that can be
+used by everyone:
+
+- "Group" to send a group invitation to the configured group
+- "Website" to open the configured website or the one in the description field
+
+Button support might be extended in the future.
+
+___________________________________________________________________________
+
+UPGRADING
+
+Together with the scripts, you got an Updater. Whenever there's an update (please refer
+to the .Shuggles. group inworld or check back yourself at the store), go to the inworld
+store (using the provided landmark), look for the vendor, attach your Updater and click
+on it. You should receive the updated version at once.
+
+To upgrade to a better variant of the, e.g. from Tip Jar DJ to Tip Jar Pro, please go to
+the vendor in the inworld store, wear the Updater and click on it. You should get a menu
+where you can select which variant you want to upgrade to. Control is given to the
+appropriate vendor then, which shows a reduced price now, so please right-click on it and
+select Pay and pay the specified amount to receive your upgrade. In case of problems,
+please don't hesitate to contact me.
+
+If you already own an older Tip Jar package (v0.58) which contains the Updater for the
+Pro variant, you can upgrade for free. If your older version (v0.57 or earlier) does not
+include the Pro Updater, please contact me with your transaction history or other proof.
+
+Tip Jar versions v0.63 and beyond that use the Config Handler script need at least v0.58
+of it - older versions won't work anymore. Older Tip Jar versions can't use newer Config
+Handler versions than v0.57.
+
+
+============================================================
+  【秀】  [.Shuggles.] TV Script v0.60  【ツ】
+============================================================
+
+The purpose of the TV scripts is to display different channels and websites on an object
+as well as playing video and music streams, games or showing images by URL or UUID. They
+are intended for creators to build their own TV sets, but the included example can also
+be used as is. It uses shared media (media on a prim) or parcel media for video streaming
+and websites, and parcel music for music streaming.
+
+NOW HD-CAPABLE: The script got updated to set a texture size of 2048x1024 for the media
+display, so you can watch videos in 720p instead of just 480p with the old texture size
+of 1024x512 in previous versions.
+
+The TV listens on a configurable command channel for commands you can issue manually or
+with a remote control using the included TV Remote script. You can also use buttons on
+the TV itself or operate it by menu or on-screen display.
+
+The main script can reposition, rotate and resize the TV set according to configurable
+positions, incl. when the TV set is switched on and off.
+
+The TV scripts package contains a tool script to get song and stream information from a
+configured streaming server. It connects to the streaming server (Shoutcast v1, v2 and
+Icecast) to get the title of the currently played song and displays it as floating text
+and optionally annouces it in public chat. If the title is too long, it scrolls back
+and fore.
+
+If a config notecard containing the word "TVConfig" in its name is found in the object,
+it is read and all parameters and channels are taken from there. Otherwise you are asked
+to touch the face for displaying the media. Configuration parameters can be set in the
+notecard or in the object description, so they also work without the config notecard.
+
+Detailed configuration options:
+
+- the prim (name or link number) and face to display the media on
+- a default texture to use when media is disabled
+- the command channel and access control (owner, group or all)
+- whether to use shared media or parcel media
+- whether to automatically start TV and radio streams or games
+- TV channels and games with optional texture to display before starting the media
+- radio stations with station logo, display images by URL or UUID or show status page
+- stream status page is automatically reloaded on song change
+- supports SHX/SRC radio station lists and radio stream info (incl. fix for JIRA BUG-100737)
+- optional viewport (dimension and offset) of videos and games for automatic resize-to-fit
+  (please note that the available size is now 2048x1024 instead of 1024x512 before)
+- configurable intro, outro and home URLs that are shown when the TV is switched on/off
+- configurable video options for YouTube, Twitch, Vimeo and Dailymotion incl. fullscreen
+- commands to switch the TV on/off or toggle, set channel/station by name, url or number,
+  go to previous/next channel, home, start media, options, channel/station/position menu
+- menu or (experimental) on-screen display (OSD) with configurable colors
+- display HTTP and HTTPS URLs using local chat or buttons
+- issue commands in local chat, by menu or OSD, by remote control or with TV buttons
+- whitelist of allowed URLs (only shared media)
+
+Please note: You need to enable automatic playing of media in your preferences or you'll
+need to click on the media face every time media is switched on (shared media). This also
+applies for the on-screen display. For using parcel media and parcel music, you need to
+be the land owner; if the land is owned by a group, deed the object to the group.
+
+The scripts are copy and trans, but no-mod. They're licensed under the BSD license with
+the addition that they must not be resold or otherwise given away standalone in parts or
+as whole. They can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+The remote control script is provided as a full perm example - you can use it freely or
+take it as basis for your own script. The examples themselves are no-transfer because
+they are only provided as examples for creators to build their own TV set or to be used
+as is by yourself.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+Put the TV Main and TV Config scripts in your TV set and the TV Remote script into your
+remote control. Write a configuration notecard (see below) and drop it into the TV set as
+well. It listens on the configured channel (default is 477) to the following commands:
+
+- tv.on - switch TV on
+- tv.off - switch TV off
+- tv.power - toggle TV on/off
+- tv.channel:name/url/nr - go to TV channel with name, URL or number
+- tv.station:name/url/nr - go to radio station with name, URL or number
+- tv.game:name/url/nr - go to game with name, URL or number
+- tv.image:name/url/nr - go to image with name, URL or number
+- tv.set:name/url/nr - go to channel/station/game/image, depending on what is active
+- tv.position:name - move the TV to the position with the given name
+- tv.prev - go to previous channel/station/game/image
+- tv.next - go to next channel/station/game/image
+- tv.home - go home, must be first channel (0), best to call it Home
+- tv.start - start current channel (if static texture is displayed)
+- tv.config - reload config, is usually done automatically
+- tv.setup - load config and setup display, only has effect if display face is set by hand
+- tv.reset - reset scripts
+- tv.menu - open main menu/OSD
+- tv.options - open options menu/OSD
+- tv.channels - open TV channels menu/OSD
+- tv.stations - open radio stations menu/OSD
+- tv.games - open games menu/OSD
+- tv.images - open images menu/OSD
+- tv.positions - open positions menu/OSD
+
+Using the TV Remote script, you can build a remote control with prims as buttons. Name
+the button prims like the TV commands (without "tv." and case-insensitive), e.g. "Power"
+for "tv.power" and "Channel:3" for "tv.channel:3". You can also add buttons to the TV set
+itself - the same rules apply. The RC also supports entering larger numbers for buttons
+that have only numbers as their name. So you can press button 1, 2 and 3 after each other
+and the RC will issue the "tv.set:123" command afterwards. This is not supported on the
+TV itself, though. And of course you can build a totally different remote control, using
+another script, as long as it issues the commands as described above.
+
+Channels, stations, games, images and positions can be given by number, name or URL (the
+latter not for positions). First, the script tries to find an exact match, then a case-
+insensitive match, then tries to find a channel etc. whose name starts with the given
+name, and then find any occurrence. Channel "0" is always treated as "Home".
+
+URLs can be normal http or https addresses, including direct image or video URLs, but
+also data URIs that allow you to directly set simple HTML content, e.g.:
+
+- https://marketplace.secondlife.com/stores/111748
+- http://techslides.com/demos/sample-videos/small.mp4
+- https://upload.wikimedia.org/wikipedia/commons/b/ba/Rotating_earth_%28Very_small%29.gif
+- data:text/html,<style>body{background:#000;color:#FFF;font:bold 24pt sans-serif}</style><center>Welcome
+- data:text/html,<object data='https://.../Rotating_earth_%28Very_small%29.gif'></object>
+- data:text/html,<center><img src='https://.../Rotating_earth_%28Very_small%29.gif' height=480>
+
+See also http://wiki.secondlife.com/wiki/User:Becky_Pippen/Shared_Media_LSL_Recipes
+
+For radio stations, the following stream URL formats are supported:
+
+- http://<host>[:<port>][/listen.pls] (Shoutcast v1)
+- http://<host>[:<port>][/listen[.{pls|m3u|...}]?sid=<sid>] (Shoutcast v2)
+- http://<host>[:<port>]/stream/<sid>/ (Shoutcast v2)
+- http://<host>[:<port>]/<streampath> (Shoutcast v2) - please add "/<sid>" in this case
+- http://<host>[:<port>]/<mountpoint> (Icecast)
+
+The stream ID (sid) for Shoutcast v2 always needs to be provided as last parameter in the
+URL even if a streampath is used. Please just add the sid as last parameter in this case
+yourself. If no stream ID is provided, it defaults to 1.
+
+The streaming server needs to have stream info enabled in order to request it. Shoutcast
+servers usually have, for Icecast servers, status.xsl and status-json.xsl are tried, but
+parsing the former can't be done reliably and the latter is only supported by newer
+Icecast versions.
+
+Please note that requesting stream info changed on the SL server side, using the old
+method (which was a hack) is not possible anymore. The new, cleaner method is not as
+reliable yet, though, so certain streaming servers might send an error response. For more
+information, please see:
+
+- https://community.secondlife.com/forums/topic/406941-dj-board-display-not-working-properly/
+- https://jira.secondlife.com/browse/BUG-100737
+
+While a radio station is playing, the TV script tries to display the stream status page
+on the TV screen. You need to set StreamInfo in the config to 2 (only stream status page)
+or 3 (plus floating text) for this to work. The stream status page is automatically
+reloaded on song change.
+
+Games and images are just URLs like TV channels - they are only separated logically, so
+e.g. TV channels and games don't mix inside the menu. Additionally, images can be given
+as UUID which is not possible for the others. TV channels, games and images replace each
+other; channels and games also replace radio stations; images only replace radio station
+logos or status pages, but the radio keeps playing; radio stations replace all others.
+
+You need to configure where the media gets displayed: on which linked prim and which of
+its faces (see below). You can use prim names or link numbers which start with 1 (root
+prim) for objects with more than one prim, or it is 0 for single prim objects. Face
+numbers start with 0. If you are unsure about which face number to use, following these
+steps will help:
+
+- Enable the Develop menu by pressing Ctrl+Alt+Q (on version 1.x viewers,
+  instead enable the Advanced menu by pressing Ctrl+Alt+D)
+- Select the face using the "Select Texture" Tool
+- Pick Develop > Rendering > Selected Texture Info from the menu,
+  or press Ctrl+Alt+Shift+T 
+
+The face number will be shown in your local chat window or as a notification.
+See also http://wiki.secondlife.com/wiki/Face
+
+You can set the display face, default texture, command channel and access level either in
+the object's description or in the config notecard (see below). If you change the command
+channel, you need to set it in the remote control as well.
+
+___________________________________________________________________________
+
+TV CONFIG NOTECARD AND OBJECT DESCRIPTION
+
+Options can be set in the TV set's description field or a configuration notecard. The
+notecard needs to contain the word "TVConfig" in its name.
+
+In the object's description field, use (explanation see below):
+Config:Display=0.5:DefTexture=UUID:CmdChan=477:Auto=15:Mode=0:Access=All
+
+In the remote control's description field, use:
+Config:CmdChan=477
+
+The configuration notecard contains the following options:
+
+----------------------------------------------------------------
+# Example 
+Display=prim.face
+OSD=prim.face
+OSDSize=<x,y,z>
+ButtonColor=#RGB
+ButtonActive=#RGB
+ButtonText=#RGB
+HoverText=<R,G,B>
+DefTexture=texture
+AlphaMode=0
+CmdChan=477
+Auto=15
+Mode=0
+Access=All
+SongAnnounce=1
+StreamInfo=3
+Intro=url
+IntroTime=5
+Outro=url
+OutroTime=5
+Home=url
+YouTube=autoplay=1&loop=0&vq=large&modestbranding=1&showinfo=0&rel=1
+Twitch=autoplay=true
+Vimeo=autoplay=1&autopause=0&loop=0&title=1
+Dailymotion=autoplay=1&related=1&info=1&logo=0&quality=480
+[Channels]
+name|category|url|texture[|<x,y,width,height>]
+...
+[Stations]
+name|category|url|texture[|sid]
+...
+[Games]
+name|category|url|texture[|<x,y,width,height>]
+...
+[Images]
+name|category|url|texture[|<x,y,width,height>]
+...
+[Positions]
+Off|pos|rot[|scale]
+On|pos|rot[|scale]
+name|pos|rot[|scale]
+...
+[Whitelist]
+url,url
+url
+...
+----------------------------------------------------------------
+
+- empty lines and comment lines starting with "#", "//" or "--" are ignored
+- general options are separated by newline or "|", channels/stations/positions by newline
+- prim and face are the linked prim (name or link number, use "root" for root prim) and face number
+- Display defines prim and face where the media should be displayed
+- OSD defines prim and face of the optional on-screen display (remove to use normal menus)
+- OSDSize define the size of the OSD, default is <0.01,2,1>
+- ButtonColor for OSD button color (name or hexadecimal #RGB, one digit per channel), default is navy
+- ButtonActive for OSD active buttons (name or hexadecimal #RGB, one digit per channel), default is blue
+- ButtonText for OSD text color (name or hexadecimal #RGB, one digit per channel), default is white
+- HoverText to display radio stream information as floating text, RGB each range from 0 to 255
+- DefTexture is the default texture UUID to use when media is disabled
+- AlphaMode can be 0 (none: alpha channel is ignored) or 1 (blend: alpha channel is used)
+- CmdChan is the command channel (default 477)
+- Auto defines autostart mode (0=Off, 1=TV, 2=Radio, 3=TV+Radio, 4=Game, 8=Image)
+- Mode defines whether to use shared media (0) or parcel media (1)
+- Access defines the access level (Owner, Group or All)
+- SongAnnounce to announce the current song in local chat (1) or not (0), default is 1
+- StreamInfo to show stream info (0=off, 1=floating text, 2=stream status page), default is 3
+- Intro and Outro are URLs for a welcome and goodbye screen with Intro/OutroTime as duration
+  - uses simple text messages by default, set Intro/Outro to empty to omit them
+- Home is the Home URL which is shown when the TV is switched on
+- YouTube, Twitch, Vimeo and Dailymotion contain options for the respective video providers
+- the Channels, Stations, Games, Images and Positions sections are enclosed in "[]"
+- TV channels, radio stations, games and images consist of a name, category, URL
+  and an optional texture (don't omit the separators in case one field is empty)
+  (please note that the type was removed as first parameter)
+- TV channels, games and images can also include viewports for automatic resize-to-fit
+  (please note that the available size is now 2048x1024 instead of 1024x512 before)
+- positions consist of a position and a rotation and optional scale factor
+  - the TV set is moved there and resized when a position is selected
+  - "On" and "Off" are used when the TV is switched on or off
+  - please only change the scale factor when the TV is at its default size!
+
+___________________________________________________________________________
+
+MENU DESCRIPTION
+
+----------------------------------------------------------------
+ Main menu
+----------------------------------------------------------------
+
++ CHANNELS: open TV channels menu
++ STATIONS: open radio stations menu
++ GAMES: open games menu
++ IMAGES: open images menu
++ POSITIONS: open positions menu
++ OPTIONS: open options menu (owner only)
+- Prev: go to previous channel/station/game/image
+- Home: go to Home URL
+- Next: go to next channel/station/game/image
+- Power: switch the TV off
+- Start: start the current TV channel or radio station (if AutoStart is off)
+- CLOSE: closes the menu
+
+----------------------------------------------------------------
+ Options menu (owner only)
+----------------------------------------------------------------
+
+▣ All: allow access for everyone
+▣ Group: allow access for group only
+▣ Owner: allow access for owner only
+- Setup: reload config and setup screen again
+- Reset: reset scripts and reload config
+- MENU: return to main menu
+
+----------------------------------------------------------------
+ Channels/Stations/Games/Images/Positions menu
+----------------------------------------------------------------
+
+- TV channel/radio station/game/image/position names on several pages
+- <<: previous page
+- MENU: return to main menu
+- >>: next page
+
+___________________________________________________________________________
+
+OSD DESCRIPTION
+
+On-screen display support is still experimental. It can get stuck or stop responding.
+When it does, just reopen the menu to make it reload. If you can't see its contents, try
+clicking on it to make shared media becoming visible. This is especially necessary the
+first time when you don't let shared media auto-play. If it still doesn't respond, switch
+the TV off and on again. Please note that button labels are cut at spaces and dots and
+eventually shortened to about 10 characters to fit everything in.
+
+Please note: If you want to use the POSITIONS menu, you can only use 3 of the other menus,
+otherwise they won't fit in.
+
+----------------------------------------------------------------
+ Main menu
+----------------------------------------------------------------
+
++ CHANNELS: open TV channels menu
++ STATIONS: open radio stations menu
++ GAMES: open games menu
++ IMAGES: open images menu
++ POSITIONS: open positions menu
++ OPTIONS: open options menu (owner only)
+- Input: enter channel/station/game/image/position name and select
+  - Channel: input as channel name
+  - Station: input as station name
+  - Game: input as game name
+  - Image: input as image name
+  - Position: input as position name
+- Go: submit input
+- PREV: go to previous channel/station/game/image
+- CLOSE: closes the menu
+- HOME: go to Home URL
+- NEXT: go to next channel/station/game/image
+- OFF: switch the TV off
+
+----------------------------------------------------------------
+ Options menu (owner only)
+----------------------------------------------------------------
+
+◉ All: allow access for everyone
+◉ Group: allow access for group only
+◉ Owner: allow access for owner only
+- APPLY: apply options
+- CANCEL: cancel setting options
+- SETUP: reload config and setup screen again
+- RESET: reset scripts and reload config
+- MENU: return to main menu
+
+----------------------------------------------------------------
+ Channels/Stations/Games/Images/Positions menu
+----------------------------------------------------------------
+
+- TV channel/radio station/game/image/position names on several pages
+- <<: previous page
+- CLOSE: closes the menu
+- MENU: return to main menu
+- >>: next page
+
+___________________________________________________________________________
+
+SIMPLE YOUTUBE BROWSER
+
+You can put media on a prim's face easily without the need of a TV script by doing the
+following:
+
+- edit the prim and select a face
+- go to the Texture tab
+- choose a texture that is displayed when the video is not running, e.g. "Click to play" or your logo
+- in the list box below Full Bright, select Media instead of Materials
+- click Choose...
+
+- as Home Page, enter your video, but in the following format:
+  http://www.youtube.com/embed/h12w6e-4H7E?autoplay=1&vq=large&modestbranding=1&showinfo=0&rel=0
+  (h12w6e-4H7E must be replaced by your video id, rel=0 prevents from showing related videos in the end)
+- select Auto Play Media and Auto Scale Media, leave Auto Zoom disabled
+  then go to the Customize tab and disable all 3 Show Control Bar checkboxes, leave the others enabled
+- then go to the Security tab and add your video URL again, so no one can play anything else
+- then press OK and close the edit dialog
+
+- click the face to start the video
+- when it ends, it stops and can be started again
+- everyone sees their own "copy" of the video
+- navigation in the video is possible using the Youtube navigation bar at the bottom
+
+___________________________________________________________________________
+
+CHANGELOG
+
+- v0.47 ... Initial version
+- v0.48 ... Save positions, set media params
+- v0.49 ... Updated to common protocol
+- v0.50 ... Total rework, read config ourselves, channel logos
+- v0.51 ... Fullscreen for YouTube/Vimeo/MyVideo/Dailymotion, radio stations, parcel media
+- v0.52 ... Included menu, deed bugfixes
+- v0.53 ... Added radio stream info
+- v0.54 ... OSD menu, fixed Dailymotion
+- v0.55 ... Separate configuration script, whitelist, video params
+- v0.56 ... Stream handling outside, allow prim names instead of link numbers,
+            changed config parsing, scale TV, intro+outro URL, texture repeat+offset,
+            allow access and accesslevel in config, fixed startup
+- v0.57 ... OSD layout changes, keep OSD channel menu open, timeout for OSD and fadein, AlphaMode,
+            added Games and Images, dynamic button label lengths, only load current page,
+            allow "root" as prim name, section names case-insensitive, check closing ],
+            Shoutcast v2/JSON, fixed stream info (JIRA BUG-100737), filter more HTML entities,
+            removed station types, check Shoutcast v2 before v1, added Twitch, removed MyVideo
+- v0.58 ... Fixed OSD (escaped # in colors), changed default colors and font,
+            prim names case-insensitive, optionally show radio station status page,
+            simplified channel and station handling
+- v0.59 ... Reload stream status page on song change, multi-digit input with timeout on RC,
+            new set command for RC to set channel or station depending on what is active,
+            handle channel 0 as Home, error message for non-existing numbers
+- v0.60 ... Use shuiGetPrimFace, optional face config in prim's description,
+            changed texture size to 2048x1024, don't switch off on region change/restart,
+            improved too long button label cutting
+
+___________________________________________________________________________
+
+LICENSE
+
+Copyright (c) 2012-2020, Shuichi Shinji
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+- Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
+- Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+- Standalone redistribution in parts or as whole is not permitted, it may
+  only be sold as part of your own products, either copy or transfer only,
+  keeping script name and creator intact.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+

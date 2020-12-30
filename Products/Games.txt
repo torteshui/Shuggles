@@ -1,0 +1,2104 @@
+﻿============================================================
+  【秀】  [.Shuggles.] Chat TicTacToe v0.52  【ツ】
+============================================================
+
+The Chat TicTacToe script starts a TicTacToe game in local chat. It's operated by chat
+commands: Type 'ttt num' where num is the field number (like on a mobile), e.g. 'ttt 5'
+for the center field. The first player starts the game by setting the first X, the other
+player sets his first O then and so on. 'ttt reset' resets the game, otherwise it is
+played until all 9 moves are made and either one player has won or it is a tie.
+
+The Chat TicTacToe script is full perm, so it can be adapted to your needs. It's licensed
+under the BSD license with the addition that it must not be resold or otherwise given
+away standalone in parts or as whole. It can be used in your creations as long as these
+license conditions are met. Or you can just put it as is in any object or attachment.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Companion v0.50  【ツ】
+============================================================
+
+The Companion script is intended for a shoulder pet which can circle around your head or
+bob up and down over a shoulder. Its user can change textures, particles, circling and
+bobbing speed, the pet's name and its size, all by menu. Object and particle textures can
+be loaded from the object's inventory or specified by UUID inside the script. Texture
+sets consisting of different object and particle textures on various prims and faces can
+be applied by a multi-page menu, with the currently selected texture set being marked.
+
+Texture names are automatically shortened to 21 characters. They should be no longer than
+~12 characters so they can be displayed completely in the menu. Object textures in the
+object's inventory must be copy and transfer, particle textures full perm due to an SL
+limitation, if specified by UUID inside the script, these restrictions don't apply.
+
+The script is intended for creators, so configuration is done inside the script which is
+then included in the shoulder pet, with either copy or transfer permissions only. The end
+user can only change the aforementioned things by menu. Detailed configuration options:
+
+- speed factor for circling and bobbing
+- bobbing amplitude and exponent
+- the name of the prim that displays the name as floating text
+- posing animation to use (when resizing)
+- particle burst rate in seconds, i.e. how often bursts occur
+- particle burst count, i.e. number of particles during burst
+- particle burst radius
+- particle start and end scale
+- particle start and end color, ranging from 0-255 for each channel
+- particle start and end transparency in percent
+- duration in seconds particles live
+- particle minimum and maximum speed
+- texture sets consisting of object and particle textures on various prims and faces
+
+The Companion script is full perm. It's licensed under the BSD license with the addition
+that it must not be resold or otherwise given away standalone in parts or as whole. It
+can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+To configure the script, please open it and change the following constants according to
+your needs:
+
+SPEED_FACTOR
+
+An overall speed factor for circling and bobbing speeds. Default is 0.1, increase to make
+faster or decrease to make slower.
+
+BOB_AMPLITUDE
+
+The maximum amplitude for bobbing, depending on exponent moving only upwards or up and
+down by that amplitude (see BOB_EXPONENT). Default is 0.05.
+
+BOB_EXPONENT
+
+The bobbing exponent. Use higher values for longer pauses, smaller values (at least 1)
+for shorter pauses. Even values let the shoulder pet only move upwards, odd values let it
+move up and down by the configured amplitude (see BOB_AMPLITUDE).
+
+NAME_PRIM
+
+The name of the prim that displays the pet's name as floating text. You can use the prim
+name or it's link number (as string). For the root prim, use "root". Default is "Name".
+
+POSE_ANIM
+
+Posing animation to use with the Pose button. It must be in the object's inventory or an
+SL internal animation. Default is "turn_180" which is an internal animation and the same
+as the one for Edit Appearance.
+
+PARTICLE_LIFE
+
+Duration in seconds particles live. Default is 1.
+
+PARTICLE_BURST_RATE
+
+Particle burst rate in seconds, i.e. how often bursts occur. Default is 0.3 which means
+that every 0.3 seconds a burst happens.
+
+PARTICLE_BURST_COUNT
+
+Particle burst count, i.e. number of particles during burst. Default is 2.
+
+PARTICLE_BURST_RADIUS
+
+Particle burst radius, i.e. the distance from the emitter where particles will be created.
+Default is 5.0.
+
+PARTICLE_START_SCALE and PARTICLE_END_SCALE
+
+Particle start and end scale during their lifetime. Defaults are <1.0, 1.0, 0.0> and
+<0.8, 1.5, 0.0>.
+
+PARTICLE_START_COLOR and PARTICLE_END_COLOR
+
+Particle start and end color during their lifetime, ranging from 0-255 for each channel.
+Defaults are <0, 0, 0> (black) and <255, 255, 255> (white).
+
+PARTICLE_START_TRANS and PARTICLE_END_TRANS
+
+Particle start and end transparency in percent during their lifetime.
+Defaults are 10 and 100.
+
+PARTICLE_SPEED_MIN and PARTICLE_SPEED_MAX
+
+Particle minimum and maximum speed. Defaults are 4.0 and 5.0.
+
+For configuring the particle system to your needs, please also refer to:
+http://wiki.secondlife.com/wiki/LlParticleSystem
+There is also a nice tutorial at:
+https://eloisepasteur.wordpress.com/learning-about-particles/
+
+SKIN_PARAMS
+
+Lists of texture and particle commands (with texture names or UUIDs), forming texture
+sets. You can use them if you don't want to put your textures inside the object. Textures
+in inventory are ignored then. This is especially useful because object textures from
+inventory need to be copy and transfer, particle textures full perm due to an SL
+limitation.
+
+You have two options to define texture sets:
+
+1) Use sections like "[Set]" to specify the menu item for the texture set and all
+   subsequent lines that don't have an own "Set=" part belong to that section:
+   "Texture/Particles:prim.face|texture"
+2) Specify them as "Set=Texture/Particles:prim.face|texture" without using sections.
+   This is mostly for backwards compatibility.
+
+Lines in the same section or with the same name (before the "=") are grouped together
+into one menu item, forming a texture set, and their textures and particles are applied
+together. Empty lines and comment lines starting with "#", "//" or "--" are ignored.
+
+You can mix both variants like in the following example, but for easier understanding
+you should use only one - the first one with sections is recommended:
+
+----------------------------------------------------------------
+string SKIN_PARAMS =
+"# Example appearance config
+
+# menu item 'Plywood', using section:
+# - plywood texture on prim 'Name', all faces
+# - transparent texture on prim 'Name', face 0
+# - plywood texture as particle
+[Plywood]
+Texture:Name   |89556747-24cb-43ed-920b-47caed15465f
+Texture:Name.0 |8dcd4a48-2d37-4909-9f78-f7a9eb4ef903
+Particles:Name |89556747-24cb-43ed-920b-47caed15465f
+
+# menu item 'Blank', without using section:
+# - blank texture on prim 'Name', all faces
+# - transparent texture on prim 'Name', face 0
+# - blank texture as particle
+Blank = Texture:Name   |5748decc-f629-461c-9a36-a35a221fe21f
+Blank = Texture:Name.0 |8dcd4a48-2d37-4909-9f78-f7a9eb4ef903
+Blank = Particles:Name |5748decc-f629-461c-9a36-a35a221fe21f
+";
+----------------------------------------------------------------
+
+This creates two menu buttons: "Plywood" to apply a plywood texture on prim "Name", all
+faces, a transparent texture on prim "Name", face 0, and a plywood texture as particles,
+and "Blank" to use a blank texture instead of plywood.
+
+The commands for textures contain the prim name and face after the colon, separated by
+a dot. If face is omitted, the whole prim is textured; if prim name is not specified
+either, the whole object is textured. The commands for particles only contain a prim.
+
+You can also separate object and particle texture menu items, just use different sections
+or names then (before the "="), e.g. six object texture sets first, then five particle
+texture sets (an "OK" button is added as 12th button).
+
+To use textures from inventory, just leave the string empty:
+
+----------------------------------------------------------------
+string SKIN_PARAMS = "";
+----------------------------------------------------------------
+
+You can then specify prim name and face the same way in the texture names, just omit the
+UUID. Please remember the permission restrictions.
+
+For instance, name your plywood texture in the object's inventory "Plywood=Texture:Name.1"
+to apply it on face 1 of prim "Name". You can also specify it as "Plywood:Name.1" which
+automatically treats it as a Texture command.
+
+There are more options to specify texture sets, but they are just fallbacks in case the
+config is not correct. For details, please see the script.
+
+If you don't want any texture or particle changes (incl. not showing the appropriate menu
+button), just empty the list as shown above and don't put any textures inside the object.
+
+___________________________________________________________________________
+
+COMPANION MENU
+
+This is mainly for the end user to change the appearance of their companion and some
+additional options. Feel free to copy this section into your own documentation.
+Click on your companion to open the menu.
+
+----------------------------------------------------------------
+ Main menu
+----------------------------------------------------------------
+
++ NAME: open name configuration menu
++ RESIZE: open resize menu
++ APPEARANCE: open appearance menu
+▣ Head: let companion circle around your head
+▣ Shoulder: let companion bob on your shoulder
+▣ Particles: enable/disable particles (if configured in the set)
+▣ Slow/Medium/Fast: change animation speed
+- Stop: stop animation
+- Reset: reset the script and all configuration
+- CLOSE: closes the menu
+
+----------------------------------------------------------------
+ Name menu
+----------------------------------------------------------------
+
+- color buttons: change color of floating text
+▣ Show: show/hide name
++ Set Name: open textbox to enter the name
+- OK: return to main menu
+
+----------------------------------------------------------------
+ Resize menu
+----------------------------------------------------------------
+
+- number buttons: resize by +/- number in percent
+- Store: store current size
+- Restore: restore size to last stored one
+▣ Pose: pose avatar with configured POSE_ANIM
+- OK: apply changes and return to main menu
+- CANCEL: revert changes and return to main menu
+
+----------------------------------------------------------------
+ Appearance menu
+----------------------------------------------------------------
+
+▣ texture sets: change appearance to the selected texture set
+- OK: return to main menu
+
+
+============================================================
+  【秀】  [.Shuggles.] Gatcha v0.57  【ツ】
+============================================================
+
+The Gatcha script can be used to give a random item upon paying a fixed price. It scans
+the inventory of the prim it is in and randomly selects a prize. When an avatar pays the
+given price, it delivers the prize to this avatar in a folder or standalone for single
+items. The name Gatcha is chosen intentionally (see "Gotcha!"), but it is just the same
+as Gacha :-)
+
+All items whose names start with the prize name, e.g. description notecards or images,
+are also included. Detailed configuration options:
+
+- price to pay must be set in the object's description field
+- access level all, group or owner - gives refunds in case a user is not allowed
+- item type that should be given: objects, notecards, textures, all etc.
+- other items whose names start with the prize name are given as well
+- exclude list for items that shall not be given
+- include list for items that are always included (e.g. store landmark or notecard)
+- no copy items are supported, but only as single item
+- configurable sound that is played on giving the prize
+- folder name of prize, uses object name + prize name if empty, not used for single items
+- string that needs to be in the item's name to be considered a rare item
+- chance that a rare item is really used when chosen (0-100%)
+- optional config notecard, intended for creators of gatcha machines which want to
+  sell them, but keep them configurable without letting the script stay full perm
+- configurable message texts, say as agent
+
+The Gatcha script is full perm. It's licensed under the BSD license with the addition
+that it must not be resold or otherwise given away standalone in parts or as whole. It
+can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+To configure the script, please open it and change the following constants according to
+your needs:
+
+----------------------------------------------------------------
+ Game configuration
+----------------------------------------------------------------
+
+ACCESS_LEVEL
+
+Set the access level: 0 for all, 1 for group only, 2 for owner only.
+
+GIVE_ITEM_TYPE
+
+The type of prize you want to give: objects, notecards, textures, clothing, all etc.
+Use the following values: INVENTORY_OBJECT, INVENTORY_NOTECARD, INVENTORY_TEXTURE,
+INVENTORY_CLOTHING, INVENTORY_ALL etc. For a complete list, please refer to
+https://wiki.secondlife.com/wiki/LlGetInventoryType
+
+All items that start with the same string as the prize name are given as well. This can
+be used to give additional items together with the prize, e.g. description notecards or
+even whole outfits. For instance, you can put some pants called "Sexy Pants" inside,
+configure the script to give INVENTORY_CLOTHING and then add objects like "Sexy Pants
+Left Cuff", "Sexy Pants Right Cuff" and "Sexy Pants Belt", maybe also a notecard called
+"Sexy Pants Readme". All these items are given together with the pants themselves.
+
+Please note: The Gatcha script is never given. If you want to give no copy items, they
+can only be given standalone, not in a folder, so you can't add additional items.
+
+EXCLUDE_ITEMS
+
+This is a list of items that are not included, i.e. items that need to be in the object,
+but shall not be given. This applies to the prize items itself, but also to the items
+that are automatically added because their name starts with the prize name. Define it
+the following way:
+
+list EXCLUDE_ITEMS = [ "Some Object", "Some Texture" ];
+
+Use the empty list [] if you don't need this.
+
+INCLUDE_ITEMS
+
+These items are always included with the winning prize. You can use it to give store
+landmarks or notecards or a small gift with all prizes. Define it the following way:
+
+list INCLUDE_ITEMS = [ "Store LM", "Store NC", "Small Gift" ];
+
+Use the empty list [] if you don't need this.
+
+Please note: If you want to give no copy items, they can only be given standalone, not in
+a folder, so you can't add additional items.
+
+GIVING_SOUND
+
+A sound that is played on giving the prize and which needs to be in the prim's inventory
+as well. Set to "" to simply use the first found sound in the inventory.
+
+FOLDER_NAME
+
+The folder name of the prize when it's given. If empty, it uses the name of the object.
+It always appends the prize name. This is not used for single items (to support giving
+no copy items).
+
+RARE_CHANCE and RARE_STRING
+
+String that needs to be part of an item's name to be considered as a rare item and the
+probability that a chosen rare item is really used or another one is drawn instead. The
+string is case-insensitive.
+
+For instance, if RARE_STRING is "(rare)", any item being named like "Some Item (Rare)" is
+considered a rare item and the probability that it is really used after being drawn is
+20% if RARE_CHANCE is set to 20, i.e. in 80% of the cases another item is chosen.
+
+MSG_WIN, MSG_WRONG_AMOUNT, MSG_NO_ACCESS and MSG_NO_REFUND
+
+Messages to send to the player on winning, when having paid the wrong amount of money,
+when having no access (e.g. when not in the group) and when no refund is possible.
+
+These messages accept the following placeholders:
+
+- %p for player's display (first) name
+- %s for link to the owner's profile (was %a in older versions, old %s has been removed)
+- %o for object name
+- %m for name of won item (was %i in older versions)
+
+If the message starts with "/me", it's said with the receiver's name.
+
+___________________________________________________________________________
+
+CONFIG NOTECARD
+
+For creators of gatcha machines which want to sell them, but keep them configurable
+without letting the script stay full perm (which is not allowed by the license), the
+parameters which are useful to be configured by the gatcha machine owner can be set in
+a notecard containing the word "GatchaConfig" in its name. Parameter and section names
+are case-insensitive. With a notecard, the EXCLUDE_ITEMS and INCLUDE_ITEMS lists inside
+the script are not used anymore.
+
+You should include the config notecard format and a short description to your customers
+together with the gatcha machine you are selling.
+
+----------------------------------------------------------------
+# Access level (Access or AccessLevel): 0/All, 1/Group, 2/Owner
+AccessLevel=All
+# Chance that a rare item is really used when chosen: 0-100
+RareChance=20
+# If item name contains this string, it is considered rare (case insensitive)
+RareString=(rare)
+# Type of prize: All, Texture, Sound, Landmark, Clothing, Object, Notecard, Script,
+# Bodypart, Animation, Gesture
+GiveItemType=Object
+# Folder name of prize, uses object name + prize name if empty
+FolderName=
+
+# These items are not included (automatically contains giving sound and the script)
+[ExcludeItems]
+Some Object
+Some Texture
+
+# These items are always included (e.g. store landmark or notecard)
+[IncludeItems]
+Store LM|Store NC
+Small Gift
+----------------------------------------------------------------
+
+Please note: ExcludeItems and IncludeItems have their own sections now. Items are one
+per line or separated by "|" (without spaces in between). The old definition with comma-
+separated lists is not supported anymore.
+
+
+============================================================
+  【秀】  [.Shuggles.] Gift Calendar v0.48  【ツ】
+============================================================
+
+The Gift Calendar script gives presents to avatars on certain dates, optionally only for
+specific avatars. It can be rezzed or attached as HUD.
+
+The calender needs to consist of several prims, so-called gift slots. On touching them,
+the script checks the date and optional avatar name in the prim's name field and gives
+the present specified in the prim's description field. The gift slots are automatically
+checked for becoming active upon reaching the specified date without user interaction as
+well. The active state can be visualized by a texture and/or color change of the whole
+prim or a configurable face.
+
+Items starting with the same name as the gift are also given. Items to exclude can be
+specified, as well as items to always include. Multiple items are delivered in a folder
+(doesn't work for no copy items), otherwise standalone. You can also require a payment
+before giving anything.
+
+Detailed configuration options:
+
+- configure default access level (all, group, owner)
+- optionally only give on payment
+- optionally remove copiable items after giving
+- other items whose names start with the prize name are given as well
+- exclude list for items that shall not be given
+- include list for items that are always included (e.g. store landmark or notecard)
+- items are given standalone or in a folder (folder doesn't work for no copy items)
+- change texture of gift slot when becoming active or inactive, face can be specified
+- specify time interval to automatically check for gift slots becoming active
+- specify year and month to add in the root's description if gift slots only contain day
+- allow attaching or rezzing
+- configurable sound that plays when giving items
+- name field contains giving date and optionally, the receiver name
+- description field contains gift name and optionally, active and inactive textures
+
+The Gift Calendar script is full perm. It's licensed under the BSD license with the
+addition that it must not be resold or otherwise given away standalone in parts or as
+whole. It can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+Build your calender out of prims (incl. sculpties and mesh), one for each gift slot.
+Gift slots can be active and inactive. They are initially inactive before the specified
+date is reached, but are not textured or colored automatically in this state. When they
+reach the given date, they become active and are textured and/or colored as specified.
+If the item is removed after it has been given, the slot becomes inactive again and is
+then automatically textured and/or colored as specified.
+
+Put the date into the name field of each gift slot, in the form: YYYY-MM-DD. If no date
+is specified, it always gives the item. The content of the root prim's description field
+is automatically added to the date, so you can e.g. only specify "24" in the gift slot
+and "2018-12" in the root prim and the script combines them to "2018-12-24". Otherwise
+the root prim's description field must be empty!
+
+If a receiver name (legacy name, username or UUID) is also given, the name field contains
+the username and date, separated by a colon: "username:date". Then only the specified
+avatar is able to get the gift. If you want to use this feature without a date, you need
+to add a colon to the receiver name: "username:"
+
+In the description field of each gift slot, add the gift name (which must be in the root
+prim's inventory) and optionally, the texture to put on the gift slot after giving the
+item plus the texture when the gift slot becomes inactive, e.g. when the item was removed
+after it had been given. Separate them by colons, e.g. "gift" or "gift:texture_active" or
+"gift:texture_active:texture_inactive".
+
+If you don't specify an active texture, the gift name plus a configurable string (default
+is " Image") are used as texture name (which must be in the object's inventory then), e.g.
+if your gift is named "Gift Box", by default your texture name must be "Gift Box Image".
+
+To configure the script, please open it and change the following constants according to
+your needs:
+
+ACCESS_LEVEL
+
+Set the access level: 0 for all, 1 for group only, 2 for owner only.
+
+GIVE_ON_PAY
+
+The price to pay before getting items. Use PAY_HIDE to disable.
+
+AUTO_CHECK_TIMER
+
+Specify timer interval in seconds to automatically check gift slots becoming active.
+Default is 60 seconds. Use 0 to disable automatic checks.
+
+REMOVE_ITEMS
+
+Delete (copiable) items after giving them: TRUE or FALSE.
+
+IMAGE_FACE
+
+The face on gift slots that are textured and/or colored. Use ALL_SIDES for all faces.
+
+FORCE_GIVE_IMAGE
+
+Gift images are not given together with the gift, set to TRUE if you want to give them.
+Default is FALSE.
+
+GIVING_SOUND
+
+Sound played on giving the items, use "" for none.
+
+GIFT_IMAGE
+
+If you don't specify an active texture in the gift slot's description field, the gift
+name plus this string (default is " Image") are used as texture name (which must be in
+the object's inventory then), e.g. if your gift is named "Gift Box", by default your
+texture name must be "Gift Box Image".
+
+ACTIVE_TEXTURE
+
+The default texture to set when gift slot becomes active if none was configured in the
+gift slot's description field. Use "" to use gift image (see GIFT_IMAGE). If that's not
+found either, the gift slot is not textured when becoming active.
+
+INACTIVE_TEXTURE
+
+The default texture to set when gift slot becomes inactive if none was configured in the
+gift slot's description field. Use "" to disable, then the gift slot is not textured when
+becoming inactive.
+
+ACTIVE_COLOR
+
+The color to set when gift slot becomes active. Use ZERO_VECTOR to disable or <255,255,255>
+for white (which means no coloring).
+
+INACTIVE_COLOR
+
+The color to set when gift slot becomes inactive. Use ZERO_VECTOR to disable or <255,255,255>
+for white (which means no coloring).
+
+EXCLUDE_ITEMS
+
+This is a list of items that are not included, e.g. sitter scripts you are using or
+anything else that needs to be in the object, but shall not be given. This is to exclude
+items that are otherwise automatically added because their name starts with the gift name.
+Define it the following way:
+
+list EXCLUDE_ITEMS = [ "Some Object", "Some Texture" ];
+
+Use the empty list [] if you don't need this. It automatically contains the giving sound
+and the script itself, so they are never given.
+
+INCLUDE_ITEMS
+
+These items are always included with the gift item. You can use it to give store
+landmarks or notecards with all gifts. Define it the following way:
+
+list INCLUDE_ITEMS = [ "Store LM", "Store NC" ];
+
+Use the empty list [] if you don't need this.
+
+MSG_GIFT, MSG_NOT_FOR_YOU, MSG_DATE, MSG_INACTIVE, MSG_PAY, MSG_TOUCH,
+MSG_REFUNDING, MSG_NO_ACCESS, MSG_GROUP
+
+Messages to display in local chat (only for the user) upon receiving the gift, when the
+gift is not for the current user, when the date is not reached yet, when the gift slot
+is not active anymore, when the user needs to pay, when they need to touch the gift slot
+after paying, when refunding, when the user doesn't have access or when they are not in
+the group. For some messages, you can use a special placeholder %s which is replaced by
+the user's display name, the date of the gift slot, the amount to pay, the refunded amount
+or the group UUID of the object, depending on the actual message (details in the script).
+
+
+============================================================
+  【秀】  [.Shuggles.] Guess Number v0.53  【ツ】
+============================================================
+
+The Guess Number script can be used to give a random item upon correctly guessing a
+randomly chosen number. It scans the inventory of the prim it is in and randomly selects
+a prize. When an avatar correctly guesses the number in public chat, it delivers the
+prize to this avatar in a folder or standalone for single items. Hints are given whether
+the guessed number was too low or too high.
+
+All items whose names start with the prize name, e.g. description notecards or images,
+are also included. Detailed configuration options:
+
+- access level all, group or owner
+- range the number is chosen from
+- minimum and maximum number of allowed guesses and guess timeout
+- minimum and maximum number of people needing to touch the object before game is started
+- guess modes: anyone, all entrants, last or random entrant
+- item type that should be given: objects, notecards, textures, all etc.
+- other items whose names start with the prize name are given as well
+- exclude list for items that shall not be given
+- include list for items that are always included (e.g. store landmark or notecard)
+- no copy items are supported, but only as single item
+- folder name of prize, uses object name + prize name if empty, not used for single items
+- string that needs to be in the item's name to be considered a rare item
+- chance that a rare item is really used when chosen (0-100%)
+- particle system configuration, e.g. emitting duration and lifetime
+- particle textures when number is too high, too low and when winning
+- sounds on start, on guess, when number is too high, too low and when winning
+- public and private messages, say as agent
+
+The Guess Number script is full perm. It's licensed under the BSD license with the
+addition that it must not be resold or otherwise given away standalone in parts or as
+whole. It can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+To configure the script, please open it and change the following constants according to
+your needs:
+
+----------------------------------------------------------------
+ Game configuration
+----------------------------------------------------------------
+
+ACCESS_LEVEL
+
+Set the access level: 0 for all, 1 for group only, 2 for owner only.
+
+MIN_NUMBER and MAX_NUMBER
+
+Minimum and maximum number to guess. The number is chosen from that range.
+
+MIN_GUESSES and MAX_GUESSES
+
+Minimum and maximum number of guesses; must be > 0. The real number of guesses is chosen
+anew from this range for every new game. If you want a fixed number, set both constants
+to the same value.
+
+MIN_ENTRIES and MAX_ENTRIES
+
+Minimum and maximum number of entrants who need to touch the object before asking to
+guess; must be > 0. The real number of people is chosen anew from this range for every
+new game. If you want a fixed number, set both constants to the same value. Both should
+be 1 for guess mode 0.
+
+GUESS_MODE
+
+The guess mode, i.e. who can play: 0=All, 1=All entrants, 2=Last entrant, 3=Random entrant.
+Default is 2 as this was the only mode older versions supported: the last one touching
+the object could guess. Now a random entrant can be chosen or all entrants can guess or
+anyone, even without entering.
+
+GUESS_TIMEOUT
+
+The time in seconds the player has to guess the correct number before a timeout occurs
+and the game is restarted.
+
+GIVE_ITEM_TYPE
+
+The type of prize you want to give: objects, notecards, textures, clothing, all etc.
+Use the following values: INVENTORY_OBJECT, INVENTORY_NOTECARD, INVENTORY_TEXTURE,
+INVENTORY_CLOTHING, INVENTORY_ALL etc. For a complete list, please refer to
+https://wiki.secondlife.com/wiki/LlGetInventoryType
+
+All items that start with the same string as the prize name are given as well. This can
+be used to give additional items together with the prize, e.g. description notecards or
+even whole outfits. For instance, you can put some pants called "Sexy Pants" inside,
+configure the script to give INVENTORY_CLOTHING and then add objects like "Sexy Pants
+Left Cuff", "Sexy Pants Right Cuff" and "Sexy Pants Belt", maybe also a notecard called
+"Sexy Pants Readme". All these items are given together with the pants themselves.
+
+Please note: The Guess Number script is never given. If you want to give no copy items,
+they can only be given standalone, not in a folder, so you can't add additional items.
+
+EXCLUDE_ITEMS
+
+This is a list of items that are not included, i.e. items that need to be in the object,
+but shall not be given. This applies to the prize items itself, but also to the items
+that are automatically added because their name starts with the prize name. Define it the
+following way:
+
+list EXCLUDE_ITEMS = [ "Some Object", "Some Texture" ];
+
+Use the empty list [] if you don't need this.
+
+INCLUDE_ITEMS
+
+These items are always included with the winning prize. You can use it to give store
+landmarks or notecards or a small gift with all prizes. Define it the following way:
+
+list INCLUDE_ITEMS = [ "Store LM", "Store NC", "Small Gift" ];
+
+Use the empty list [] if you don't need this.
+
+Please note: If you want to give no copy items, they can only be given standalone, not in
+a folder, so you can't add additional items.
+
+FOLDER_NAME
+
+The folder name of the prize when it's given. If empty, it uses the name of the object.
+It always appends the prize name. This is not used for single items (to support giving
+no copy items).
+
+RARE_CHANCE and RARE_STRING
+
+String that needs to be part of an item's name to be considered as a rare item and the
+probability that a chosen rare item is really used or another one is drawn instead. The
+string is case-insensitive.
+
+For instance, if RARE_STRING is "(rare)", any item being named like "Some Item (Rare)" is
+considered a rare item and the probability that it is really used after being drawn is
+20% if RARE_CHANCE is set to 20, i.e. in 80% of the cases another item is chosen.
+
+TEXTURE_WIN, TEXTURE_HIGH and TEXTURE_LOW
+
+The texture particles to emit on winning or when the guess was too high or too low. YOu
+can use texture names if the textures are in the object or texture UUIDS.
+
+SOUND_START, SOUND_GUESS, SOUND_WIN, SOUND_HIGH and SOUND_LOW
+
+The sounds played on start, on guess, on winning and when number is too high or too low.
+They must be in the object or a UUID, leave empty to disable.
+
+The sounds are preloaded on game start, but if you want them to preload for avatars who
+arrive later, you might want to consider adding the Sound Preloader script which I also
+offer.
+
+SOUND_VOLUME and SOUND_DURATION
+
+The sound volume in percent and maximum sound duration in seconds after which the sound
+is reliably stopped (should be about the same as PARTICLE_EMIT). Defaults are 50% and 5s.
+
+----------------------------------------------------------------
+ Particles configuration
+----------------------------------------------------------------
+
+The object can use the particle system to blow a texture to the avatar who answered a
+question correctly or who won the whole game, e.g. a money texture. It can also be
+configured to just emit particles without targeting an avatar.
+
+PARTICLE_TARGET
+
+Set to TRUE to target avatar with particles, FALSE otherwise. Default is TRUE (only for
+correct number).
+
+PARTICLE_TURN_DIRECT
+
+Set to TRUE to make particles turn towards their flying direction, FALSE otherwise.
+Default is TRUE (only for correct number).
+
+PARTICLE_EMIT
+
+Duration in seconds particles are emitted after each guess. Default is 5.
+
+PARTICLE_LIFE
+
+Duration in seconds the particles live, i.e. are visible. Default is 5.
+
+PARTICLE_BURST_RATE
+
+Particle burst rate in seconds, i.e. how often bursts occur. Default is 0.2 which means
+that every 0.2 seconds a burst happens (only for correct number).
+
+PARTICLE_BURST_COUNT
+
+Particle burst count, i.e. number of particles during burst. Default is 2.
+
+PARTICLE_BURST_RADIUS
+
+Particle burst radius, i.e. the distance from the emitter where particles will be created.
+Default is 0.2.
+
+PARTICLE_START_SCALE and PARTICLE_END_SCALE
+
+Particle start and end scale during their lifetime. Defaults are <0.1, 0.1, 0.0> and
+<0.2, 0.2, 0.0>.
+
+PARTICLE_START_COLOR and PARTICLE_END_COLOR
+
+Particle start and end color during their lifetime, ranging from 0-255 for each channel.
+Defaults are <255, 255, 255> (white) for both.
+
+PARTICLE_START_TRANS and PARTICLE_END_TRANS
+
+Particle start and end transparency in percent during their lifetime.
+Defaults are 0 and 100.
+
+PARTICLE_ACCEL
+
+Particle acceleration, use negative values to slow down. Valid values are 0 to 100 for
+each direction, positive and negative, in region coordinates. Default is <0.0, 0.0,-0.1>.
+
+PARTICLE_SPEED_MIN and PARTICLE_SPEED_MAX
+
+Particle minimum and maximum speed. Defaults are 0.2 and 0.4.
+
+PARTICLE_ANGLE_BEGIN and PARTICLE_ANGLE_END
+
+Specifies a half angle in degrees, of a circular or spherical "dimple" or conic section
+(starting from the emitter facing) within which particles will (END) or will not (BEGIN)
+be emitted. Valid values for END are 0 (particles emitted in a straight line in direction
+of the emitter facing) to 180 (particles emitted in a full circular/spherical arc around
+the emitter, not including the "dimple" or conic section defined by BEGIN). For BEGIN,
+valid values are the same as for END, though the effects are reversed accordingly.
+
+Please note that the value of BEGIN and END are internally re-ordered such that END gets
+the larger of the two values. Defaults are -5 and 5.
+
+PARTICLE_OMEGA
+
+Sets how far to rotate the "pattern" after each particle burst, approximately degrees per
+burst around the prim's global (not local) axes. Has no visible effect on DROP, EXPLODE
+and certain specific ANGLE and ANGLE_CONE patterns, depending on prim orientation.
+Default is <0, 0, 0>.
+
+----------------------------------------------------------------
+ Messages configuration
+----------------------------------------------------------------
+
+MSG_START, MSG_CHOSEN, MSG_GUESS, MSG_WIN, MSG_HIGH, MSG_LOW, MSG_AGAIN, MSG_TIMEOUT and MSG_LEFT
+
+Messages to print in public chat when starting the game, when the player has been chosen,
+when a new round starts, on winning, when the guess was too high or too low, for trying
+again, when a timeout occurs and when the current player(s) has/have left chat range.
+
+These messages accept the following placeholders:
+
+- %p for the name of the guessing person
+- %min and %max for the minimum and maximum of the guessing number interval
+- %n for the number that was guessed
+
+If the message starts with "/me", it's said with the receiver's name.
+
+MSG_ENTER, MSG_ENTERED and MSG_NO_ACCESS
+
+Messages to only sent to the person touching the object for entering the game or when
+already in the game or when not being allowed to participate (e.g. when not in the group,
+then also a group invitation is printed).
+
+
+============================================================
+  【秀】  [.Shuggles.] Lucky Chair v0.57  【ツ】
+============================================================
+
+The Lucky Chair script can be used in a so-called lucky chair or lucky board. It scans
+the inventory of the prim it is in and randomly selects a prize and picks a letter.
+When an avatar whose name starts with the same letter is sitting on the lucky chair or
+touching the lucky board, it delivers the prize to this avatar in a folder or standalone
+for single items.
+
+It can also be used for camping. An avatar needs to sit the specified time to win the
+prize. The name is not checked for the first letter in this case.
+
+All items whose names start with the prize name, e.g. description notecards or images,
+are also included. "#" can be used for any number, although specifying numbers is also
+possible. "?" is used to let any name win. Only user or legacy names count, not display
+names. You can use a custom sit animation, configure the sit target and the time interval
+after which a new lucky letter is drawn. It can also be used together with a sitter
+script. Detailed configuration options:
+
+- color of floating text, or disable
+- sit target and sit rotation, can be disabled if used with another sitter script
+- access level all, group or owner
+- minimum and maximum time after a new lucky letter is drawn
+- prims and faces to display the current letter, remaining time and prize image
+- if you name linked prims "Letter", "Timer" and "Image", the script uses those
+- put the face(s) to use in the prim's description field then - see example chair
+- item type that should be given: objects, notecards, textures, all etc.
+- whether items are given on sit (for lucky chairs) or touch (for lucky boards)
+- also possible to use it for camping, names aren't checked then
+- other items whose names start with the prize name are given as well
+- exclude list for items that shall not be given
+- include list for items that are always included (e.g. store landmark or notecard)
+- no copy items are supported, but only as single item
+- sitting animation to use, otherwise uses first found anim, or standard anim if none
+- configurable sound that is played on giving the prize
+- folder name of prize, uses object name + prize name if empty, not used for single items
+- suffix for prize image to display (must be prize name + this suffix)
+- list of winning letters with variable drawing probability, with "#" for numbers and "?"
+- default texture if no prize image can be found
+- font texture for letter and remaining time display
+- optional config notecard, intended for creators of lucky chairs/boards which want to
+  sell them, but keep them configurable without letting the script stay full perm
+
+The Lucky Chair script is full perm. It's licensed under the BSD license with the
+addition that it must not be resold or otherwise given away standalone in parts or as
+whole. It can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+To configure the script, please open it and change the following constants according to
+your needs:
+
+----------------------------------------------------------------
+ Appearance and sitting configuration
+----------------------------------------------------------------
+
+TEXT_COLOR
+
+Set to the color of floating text in the form <R, G, B> where R, G and B range from 0 to
+255. Use ZERO_VECTOR to disable floating text.
+
+SIT_TARGET and SIT_ROTATION
+
+Set the sit target position in the form <X, Y, Z>. If you have another script providing
+this already (e.g. a sitter script), use ZERO_VECTOR to disable it here, so the other
+script won't be influenced.
+
+The sit target rotation is in the form <X, Y, Z> (in degrees). Use ZERO_VECTOR for none.
+Sit positions and rotations are usually output by a sitter script, so you can use the
+values from there and add them here instead of using the sitter script directly.
+
+SIT_ANIMATION
+
+The sit animation to use, which needs to be in the prim's inventory as well. Set to ""
+to simply use the first found animation in the inventory. If none is found, the standard
+sit animation is used.
+
+Please note: You usually only need this for camping as the avatar is only sitting very
+briefly otherwise and needs to give permissions to animate them, too.
+
+----------------------------------------------------------------
+ Display and texture configuration
+----------------------------------------------------------------
+
+LETTER_PRIM
+
+For displaying the lucky letter on a prim, specify the linked prim name or number and
+the face in the form of "prim.face" (".face" is optional), e.g. "2.2" or leave empty to
+disable. You can also use "root" as prim name for the root prim. If face is not specified,
+it can be given in the prim's description field. Default is "Letter" for the prim and the
+face is expected in its description.
+
+Prim numbers start with 1 (root prim) for objects with more than one prim, or it is 0 for
+single prim objects. Face numbers start with 0. If you are unsure about which face number
+to use, following these steps will help:
+
+- Enable the Develop menu by pressing Ctrl+Alt+Q (on version 1.x viewers,
+  instead enable the Advanced menu by pressing Ctrl+Alt+D)
+- Select the face using the "Select Texture" Tool
+- Pick Develop > Rendering > Selected Texture Info from the menu,
+  or press Ctrl+Alt+Shift+T 
+
+The face number will be shown in your local chat window or as a notification.
+Some viewers also display link number and face in the edit dialog.
+See also http://wiki.secondlife.com/wiki/Face
+
+Please note: This is not used for camping.
+
+If you make your own chair, you can include all faces in one mesh. The provided Lucky
+Chair example uses separate prims for demonstration purposes. Of course, you can do that
+as well if you want.
+
+TIMER_PRIM
+
+Same for displaying the remaining time on a prim. Here you have to configure two faces
+because the remaining time can range from 0 to 99 and each digit gets displayed on a
+separate face, e.g. 43 to use faces 4 for the tens and 3 for the ones. Leading zeros are
+not displayed. If faces are not specified, they can be given in the prim's description
+field. Default is "Timer" for the prim and the faces are expected in its description.
+
+To use only one prim for displaying the two digits, you can e.g. use the path cut on a
+simple cube from 0.25 to 0.5 and make it flat. Of course you can also use a mesh chair
+which already has all the faces included.
+
+IMAGE_PRIM
+
+Same for displaying an image of the winning prize. The image needs to be in the prim's
+inventory and named like the prize name + a configurable suffix (defined in PRIZE_IMAGE).
+Default is "Image" for the prim and the face is expected in its description.
+
+PRIZE_IMAGE
+
+The suffix that is appended to the prize name to get the name of the texture that is to
+be displayed on IMAGE_PRIM (please see there). Default is " Image". So if your prize name
+is "Awesome Stuff", then the image name would have to be "Awesome Stuff Image" and it
+needs to be in the prim's inventory.
+
+Please note: The image is also given together with the prize because all items that start
+with the same string as the prize name are given as well (see below).
+
+DEFAULT_TEXTURE
+
+The default texture that shall be displayed when no prize image can be found. This could
+be a generic background picture or your store logo, for instance. You can use a UUID or
+a texture name; in the latter case the texture must be copy and transfer and inside the
+object.
+
+FONT
+
+This is the font texture to be used for displaying the lucky letter and the remaining
+time. You shouldn't change this if you don't know what you are doing. Two textures are
+provided: one is for Second Life, the other for Avination - either one will only work
+where it is intended for. If you change the texture, you'll probably need to change the
+script code in the timer function where this texture is used, too (i.e. if the positions
+and sizes of the used characters do not match).
+
+----------------------------------------------------------------
+ Game configuration
+----------------------------------------------------------------
+
+ACCESS_LEVEL
+
+Set the access level: 0 for all, 1 for group only, 2 for owner only.
+
+MIN_TIME and MAX_TIME
+
+Minimum and maximum time interval in seconds between drawing a new lucky letter or the
+time interval an avatar needs to sit for camping. If you want a fixed time, set both
+constants to the same value.
+
+GIVE_ITEM_TYPE
+
+The type of prize you want to give: objects, notecards, textures, clothing, all etc.
+Use the following values: INVENTORY_OBJECT, INVENTORY_NOTECARD, INVENTORY_TEXTURE,
+INVENTORY_CLOTHING, INVENTORY_ALL etc. For a complete list, please refer to
+https://wiki.secondlife.com/wiki/LlGetInventoryType
+
+All items that start with the same string as the prize name are given as well. This can
+be used to give additional items together with the prize, e.g. description notecards or
+even whole outfits. For instance, you can put some pants called "Sexy Pants" inside,
+configure the script to give INVENTORY_CLOTHING and then add objects like "Sexy Pants
+Left Cuff", "Sexy Pants Right Cuff" and "Sexy Pants Belt", maybe also a notecard called
+"Sexy Pants Readme". All these items are given together with the pants themselves.
+
+Please note: The Lucky Chair script and a configured sit animation are never given.
+If you want to give no copy items, they can only be given standalone, not in a folder,
+so you can't add additional items.
+
+GIVE_ON_SIT, GIVE_ON_TOUCH and GIVE_ON_CAMP
+
+Define to TRUE if you want to give items on sit, e.g. for a lucky chair, or on touch,
+e.g. for a lucky board, or after an avatar was sitting the specified time (camping).
+Define to FALSE to disable and define only one of them to TRUE.
+
+EXCLUDE_ITEMS
+
+This is a list of items that are not included, e.g. sitter scripts you are using or
+anything else that needs to be in the lucky chair, but shall not be given. This applies
+to the prize items itself, but also to the items that are automatically added because
+their name starts with the prize name. Define it the following way:
+
+list EXCLUDE_ITEMS = [ "Sitter Script", "Some Object", "Some Texture" ];
+
+Use the empty list [] if you don't need this.
+
+INCLUDE_ITEMS
+
+These items are always included with the winning prize. You can use it to give store
+landmarks or notecards or a small gift with all prizes. Define it the following way:
+
+list INCLUDE_ITEMS = [ "Store LM", "Store NC", "Small Gift" ];
+
+Use the empty list [] if you don't need this.
+
+Please note: If you want to give no copy items, they can only be given standalone, not in
+a folder, so you can't add additional items.
+
+GIVING_SOUND
+
+A sound that is played on giving the prize and which needs to be in the prim's inventory
+as well. Set to "" to simply use the first found sound in the inventory.
+
+FOLDER_NAME
+
+The folder name of the prize when it's given. If empty, it uses the object name of the
+lucky chair/board. It always appends the prize name. This is not used for single items
+(to support giving no copy items).
+
+LETTERS
+
+This is a list of used letters. You usually shouldn't need to change this. Rare letters
+should be included multiple times to increase the probability of their drawing. Common
+letters should only be here once. "#" can be used for any number, although specifying
+numbers is also possible. "?" is used to let any name win.
+
+Please note: This is not used for camping.
+
+___________________________________________________________________________
+
+CONFIG NOTECARD
+
+For creators of lucky chairs/boards which want to sell them, but keep them configurable
+without letting the script stay full perm (which is not allowed by the license), the
+parameters which are useful to be configured by the lucky chair owner can be set in
+a notecard containing the word "LuckyConfig" in its name.
+
+You should include the config notecard format and a short description to your customers
+together with the lucky chair or lucky board you are selling.
+
+----------------------------------------------------------------
+# Access level (Access or AccessLevel): 0/All, 1/Group, 2/Owner
+AccessLevel=All
+# Color of floating text, use <0, 0, 0> to disable
+TextColor=<255, 255, 255>
+# Minimum time interval (MinTime or MinimumTime)
+MinTime=60
+# Maximum time interval (MaxTime or MaximumTime)
+MaxTime=300
+# Type of prize: All, Texture, Sound, Landmark, Clothing, Object, Notecard, Script,
+# Bodypart, Animation, Gesture
+GiveItemType=Object
+# Folder name of prize, uses object name + prize name if empty
+FolderName=
+
+# These items are not included (automatically contains sit anim, giving sound and the script)
+[ExcludeItems]
+Sitter Script
+Some Object
+Some Texture
+
+# These items are always included (e.g. store landmark or notecard)
+[IncludeItems]
+Store LM|Store NC
+Small Gift
+----------------------------------------------------------------
+
+Please note: ExcludeItems and IncludeItems have their own sections now. Items are one
+per line or separated by "|" (without spaces in between). The old definition with comma-
+separated lists is not supported anymore.
+
+
+============================================================
+  【秀】  [.Shuggles.] Monsters v0.48  【ツ】
+============================================================
+
+The Monsters game is a board game with a player and scripted opponents. Move your player
+around and don't get caught by the monsters. Monsters will follow you, wherever you move.
+They get killed if they hit each other or the remains of previously killed monsters. Use
+Teleport to move to a random position. Use Kill to kill adjacent monsters; you need at
+least one weapon to do it. Red monsters don't get killed by remains of other monsters,
+black ones can only be killed by weapons. Each move adds +1 to the score, each killed
+monster +10, weapon use gives a penalty of -10, teleport use -5.
+
+You can resize the board and also rotate it around any angle. Player and monster figures
+are automatically placed and resized on the next round. If you rez more than one board,
+keep them at least 20m apart from each other (center to center) or 10m border to border,
+so they don't influence each other. If you want others to be able to play it on group-
+owned land while you are not around, you need to deed it to the group.
+
+You can create your own figures, but they should have about the same size as the original
+ones which can be found inside the board. If you create your own, name the player figure
+"Player" and the monster figure "Monster", put the Monster script inside both and then
+put them inside the board, together with the Monsters script.
+
+To create your own board, you can use the provided example as a starting point. Important
+are the names of the button prims and the number of fields (which can also be configured
+in the script). Apart from that, you are free to do any design and layout you wish. You
+can sell your own creation; for personal use you can also modify the existing board and
+figures which are no transfer. Please refer to the scripts for more configuration options,
+e.g. number of monsters per round. Of yourse you can also just use the provided example
+and play right away :-)
+
+The Monsters scripts are full perm, so they can be adapted to your needs. They're licensed
+under the BSD license with the addition that they must not be resold or otherwise given
+away standalone in parts or as whole. They can be used in your creations as long as these
+license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Raffle v0.55  【ツ】
+============================================================
+
+The Raffle scripts can be used for a Raffle board or similar type game. People can enter
+the game and a winner is drawn randomly, either automatically or by a manager. There are
+two modes: winning money or a prize. For the second mode, an entry fee is possible, for
+the first this is not allowed. A prize can be won in both modes, for the first it would
+be additional to winning money. The winner is displayed by name and profile image.
+
+The main script scans the inventory of the prim it is in and randomly selects a prize.
+When a winner is drawn, it delivers the prize to them in a folder or as single item. All
+items whose names start with the prize name, e.g. description notecards or images, are
+also included. In order to pay the winner, debit permissions are required from the owner.
+
+The scripts don't use external resources and are independent from any external services,
+so there is no danger that they suddenly stop working. Technically, for picks and profile
+image, an external service (not inworld) is used, which is provided by LL, though, not by
+a third-party, so it can count as internal.
+
+Detailed basic configuration options (owner only):
+
+- color of floating text, can be disabled in menu
+- prims to display money, number of entrants, a countdown, last winner and requirements
+- prim and face (in the prim's description field) to display the prize image
+- suffix for prize image to display (must be prize name + this suffix)
+- default texture if no prize image can be found
+- access level all, group or owner
+- unlimited (only by memory) list of managers who can operate the menu
+- list with possible amounts of money to pay as entry fee (prize mode)
+- list with possible amounts of money that can be won (money mode)
+- limit maximum amount managers can set and define minimum running time
+- set maximum number of entrants or unlimited (only by memory, ~320 possible)
+- set minimum number of entrants before configurable automatic countdown starts
+- set minimum time in minutes to wait before a recurring game starts again
+- optionally, allow manual drawing for recurring events (not recommended)
+- define increment of starting time, countdown time and drawing time
+- item type that should be given: objects, notecards, textures, all etc.
+- other items whose names start with the prize name are given as well
+- exclude list for items that shall not be given
+- include list for items that are always included (e.g. store landmark or notecard)
+- configurable sound that is played on giving the prize
+- folder name of prize, uses object name of Raffle board + prize name if empty
+- define name of a notecard (e.g. for detailed rules) to give on entering
+- define content of several messages with placeholders for player name, group and prize
+- font texture for text display
+
+The following can be set by menu (owner and managers):
+
+- toggle running state, start countdown, draw winner, print or clear entrants list
+- toggle option to auto-clear entrants list after drawing, reset script
+- owner and managers can also enter the game
+- set mode (Money or Prize), set amount (optionally via manager payment) or entry fee
+- recurring events: daily, weekly, monthly; set day and time for start, countdown, draw
+- define whether it's allowed to still enter during countdown
+- announce winner and entry in IM, by whisper, say or shout
+- promotional message by whisper, say or shout; define interval in 15 minute steps
+- optionally send an IM to owner and/or to all entrants about result
+- access level all, group or owner; add and remove managers
+- define whether winner must be present during drawing or within a certain distance
+- optionally require payment information on file or payment information used
+- optionally require minimum age (1-12 months) or maximum age (1-24 months)
+- optionally require place to be in top picks (only 5 top picks)
+- enable (e.g. for a simple Raffle ball) or disable (for a Raffle board) floating text
+
+The Raffle scripts are full perm. They're licensed under the BSD license with the
+addition that they must not be resold or otherwise given away standalone in parts or as
+whole. They can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+Changelog:
+
+- v0.53 ... Display group membership requirement
+- v0.54 ... Show last winner in list, prevent manual drawing for recurring events
+- v0.55 ... More entries, IMs to owner/manager when sending IMs and on timeouts,
+            stripped " Resident" from displayed winner name
+
+___________________________________________________________________________
+
+MANUAL
+
+Put both scripts inside the Raffle board, ball or similar object. To configure the main
+script, please open it and change the following constants according to your needs:
+
+----------------------------------------------------------------
+ Game configuration
+----------------------------------------------------------------
+
+ACCESS_LEVEL
+
+Set the access level: 0 for all, 1 for group only, 2 for owner only.
+
+MANAGERS
+
+Predefined, comma-separated list of usernames who can operate the menu as well as the
+owner, e.g.: "kochloeffel.pfeffer,benny.pontecorvo,shuichi.shinji"
+Managers can be added and removed in the menu later.
+
+PAY_AMOUNTS
+
+List with possible amounts of money to pay as entry fee (prize mode). The actual value
+can then be selected in the configuration menu. Default is [ 0, 10, 20, 50 ].
+
+WIN_AMOUNTS
+
+List with possible amounts of money that can be won (money mode). The actual value can
+be selected in the configuration menu. If a value 0 is encountered, it enables payment
+for managers, so they can set the amount by paying the board (and implicitly its owner
+who then pays the winner via the board). Default is [ 1000, 2000, 3000, 4000, 5000, 0 ].
+
+MAX_AMOUNT
+
+The maximum amount of winning money managers can set; only the owner can set more. This
+(in combination with MIN_RUNNING) is to prevent managers from stealing money from the
+owner by starting a game, entering and drawing themselves. However, if you think you
+can't trust your managers, you probably shouldn't name them managers at all ^^
+Default is 2000.
+
+MAX_ENTRIES
+
+The maximum number of entrants. Use 0 to disable, then only the available memory limits
+it. In the sold configuration, at least 320 persons can enter, potentially up to 340.
+Default is 0.
+
+MIN_ENTRIES
+
+Minimum number of entrants before configurable automatic countdown starts, -1 to disable
+(see AUTO_COUNTDOWN). Default is -1.
+
+MIN_RUNNING
+
+The minimum running time in minutes to prevent fraud by managers (see MAX_AMOUNT).
+Drawing a winner is only possible after at least this time has passed. Default is 5.
+
+MIN_WAITING
+
+The minimum time in minutes to wait before the game is really ended after a winner has
+been drawn (i.e. floating text displaying the winner is cleared and the Raffle board
+returns to its state before the game) or a recurring game starts again. This could take
+longer if many IMs are sent to entrants who are not present anymore (see "IM All" in
+menu). Default is 1 and this should be the minimum, especially for recurring events.
+
+AUTO_COUNTDOWN
+
+Automatic countdown in minutes after MIN_ENTRIES is reached. Default is 60.
+
+MANUAL_DRAW
+
+Whether to allow manual drawing for recurring events. Default is FALSE. It is not
+recommended to allow it because it can be abused (manual drawing directly before the
+scheduled automatic drawing to clear the list) and can behave unexpectedly, even not
+being able to find a winner in some cases, especially with immediate restart after
+drawing.
+
+START_TIME
+
+The default automatic start time in minutes of day. Default is 720 = 12:00. Set to -1
+for immediate restart after drawing (recurring events). This can be changed via menu.
+
+COUNT_TIME
+
+The default automatic countdown time in minutes of day (no entries allowed anymore).
+Set to -1 to disable automatic countdown (which is the default).
+
+DRAW_TIME
+
+The default automatic draw time in minutes of day. Default is 840 = 14:00.
+It MUST NOT be set to -1. This can be changed via menu.
+
+TIME_STEP
+
+The increment of the starting time, countdown time and drawing time for recurring events
+in minutes when you configure them in the menu. This should be a factor of 60, e.g. 15,
+30 or 60. The smaller the time step, the more clicks you need to setup the times.
+Default is 30.
+
+GIVE_ITEM_TYPE
+
+The type of prize you want to give: objects, notecards, textures, clothing, all etc.
+Use the following values: INVENTORY_OBJECT, INVENTORY_NOTECARD, INVENTORY_TEXTURE,
+INVENTORY_CLOTHING, INVENTORY_ALL etc. For a complete list, please refer to
+https://wiki.secondlife.com/wiki/LlGetInventoryType
+
+All items that start with the same string as the prize name are given as well. This can
+be used to give additional items together with the prize, e.g. description notecards or
+even whole outfits. For instance, you can put some pants called "Sexy Pants" inside,
+configure the script to give INVENTORY_CLOTHING and then add objects like "Sexy Pants
+Left Cuff", "Sexy Pants Right Cuff" and "Sexy Pants Belt", maybe also a notecard called
+"Sexy Pants Readme". All these items are given together with the pants themselves.
+
+If you decide to allow winners to be absent, then you should give only simple boxes
+because giving folders to avatars not in the region does not work. For that reason, the
+prize image is not given anymore together with the prize.
+
+Please note: Scripts are never given.
+
+EXCLUDE_ITEMS
+
+This is a list of items that are not included, e.g. a color changing script or anything
+else that needs to be in the Raffle board, but shall not be given. This applies to the
+prize items itself, but also to the items that are automatically added because their name
+starts with the prize name (except prize image). Define it the following way:
+
+list EXCLUDE_ITEMS = [ "Some Notecard", "Some Object", "Some Texture" ];
+
+Use the empty list [] if you don't need this.
+
+INCLUDE_ITEMS
+
+These items are always included with the winning prize. You can use it to give store
+landmarks or notecards or a small gift with all prizes. Define it the following way:
+
+list INCLUDE_ITEMS = [ "Store LM", "Store NC", "Small Gift" ];
+
+Use the empty list [] if you don't need this.
+
+GIVING_SOUND
+
+A sound that is played on giving the prize and which needs to be in the prim's inventory
+as well. Set to "" to simply use the first found sound in the inventory.
+
+FOLDER_NAME
+
+The folder name of the prize when it's given. If empty, it uses the object name of the
+Raffle board. It always appends the prize name.
+
+INFO_NOTECARD
+
+The name of a notecard (e.g. for detailed rules) to give on entering and when clicking
+the Rules prim. Use "" to disable.
+
+----------------------------------------------------------------
+ Appearance configuration
+----------------------------------------------------------------
+
+TEXT_COLOR
+
+Set to the color of floating text in the form <R, G, B> where R, G and B range from 0 to
+255. This is mostly useful for simpler objects like a Raffle ball which doesn't display
+text on the object. Use the menu to disable floating text.
+
+PRIZE_IMAGE
+
+The suffix that is appended to the prize name to get the name of the texture that is to
+be displayed on a prim called "Image". Default is " Image". So if your prize name is
+"Awesome Stuff", then the image name would have to be "Awesome Stuff Image" and it needs
+to be in the prim's inventory.
+
+Please note: The image is not given anymore together with the prize to allow using prize
+images and still only giving single items (giving folders does not work for avatars that
+are not present). If you still want to give the image, put a second texture inside, so
+you have "Awesome Stuff", "Awesome Stuff Image" (will not be given) and e.g. "Awesome
+Stuff Product Image" (will be given because all items that start with the same string as
+the prize name are given as well - except the prize image) - or just set FORCE_GIVE_IMAGE
+to TRUE.
+
+DEFAULT_TEXTURE
+
+The default texture that shall be displayed when no prize image can be found. This could
+be a generic background picture or your club logo, for instance. You can use a UUID or
+a texture name; in the latter case the texture must be copy and transfer and inside the
+object.
+
+FORCE_GIVE_IMAGE
+
+Prize images are not given anymore together with the prize by default (see PRIZE_IMAGE).
+Set to TRUE if you still want to give them, but please be aware that this won't work with
+giving the prize to avatars that are not present because giving folders does not work in
+that case.
+
+----------------------------------------------------------------
+ Messages configuration
+----------------------------------------------------------------
+
+MSG_START, MSG_PROMOTE, MSG_ENTER, MSG_ENTER_IM, MSG_ENTERED, MSG_DRAWING, MSG_WIN,
+MSG_NO_ACCESS, MSG_GROUP, MSG_PLEASE_PAY, MSG_NOT_POSSIBLE
+
+Messages to print in public chat when starting the game, for promotion, when someone
+enters (public and private), when someone already entered and tries again, on drawing, on
+winning, when they have no access, a group invitation, a hint to pay to enter (prize mode
+only) or when it's not possible to enter at the moment (not running, during coutdown if
+not allowed or if full).
+
+These messages accept the following placeholders:
+
+- %p for player's combined (display + legacy) name
+- %g for group name (of the object)
+- %m for amount of won money and/or name of won item
+
+If the message starts with "/me", it's said with the receiver's name.
+
+___________________________________________________________________________
+
+OBJECT CONFIGURATION
+
+If linked prims with the following names (case-insensitive) are part of the Raffle board
+object, they are configured to display the following information:
+
+- Money: current prize or entry fee, depending on mode
+- Entries: number of entrants
+- Countdown: countdown time
+- Rules or Rules1: displays an "x" for the following rules/requirements:
+  Present, Picks, PayInfo, MinAge, MaxAge; on click, a configured INFO_NOTECARD is given 
+- Rules2: displays an "x" for the following rules/requirements:
+  Group; on click, a configured INFO_NOTECARD is given 
+- Winner1, Winner2, Winner3, Winner4: name of last winner (5 characters each)
+- Winner: profile image of the winner, face number is taken from the prim's description
+- Image: image of prize that can be won (see PRIZE_IMAGE), face number see above
+
+If you are unsure about which face number to use, following these steps will help:
+
+- Enable the Develop menu by pressing Ctrl+Alt+Q (on version 1.x viewers,
+  instead enable the Advanced menu by pressing Ctrl+Alt+D)
+- Select the face using the "Select Texture" Tool
+- Pick Develop > Rendering > Selected Texture Info from the menu,
+  or press Ctrl+Alt+Shift+T 
+
+The face number will be shown in your local chat window or as a notification.
+Some viewers also display link number and face in the edit dialog.
+See also http://wiki.secondlife.com/wiki/Face
+
+Font textures are defined in the script. You shouldn't change them if you don't know what
+you are doing. Two textures are provided: one is for Second Life, the other for Avination
+- either one will only work where it is intended for. If a texture UUID is found in the
+prim's description, then this texture is used instead. If you change the texture, you'll
+probably need to change the script code in the displayString function where this texture
+is used, too (i.e. if the positions and sizes of the used characters do not match).
+
+___________________________________________________________________________
+
+CONFIGURATION MENU
+
+----------------------------------------------------------------
+ Main menu
+----------------------------------------------------------------
+
++ MODE: open mode configuration menu
++ ANNOUNCE: open announce configuration menu
++ ACCESS: open access configuration menu
+▣ Running: toggle running state, list is not cleared!
+▣ Countdown: enable countdown, increases in 5min steps up to 30min
+- Draw: draw winner
+- List: print entrants list and last winner
+- Clear: clear entrants list
+▣ AutoClear: toggle option to clear entrants list after drawing
+- Enter: allows owner and managers to enter the game
+- Reset: reset the script and all configuration
+- CLOSE: closes the menu
+
+----------------------------------------------------------------
+ Mode configuration
+----------------------------------------------------------------
+
+▣ Money: win money (no entry fee allowed) and optionally a random prize
+▣ Prize: win random prize (entry fee possible)
+- L$/C$: toggle through winning prizes (money mode) or entry fees (prize mode)
+  (if winning prize is 0, a dialog pops up enabling a manager to pay the prize)
+▣ Daily: daily drawing
+▣ Weekly (or weekday): weekly drawing on given day of week
+▣ Monthly (or day): monthly drawing on given day of month
+◴ Start: toggle through start time for recurring events in 30 minute steps
+  ("auto" means it will start automatically right after the previous event ended)
+◴ Count: toggle through countdown start time for recurring events in 30 minute steps
+  ("none" means no countdown)
+◴ Draw: toggle through drawing time for recurring events in 30 minute steps
+▣ EnterCntD: toggle whether it's allowed to still enter during countdown
+- MAIN: return to main menu
+
+TODO: if you specify a start time, the given day is the day the game is started,
+not the drawing. Please try set it to -1 ("auto" in the menu), so it starts
+immediately after the previous drawing.. then the given day is for the drawing.
+Reason for this behavior is so it is also possible to have a game started
+automatically on a certain day of week or month and run till the specified
+drawing time, e.g. it runs each Sunday from 2 to 4pm. The script doesn't check
+the day when drawing because it should also be possible to have it run e.g. each
+Saturday from 11pm to 2am on Sunday.
+
+Please note: For recurring games with start time "auto", the specified day of week or day
+of month denote the day of the drawing, while for a configured start time, they specify
+the day the game is started - the drawing could be on the next day. In the first case,
+the countdown start time must be on the same day as the drawing time, otherwise there
+won't be a countdown. You are still able to start a recurring game manually, but this is
+not recommended because it could behave unexpectedly, e.g. when the automatic drawing
+time is reached, the drawing would always take place, independent of the configured day
+which is only checked for the start time (except if set to "auto").
+
+It is also not recommended to do a manual drawing for recurring events, especially with
+immediate restart. It is usually not possible anymore, but you can allow it by setting
+MANUAL_DRAW to TRUE if you know what you are doing. Please be aware that it can behave
+unexpectedly in this case as well, even not being able to find a winner in some cases.
+
+----------------------------------------------------------------
+ Announce configuration
+----------------------------------------------------------------
+
+▣ Winner: toggle to announce winner in IM ✎, by whisper o:, say O: or shout ◯:
+▣ Entry: toggle to announce entries in IM ✎, by whisper o:, say O: or shout ◯:
+▣ Promo: toggle to announce promotion by whisper o:, say O: or shout ◯:
+▣ FloatText: display number of entrants, countdown, draw time and winner as floating text
+- Every: toggle through promotion rate in 15 minute steps
+▣ IM Owner: inform owner about winner and prize
+▣ IM All: inform entrants about winner, prize and information about new recurring event
+- MAIN: return to main menu
+
+----------------------------------------------------------------
+ Access configuration
+----------------------------------------------------------------
+
+▣ All: allow access for everyone
+▣ Group: allow access for group only
+▣ Owner: allow access for owner only, e.g. tests or disallow manager access during setup
+▣ Present/Within: must be present during drawing or within a certain distance
+▣ TopPicks: place must be in top picks (only 5 top picks)
+▣ PayInfo: payment information must be on file or used
+▣ MinAge: toggle through minimum required age (1-12 months)
+▣ MaxAge: toggle through maximum possible age (1-24 months)
++ Add Manager: add a manager by username or legacy name in a dialog
++ Remove: remove a manager by username or legacy name in a dialog
+- MAIN: return to main menu
+
+
+============================================================
+  【秀】  [.Shuggles.] Spanker v0.50  【ツ】
+============================================================
+
+The Spanker script allows you to select a name or all from a list of nearby avatars and
+provide a custom message in a textbox which defaults to "spanks %s's ass" where %s is
+the display name of the selected avatar. The script then says the message in local chat
+and plays a configurable sound. If no sound is configured, it plays the first from the
+object's contents. On touch, the name list with the nearby avatar's display names is
+displayed and the sound preloaded already, so you experience no unnecessary delay.
+
+If the script detects a configurable message in public chat, followed by the owner's name,
+it spanks back, using the default message. If no spanking detection is configured (empty
+string), this feature is disabled. It also contains measures to prevent an endless loop
+of spanking and re-spanking.
+
+To use the script, make a simple HUD with a SPANK! texture, put the script and a sound
+into it and attach it - that's it. Configure the default message, the spanking detection
+and the sound inside the script. If you want to give it away, please set the script's
+permissions to copy or transfer only.
+
+The Spanker script is full perm. It's licensed under the BSD license with the addition
+that it must not be resold or otherwise given away standalone in parts or as whole. It
+can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Trivia v0.51  【ツ】
+============================================================
+
+The Trivia script can be used for a Trivia system or similar game. People can win money
+or a prize for correctly answering questions (per question and/or after the game ended).
+No entry fee is possible, to comply with the Skill Gaming Policy. A game is started by
+paying the object an amount determined by number of questions, payout per question and
+final payout. The game host who started a game can click the object to continue with the
+next question. Otherwise, they are asked at a configurable interval. Same goes for the
+time to answer and the delay between announcing a new question and the question itself.
+
+Questions are read from notecards in the object's inventory which are chosen in a menu
+after the Trivia ball has been paid (single, multiple or all). It can handle more than
+200 notecards with max. 512 questions each (SL limitation). The format is described in
+the manual and four notecards with together over 250 questions are included. You can
+also use the notecards made for another, widely used Trivia ball system which this script
+is compatible to, but with more options (prizes, e.g. for collectibles, endless mode,
+configuration by menu) and a slightly improved pattern matching algorithm.
+
+If you choose several notecards at once, one is selected randomly and each question is
+asked in a random order without repeats, if so configured. Afterwards, if the configured
+number of questions is not reached yet or in endless mode, another notecard is chosen.
+If it was previously used, questions will be in different random order (random mode).
+
+The script scans the inventory of the prim it is in and randomly selects a prize. On a
+correct answer or for the final winners, it delivers the prize in a folder or as single
+item. All items whose names start with the prize name, e.g. images, are also included.
+This can be used additionally to or instead of a payout. In order to pay the winners,
+debit permissions are required from the owner. Be careful if you received the script
+from someone else than me (e.g. in a Trivia ball, but not full perm), I can't guarantee
+that is has not been modified.
+
+Detailed basic configuration options (owner only):
+
+- color of floating text, can be disabled in menu
+- rotation axis and speed of the object
+- particle system, e.g. pattern, duration, life time, burst rate, burst count
+- whether particles should target the avatar or not
+- access level all, group or owner
+- unlimited (only by memory) list of managers who can operate the menu
+- lists of words and characters to filter when checking for correct answer
+- lists with possible amounts of money for correct answer and final winners
+- list with possible number of questions
+- item type that should be given: objects, textures, all etc.
+- other items whose names start with the prize name are given as well
+- exclude list for items that shall not be given
+- include list for items that are always included (e.g. store landmark or notecard)
+- configurable sounds and particle textures on giving a prize and for the winner
+- folder name of prize, uses object name + prize name if empty
+- define content of several messages with placeholders for player name, group and prize
+- you may translate them to other languages if you don't expect an international audience
+- list with possible announcements of a new question
+
+The following can be set by menu (owner and managers):
+
+- toggle running state (start/stop for owner or when pay amount is 0, else pause/restart)
+- continue to next announcement, question or answer
+- payout per correct answer and final payout
+- refund remaining amount, payout to final winners or keep
+- alert time between announcement and question, time to answer and delay to next question
+- automatic or manual mode
+- normal or endless mode (endless can only be started by owner)
+- number of questions
+- give prize for each correct answer, to final winners, both or none at all
+- random order of questions (without repeat) or same order as in notecard
+- show answer in public afterwards and to game host before, or not
+- show final score or not, configurable number of avatars in score list (1-10)
+- define whether host can also play (won't be shown the answer then)
+- enable or disable floating text
+- optionally send an IM to owner about final result
+- reset script
+- access level all, group or owner; add and remove managers
+
+The Trivia script is full perm. It's licensed under the BSD license with the addition
+that it must not be resold or otherwise given away standalone in parts or as whole. It
+can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+___________________________________________________________________________
+
+MANUAL
+
+Put the script inside the Trivia ball or similar object. To configure the script, please
+open it and change the following constants according to your needs:
+
+----------------------------------------------------------------
+ Game configuration
+----------------------------------------------------------------
+
+ACCESS_LEVEL
+
+Set the access level: 0 for all, 1 for group only, 2 for owner only.
+
+MANAGERS
+
+Predefined, comma-separated list of usernames who can operate the menu as well as the
+owner, e.g.: "kochloeffel.pfeffer,benny.pontecorvo,shuichi.shinji"
+Managers can be added and removed in the menu later.
+
+FILTER_WORDS
+
+List with words that are ignored during comparison. By default, it contains the words
+"the", "a" and "an". This allows answers that are not exact, e.g. "shark" or "The Shark"
+when the expected answer is "A shark". Filtering of these words works in the beginning,
+middle and end of an answer. You can add more words (max. 8) if you want, e.g. like this:
+
+list FILTER_WORDS = [ "the ", "a ", "an ", "and ", "or ", "of ", "to ", "is " ];
+
+Please note the space character at the end of every word!
+
+FILTER_CHARS
+
+Similar to words, you can also define characters that are ignored during comparison, e.g.
+to ignore commas or a question mark at the end of an answer if the person is unsure about
+it. By default, the list contains " ", ",", "'", "?". You can add more (max. 8) if you
+want. Please note, there is no extra space sign after the characters!
+
+ANSWER_AMOUNTS
+
+List with possible amounts of money to win per correct answer. The actual value can then
+be selected in the configuration menu. Default is [ 0, 2, 5, 10, 20 ], 2 is preselected.
+
+WIN_AMOUNTS
+
+List with possible amounts of money to win in the end. The actual value can be selected
+in the configuration menu. Default is [ 0, 500, 1000, 2000 ], 0 is preselected.
+
+Please note: The payable amount to start a normal game is determined by the number of
+questions, the payout per question and the final payout. If it is 0, anyone can start
+a normal game without paying, otherwise starting without paying is only allowed for the
+owner and will start an endless game.
+
+QUESTIONS
+
+List with possible number of questions. The value 0 is used for endless mode which can
+only be started and stopped by the owner (without paying!), but can be paused and also
+restarted by the managers as well. The actual value can be selected in the configuration
+menu. Default is [ 0, 20, 50, 100 ], 20 is preselected.
+
+GIVE_ITEM_TYPE
+
+The type of prize you want to give: objects, notecards, textures, clothing, all etc.
+Use the following values: INVENTORY_OBJECT, INVENTORY_NOTECARD, INVENTORY_TEXTURE,
+INVENTORY_CLOTHING, INVENTORY_ALL etc. For a complete list, please refer to
+https://wiki.secondlife.com/wiki/LlGetInventoryType
+
+All items that start with the same string as the prize name are given as well. This can
+be used to give additional items together with the prize, e.g. images or even whole
+outfits. For instance, you can put some pants called "Sexy Pants" inside, configure the
+script to give INVENTORY_CLOTHING and then add objects like "Sexy Pants Left Cuff", "Sexy
+Pants Right Cuff" and "Sexy Pants Belt", maybe also a texture called "Sexy Pants Image".
+All these items are given together with the pants themselves. Notecards are not possible
+because all notecards are used for Trivia categories; please box your items in that case.
+
+If you decide to allow giving prizes to the final winners (who can be absent), then you
+should give only simple boxes as well because giving folders to avatars not in the region
+does not work.
+
+Please note: Scripts are never given.
+
+EXCLUDE_ITEMS
+
+This is a list of items that are not included, e.g. a color changing script or anything
+else that needs to be in the Trivia ball, but shall not be given. This applies to the
+prize items itself, but also to the items that are automatically added because their name
+starts with the prize name (except prize image). Define it the following way:
+
+list EXCLUDE_ITEMS = [ "Some Notecard", "Some Object", "Some Texture" ];
+
+Use the empty list [] if you don't need this.
+
+INCLUDE_ITEMS
+
+These items are always included with the winning prize. You can use it to give store
+landmarks or notecards or a small gift with all prizes. Define it the following way:
+
+list INCLUDE_ITEMS = [ "Store LM", "Store NC", "Small Gift" ];
+
+Use the empty list [] if you don't need this.
+
+GIVING_SOUND
+
+A sound that is played on giving the prize and which needs to be in the prim's inventory
+as well. Set to "" to simply use the first found sound in the inventory.
+
+WINNING_SOUND
+
+A sound that is played on giving the final prize and which needs to be in the prim's
+inventory as well. Set to "" to use the normal giving sound.
+
+GIVING_TEXTURE
+
+A texture that is used for the particle poofer on giving the prize and which needs to be
+in the prim's inventory as well. Set to "" to simply use the first found texture in it.
+
+WINNING_TEXTURE
+
+A texture that is used for the particle poofer on giving the final prize and which needs
+to be in the prim's inventory as well. Set to "" to use the normal giving texture.
+
+FOLDER_NAME
+
+The folder name of the prize when it's given. If empty, it uses the object name of the
+Trivia ball. It always appends the prize name.
+
+----------------------------------------------------------------
+ Appearance configuration
+----------------------------------------------------------------
+
+TEXT_COLOR
+
+Set to the color of floating text in the form <R, G, B> where R, G and B range from 0 to
+255. Use the menu to disable floating text.
+
+ROTATION_AXIS
+
+Arbitrary axis to rotate the object around; <0, 0, 1> is usually the up direction.
+
+ROTATION_RATE
+
+Rate of rotation in radians per second; 0.1 is a good value. Use 0 to disable.
+
+The object can use the particle system to blow a texture to the avatar who answered a
+question correctly or who won the whole game, e.g. a money texture. It can also be
+configured to just emit particles without targeting an avatar.
+
+PARTICLE_PATTERN
+
+Here you can set the source pattern, e.g. PSYS_SRC_PATTERN_EXPLODE,
+PSYS_SRC_PATTERN_ANGLE_CONE etc. Default is PSYS_SRC_PATTERN_EXPLODE.
+
+PARTICLE_TARGET
+
+Set to TRUE to target avatar with particles, FALSE otherwise. Default is TRUE.
+
+PARTICLE_TURN_DIRECT
+
+Set to TRUE to make particles turn towards their flying direction, FALSE otherwise.
+Default is TRUE.
+
+PARTICLE_EMIT
+
+Duration in seconds particles are emitted. Default is 5.
+
+PARTICLE_LIFE
+
+Duration in seconds particles live. Default is 5.
+
+PARTICLE_BURST_RATE
+
+Particle burst rate in seconds, i.e. how often bursts occur. Default is 0.2 which means
+that every 0.2 seconds a burst happens.
+
+PARTICLE_BURST_COUNT
+
+Particle burst count, i.e. number of particles during burst. Default is 2.
+
+PARTICLE_BURST_RADIUS
+
+Particle burst radius, i.e. the distance from the emitter where particles will be created.
+Default is 0.2.
+
+PARTICLE_START_SCALE and PARTICLE_END_SCALE
+
+Particle start and end scale during their lifetime. Defaults are <0.1, 0.1, 0.0> and
+<0.2, 0.2, 0.0>.
+
+PARTICLE_START_COLOR and PARTICLE_END_COLOR
+
+Particle start and end color during their lifetime, ranging from 0-255 for each channel.
+Defaults are <255, 255, 255> (white) for both.
+
+PARTICLE_START_TRANS and PARTICLE_END_TRANS
+
+Particle start and end transparency in percent during their lifetime.
+Defaults are 0 and 100.
+
+PARTICLE_ACCEL
+
+Particle acceleration, use negative values to slow down. Valid values are 0 to 100 for
+each direction, positive and negative, in region coordinates. Default is <0.0, 0.0,-0.1>.
+
+PARTICLE_SPEED_MIN and PARTICLE_SPEED_MAX
+
+Particle minimum and maximum speed. Defaults are 0.2 and 0.4.
+
+PARTICLE_ANGLE_BEGIN and PARTICLE_ANGLE_END
+
+Specifies a half angle in degrees, of a circular or spherical "dimple" or conic section
+(starting from the emitter facing) within which particles will (END) or will not (BEGIN)
+be emitted. Valid values for END are 0 (particles emitted in a straight line in direction
+of the emitter facing) to 180 (particles emitted in a full circular/spherical arc around
+the emitter, not including the "dimple" or conic section defined by BEGIN).
+
+If PARTICLE_PATTERN is PSYS_SRC_PATTERN_ANGLE, the presentation is a 2D flat circular
+section, for ANGLE_CONE or ANGLE_CONE_EMPTY, it is a 3D spherical section. For BEGIN,
+valid values are the same as for END, though the effects are reversed accordingly.
+
+Please note that the value of BEGIN and END are internally re-ordered such that END gets
+the larger of the two values. Default is 180 for both values.
+
+PARTICLE_OMEGA
+
+Sets how far to rotate the "pattern" after each particle burst, approximately degrees per
+burst around the prim's global (not local) axes. Has no visible effect on DROP, EXPLODE
+and certain specific ANGLE and ANGLE_CONE patterns, depending on prim orientation.
+Default is <0, 0, 0>.
+
+----------------------------------------------------------------
+ Messages configuration
+----------------------------------------------------------------
+
+MSG_START, MSG_OFF, MSG_PAY, MSG_CATEGORY, MSG_NO_CATEGORY, MSG_READ_TIMEOUT,
+MSG_REFUNDING, MSG_QUESTIONS, MSG_CREATED, MSG_QUESTION, MSG_ANSWER, MSG_NO_ANSWER,
+MSG_ANSWER_IS, MSG_GAME_OVER, MSG_FINAL_SCORE, MSG_WIN, MSG_NO_ACCESS, MSG_GROUP,
+MSG_LAST_QUEST, MSG_ALERTS
+
+Messages to print in public chat when starting the game, when it's ended, what to pay to
+start it, information about the chosen category, when no category has been chosen, when a
+read timeout occurred, when refunding, information about the number of questions and the
+creator of the notecard, for the asked question, for a correct answer, when no correct
+answer has been given, for the correct answer, when the game is over, for the final score
+and who has won, when they have no access, a group invitation, announcement of the last
+question and a list of possible, randomly chosen announcements of the other questions.
+
+These messages accept the following placeholders:
+
+- %p for player's combined (display + legacy) name
+- %a for link to the player/creator's profile (only chat messages, not floating text)
+- %g for group name (of the object)
+- %m for prize money per question
+- %n for number of questions
+- %s for an arbitrary argument
+
+If the message starts with "/me", it's said with the receiver's name.
+
+___________________________________________________________________________
+
+CONFIGURATION MENU
+
+----------------------------------------------------------------
+ Main menu
+----------------------------------------------------------------
+
++ MODE: open mode configuration menu
++ OPTIONS: open options configuration menu
++ ACCESS: open access configuration menu
+▣ Running: toggle running state (start/stop for owner or when pay amount is 0, else pause/restart)
+- Continue: continue to next announcement, question or answer
+- CLOSE: closes the menu
+
+----------------------------------------------------------------
+ Mode configuration
+----------------------------------------------------------------
+
+- Answer L$/C$: payout per correct answer depending on configuration in script
+- Final L$/C$: final payout depending on configuration in script
+- Left: refund remaining amount, payout to final winner or keep it
+- Alert: alert time between announcement and question in seconds or disable
+- Answer: time to answer in seconds or manual mode
+- Delay: delay to next question in seconds or manual mode
+- Quest.: number of questions depending on configuration in script or endless mode
+- Prize: give prize for each correct answer, to final winners, both or none at all
+- MAIN: return to main menu
+
+Please note: For manual mode, the new question and the answer are triggered by the
+Continue button in the main menu (for managers and owner) or just by touching the
+Trivia ball (for game host). This can always be done, also when times are configured.
+
+----------------------------------------------------------------
+ Options configuration
+----------------------------------------------------------------
+
+▣ Random: random order of questions (without repeat) or same order as in notecard
+▣ ShowAnswer: show answer in public afterwards or not (host always sees answer if not playing)
+▣ (Show)Score: toggle whether to show final score or not and select number of avatars
+▣ HostPlay: define whether host can also play (then they won't be shown the answer)
+▣ FloatText: display question, answer and more as floating text
+▣ IM Owner: inform owner about final winners and prize
+- Reset: reset the script and all configuration
+- MAIN: return to main menu
+
+Please note: Questions don't repeat as long as there are enough questions in the notecard
+(at least as much as configured in the mode configuration menu), i.e. even in random mode,
+each question is only asked once (or not at all). If the notecard doesn't contain enough
+questions and no other notecard can be chosen or if a previously used notecard is chosen
+again, the question list is randomized again, so in this case, they do repeat, but are
+asked again only once and in different order than before.
+
+----------------------------------------------------------------
+ Access configuration
+----------------------------------------------------------------
+
+▣ All: allow access for everyone
+▣ Group: allow access for group only
+▣ Owner: allow access for owner only, e.g. tests or disallow manager access during setup
++ Add Manager: add a manager by username or legacy name in a dialog
++ Remove: remove a manager by username or legacy name in a dialog
+- MAIN: return to main menu
+
+___________________________________________________________________________
+
+NOTECARD FORMAT
+
+Trivia notecards are easy to create. Their name is used in the category selection menu,
+and inside the notecard, there is always one question on one line, followed by possible
+answers on the next line. Please don't leave empy lines in between, the script cannot
+check that. If you are reusing existing notecards from another Trivia system, please
+correct them if necessary.
+
+Possible answers are separated by "|" (without the quotes). Words and characters that are
+specified in FILTER_WORDS and FILTER_CHARS in the script, are ignored. By default, these
+are the words "the", "a" and "an" as well as the special characters " ", ",", "'" and "?".
+This allows answers that are not exact, e.g. "shark" or "The Shark" when the expected
+answer is "A shark" or to ignore commas or a question mark at the end of an answer if the
+person is unsure about it. Filtering of these words and characters works in the beginning,
+middle and end of an answer. Case does not matter.
+
+A simple example:
+
+What is the longest English word according to the Oxford English Dictionary?
+Pneumonoultramicroscopicsilicovolcanoconiosis
+Which planet does the Slitheen family in "Doctor Who" come from?
+Raxacoricofallapatorius
+Who came up with the words "assassination" and "bump"?
+William Shakespeare|Shakespeare
+How many possibilities are there for the first 4 moves in chess?
+318979564000|318,979,564,000
+
+Please note: The second possible answer would not be necessary because commas are ignored
+anyway. However, to make sure that the notecard also works with other configurations, it
+is still recommended to include it.
+
+

@@ -1,0 +1,1979 @@
+﻿============================================================
+  【秀】  [.Shuggles.] Anti-Rezzer v0.50  【ツ】
+============================================================
+
+If you don't want your customer to rez or drop your product, you can prevent that by
+putting the Anti-Rezzer script into it. Rezzing means you drag an object from your
+inventory to the ground, dropping means wearing an object, right-click on it and select
+"Drop". If you drop an object, it vanishes from the inventory as well! Remember to give
+copy permission to your customers, otherwise they lose the item if they try to rez it.
+Also give them a backup copy, otherwise they lose it from inventory as well if they drop
+the item. Note: For you as creator, it only prints a message, but does not get deleted.
+
+This script keeps running on no script land, if started on script-allowed land or 50m
+above ground level. It can be configured to only prevent rezzing or prevent both, rezzing
+and dropping.
+
+The Anti-Rezzer script is full perm. It's licensed under the BSD license with the
+addition that it must not be resold or otherwise given away standalone in parts or as
+whole. It can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Auto-Attach v0.58  【ツ】
+============================================================
+
+The Auto-Attach script tries to attach an object to the specified attachment point upon
+rezzing or touch. It can be configured to auto-attach (without asking for permission and
+without using experiences) or to attach on touch, sit or rez as well as using permanent
+or temporary attachments. An optional animation and sound can be played.
+
+It can also be used to allow only a limited use of certain attachments, e.g. a cup that
+can only be used once, a bag of chips that can only be used a number of times before it's
+empty or a pack of cigarettes that can also give a cigarette each time. This only makes
+sense for permanent attachments, not temporary ones (i.e. objects you can manually attach
+again later), and thus only works for the owner.
+
+Additionally, upon attaching, the content of the object can be given to the avatar,
+either as single item or in a folder if there are multiple items. Please note that single
+items and multiple items must be copiable due to an SL limitation. Optionally, the object
+can detach after giving or after a certain time.
+
+You can also specify a date in the object's description in the form YYYY-MM-DD, so it
+only works on that date, e.g. to unpack a Christmas present.
+
+For the auto-attach feature without permissions dialog, it is intended to be rezzed by
+another object from that object's contents (e.g. on touching it, pressing a certain
+button or sitting on it). This can be used for vehicles to circumvent the 32 prim limit
+by attaching any additional stuff upon sitting on the actual vehicle, but also for auto-
+attaching HUDs when clicked on the object, for instance. This only works for the owner
+of the object, while the other features can also be used by other avatars - if the
+attaching object is transferable.
+
+You need to put the provided Auto-Rez script (or just the rezzing command) in the main
+object and the Auto-Attach script into the object that shall be attached. If more than
+one item is found in the Rezzer object, the item to be rezzed can be selected by menu.
+
+Configuration options and further hints are given in the script and the included manual.
+For the auto-attach feature to work, a setup procedure has to be done which is described
+in the manual as well. Every new owner needs to do this procedure before being able to
+use the feature!
+
+When using the provided Auto-Rez script, it can also communicate with the rezzed and
+subsequently attached object to make it detach later (or delete if still rezzed), on
+repeated touch, when standing up or by timer. The Auto-Attach script itself can also
+auto-detach by timer, but won't delete a still rezzed object.
+
+The Auto-Attach scripts are full perm. They're licensed under the BSD license with the
+addition that they must not be resold or otherwise given away standalone in parts or as
+whole. They can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+You need to put the provided Auto-Rez script in the main object and the Auto-Attach
+script into the object that shall be attached. You can also just take the rezzing command
+out of the Auto-Rez script and put it into your own script, e.g. like this (change the
+object to rez, the position etc. according to your needs):
+
+touch_end ( integer num_detected )
+{
+    llRezObject( llGetInventoryName( INVENTORY_OBJECT, 0 ), llGetPos(), ZERO_VECTOR, ZERO_ROTATION, 0 );
+}
+
+Please note that llRezObject/AtRoot only works on group owned land if owner is present
+or object is set to group AND group can rez or object is deeded to group ('can always
+rez' in group role is not enough).
+
+For the auto-attach feature without permissions dialog, each time after an owner change
+(i.e. for you, but also your customer if you use these scripts in your own products) the
+following setup procedure has to be done:
+
+Manually attach and detach the auto-attaching object to grant it permissions, then put it
+into the main object (replace the old one if there's already one in there). On subsequent
+times, when being rezzed, it automatically attaches because it still has the permissions.
+And because it's using a temporary attachment, you don't have unnecessary copies in your
+inventory.
+
+You can also rez the auto-attaching object (either from inventory or by the main object)
+and grant it permissions to attach the first time, but you have to find the attached copy
+in the Objects folder of your inventory then, detach it, put this copy into the main
+object (replacing any old version) and then delete it from inventory (except if the
+original was no copy).
+
+Please note that the attachment must be transferable and you need rezzing rights.
+And please be aware that, should you give your creations away, that your customer needs
+to repeat this procedure before being able to use it.
+
+If the avatar who wants to attach the object is different to the owner of the rezzed
+object, set ATTACH_NO_PERMS in the Auto-Attach script to FALSE and ATTACH_TEMP to TRUE
+because only temporary attachments work with ownership transfer. Also see below.
+
+It is now also possible to auto-attach two objects. To do that, create an object with two
+prims and put one Auto-Rez script in each prim, together with one of the two objects.
+Make sure that the user always clicks the child prim, e.g. by hiding the root prim inside
+the child prim. The child prim passes on touches to the root prim, so that both scripts
+rez their objects which then ask to be attached.
+
+___________________________________________________________________________
+
+CONFIGURE THE AUTO-ATTACH SCRIPT
+
+The following configuration options can be set in the Auto-Attach script:
+
+ATTACH_NO_PERMS
+
+This is the classic auto-attach feature (as in the first version of this script). It uses
+a normal attachment when it doesn't have permissions yet and then a temporary attachment
+on all subsequent times (when auto-attaching). This only works for the owner, so if you
+want your rezzed object to attach to other users, set it to FALSE. Default is FALSE.
+
+ATTACH_ON_DATE
+
+Only works on the date that is given in the object's description (YYYY-MM-DD). If you
+don't want that, leave it set to FALSE. Default is FALSE.
+
+ATTACH_ON_REZ
+
+Try to (auto-)attach on rezzing the object. This is ignored for ATTACH_NO_PERMS and
+assumed to TRUE. It works for all avatars - if the attaching object is transferable.
+Default is TRUE.
+
+ATTACH_ON_TOUCH
+
+Try to attach on touching the object. This is also possible for ATTACH_NO_PERMS. It works
+for all avatars - if the attaching object is transferable. Default is TRUE.
+
+DETACH_ON_TOUCH
+
+Detach the object on touching it again (while it is attached). This is also possible for
+ATTACH_NO_PERMS. Default is TRUE.
+
+DETACH_ON_TIMER
+
+Detach the object after a certain time (in seconds), use 0 to disable. This is also
+possible for ATTACH_NO_PERMS. Default is 0.
+
+DETACH_ON_DEREZ
+
+Detach when object gets cleanup message instead of just deleting rezzed copies. The
+cleanup message is sent by the rezzing object if configured so and often used to delete
+rezzed objects that were not picked up. Set to TRUE to also detach objects that were
+picked up (attached). Default is FALSE.
+
+DETACH_ON_GIVE
+
+Auto-detach object after giving its contents. Requires GIVE_ON_ATTACH. Default is FALSE.
+
+GIVE_ON_ATTACH
+
+Give object's contents on attach (excluding scripts, the used animation and sound) in
+a folder or as single item. Please note that single items and multiple items must be
+copiable due to an SL limitation. For the folder name, the object name is used, appended
+by " (unpacked)". If nothing is found in the object, nothing is given. Default is TRUE.
+
+ATTACH_TEMP
+
+Use temporary (TRUE) or permanent (FALSE) attachments. This is ignored for ATTACH_NO_PERMS
+which always uses temporary attachments except for the first time. Only temporary
+attachments work with transfer of ownership, i.e. if the one who wants to attach it is
+different to the owner of the rezzed object. Default is TRUE.
+
+Be careful with this, better make a copy before you use this. If you edit a rezzed object
+and let it attach as temporary attachment, you cannot get it back, especially after
+detaching it. With ATTACH_NO_PERMS, this shouldn't happen because the first time a normal
+attachment is used, not a temporary one.
+
+ATTACH_POINT
+
+The attachment point to use. It can attach to HUD or to your avatar. Default is
+ATTACH_HUD_TOP_LEFT.
+
+Possible attachment points:
+
+Avatar:
+- ATTACH_HEAD, ATTACH_NOSE, ATTACH_MOUTH, ATTACH_CHIN, ATTACH_NECK
+- ATTACH_BACK, ATTACH_CHEST, ATTACH_BELLY, ATTACH_PELVIS, ATTACH_AVATAR_CENTER
+- ATTACH_LEYE, ATTACH_REYE:           left/right eye
+- ATTACH_LEAR, ATTACH_REAR:           left/right ear
+- ATTACH_LSHOULDER, ATTACH_RSHOULDER: left/right shoulder
+- ATTACH_LUARM, ATTACH_RUARM:         left/right upper arm
+- ATTACH_LLARM, ATTACH_RLARM:         left/right lower arm
+- ATTACH_LHAND, ATTACH_RHAND:         left/right hand
+- ATTACH_LEFT_PEC, ATTACH_RIGHT_PEC:  left/right pectoral
+- ATTACH_LHIP, ATTACH_RHIP:           left/right hip
+- ATTACH_LFOOT, ATTACH_RFOOT:         left/right foot
+- ATTACH_LULEG, ATTACH_RULEG:         left/right upper leg
+- ATTACH_LLLEG, ATTACH_RLLEG:         left/right lower leg
+- more with Project Bento, see http://wiki.secondlife.com/wiki/LlAttachToAvatar
+
+HUD:
+- ATTACH_HUD_TOP_LEFT, ATTACH_HUD_TOP_CENTER, ATTACH_HUD_TOP_RIGHT
+- ATTACH_HUD_CENTER_1, ATTACH_HUD_CENTER_2
+- ATTACH_HUD_BOTTOM_LEFT, ATTACH_HUD_BOTTOM, ATTACH_HUD_BOTTOM_RIGHT
+
+ATTACH_ANIM
+
+Name of an animation to play after attaching. It must be in the object's inventory or an
+SL internal animation. If empty, the first animation in inventory is used. Default is
+"hold_r_handgun" which is an internal animation.
+
+ATTACH_SOUND
+
+Name of a sound to play after attaching. It must be in the object's inventory. If empty,
+the first sound in inventory is used. Default is "" (so, first in inventory is used).
+
+MSG_DONE
+
+The message when maximum number of uses has been reached, before it automatically
+detaches.
+
+MAX_USAGE
+
+Maximum number of uses before it stops working. This only makes sense for permanent
+attachments, not temporary ones (i.e. objects you can manually attach again later), and
+thus only works for the owner. The attachment containing this script automatically
+detaches when the maximum number of uses has been reached. It will say the above message
+to the owner then. Use 0 to disable. Default is 1.
+
+___________________________________________________________________________
+
+CONFIGURE THE AUTO-REZ SCRIPT
+
+The following configuration options can be set in the Auto-Rez script:
+
+ACCESS_LEVEL
+
+The access level: 0=All, 1=Group, 2=Owner. Default is owner only.
+
+REZ_OFFSET and REZ_ROTATION
+
+The offset of the rez position relative to the rezzer position in the form <X, Y, Z>.
+Rezzing needs permission to do so; if you are on group-owned land, you need to deed the
+object to the group! Default is no offset.
+
+The rezzed object's rotation is in the form <X, Y, Z> (in degrees). This can be helpful
+if the normal rotation of the product is not zero, so you can just set it to the same
+value here. Use ZERO_VECTOR for none.
+
+See https://community.secondlife.com/forums/topic/237236-llrezobject-rotation-propblems/
+for some hints regarding object rotation in this scenario.
+
+REZ_OBJECT
+
+The name of the object from this object's inventory that is to be rezzed. If empty, it
+opens a menu where you can select from all found objects, unless there is only one which
+is then used directly. This is the default.
+
+REZ_ON_REZ
+
+Set to TRUE if you want to rez the auto-attach object when this (the main) object itself
+is rezzed. Default is FALSE.
+
+If you auto-rez another rezzer with the Auto-Rez script, the UUID of the avatar causing
+the rezzing is forwarded to the next rezzed object and eventually to the auto-attach
+object, so it can attach to the correct avatar.
+
+REZ_ON_SIT
+
+Set to TRUE (the default) if you want to rez the auto-attach object if someone sits on
+this object. Please note, that it only checks if someone sits; no sitter functionality
+itself is included and neither is animation handling.
+
+Please note that this needs an active sit target in the object which is not provided by
+this script.
+
+REZ_ON_TOUCH
+
+Set to TRUE (the default) if you want to rez the auto-attach object when someone touches
+this object.
+
+REZ_ON_TOUCH_PRIM
+
+By providing a prim name here, configure it to only rez if a prim (e.g. a button) with
+this name is touched. Leave empty otherwise, which is the default.
+
+DEREZ_ON_REZ
+
+Set to TRUE to derez/detach the old rezzed object before rezzing a new one. Default is
+FALSE.
+
+DEREZ_ON_STAND
+
+Set to TRUE if you want to derez the auto-attach object when someone stands up from this
+object. Default is FALSE.
+
+DEREZ_ON_TOUCH
+
+Set to TRUE if you want to derez the auto-attach object when someone touches this object.
+Default is FALSE.
+
+DEREZ_ON_TOUCH_PRIM
+
+By providing a prim name here, configure it to only derez if a prim (e.g. a button) with
+this name is touched. Leave empty otherwise, which is the default.
+
+If it is the same as REZ_ON_TOUCH_PRIM, rez/derez is toggled with repeated touching.
+
+DEREZ_ON_TIMER
+
+Automatically derez on timer (in seconds). Use 0 to disable, which is the default.
+
+Please note that "derez" means detaching the rezzed and subsequently attached object or
+delete the rezzed copy if it hasn't been attached yet.
+
+HIDE_TIMER
+
+Hide rezzer for this amount of time (in seconds). This makes the object transparent and
+after the timer expires, completely opaque again, so it won't work if the object contains
+transparent parts. Use 0 to disable. Default is 0.
+
+To make it appear as if the rezzer object attaches to the avatar and then is put back,
+you can use HIDE_TIMER together with DEREZ_ON_TIMER, and set DETACH_ON_DEREZ = TRUE in
+the Auto-Attach script, or you can use HIDE_TIMER together with DETACH_ON_TIMER in the
+Auto-Attach script, which is not synced, though.
+
+HIDE_PRIM and HIDE_FACE
+
+Hide only specific prim/face or whole LINK_SET and ALL_SIDES. Default is LINK_SET and
+ALL_SIDES.
+
+HIDE_TRANSPARENCY
+
+The transparency for the hidden object (in percent). Default is 100% which means fully
+transparent.
+
+MENU_TITLE
+
+The title of menu (only used if more than one item is found).
+
+
+============================================================
+  【秀】  [.Shuggles.] Avatar Ruler v0.51  【ツ】
+============================================================
+
+The Avatar Ruler script prints the height of the avatar who touches the object the script
+is in. The height is printed in meters and feet plus inches. Additionally, the corrected
+avatar size as used in third-party viewers, in Snowglobe and the matching prim height are
+printed.
+
+The Avatar Ruler script is full perm. It's licensed under the BSD license with the
+addition that it must not be resold or otherwise given away standalone in parts or as
+whole. It can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Book Script v0.55  【ツ】
+============================================================
+
+The Book script flips the pages of a book or card on touch - from the first to the last
+page and also backwards when you click on the already open pages. It contains a rotation
+drift workaround, so that your pages remain in the same place. The book is usable by
+everyone, not just the owner. The script assumes the root prim of the book is its spine
+and there's one prim for each page. You can have as many pages as you want. With just two
+pages, you can create a card for season greetings, invitations, congratulations etc. The
+package contains three example books.
+
+To create your own book, make the spine of the book the root prim and put the script in
+there. Then add your pages and name each of them according to their page number, e.g. "1"
+for the first page, "2" for the second page and so on (without the quotes). Link them all
+together with the spine and you have a working book. The pages all need to be oriented
+the same, so it's best to create one and duplicate the others.
+
+You can configure the flip axis and the offset of the pages center to the book's back
+(the root prim) manually or let the script try to determine them automatically. For
+automatic detection, set AXIS and OFFSETS to ZERO_VECTOR; if that doesn't work, please
+configure them manually: AXIS usually should be <0, 0, 1> (standing upright), unless you
+rotated the book's back; OFFSETS should have 0.5 or -0.5 as one coordinate (i.e. half the
+page size), depending on page orientation, and the others have to be 0.0. You can also
+adjust the OPEN_ANGLE of the book (in degrees) and whether it should OPEN_BOTH_SIDES or
+only the front side.
+
+If you want to use flexiprims for the pages, they need to rotate around their back in
+order to swing in the right direction, so pages need to be rotated by 90° in Y direction,
+and gravity (left column in the edit dialog) needs to be set to 0 - please see provided
+Book Example 3; the required config is included in the script (commented out).
+
+You can also configure a sound and sound volume that is played when flipping pages. The
+sound is preloaded when the book is rezzed, but if you want to keep it rezzed for others
+to use, you might want to consider adding the Sound Preloader script which I also offer,
+to preload sounds for nearby avatars.
+
+On first touch after the book or card was rezzed, it can optionally give a folder with
+its contents (without scripts and the optional page flipping sound). So you can include
+a landmark or notecard or a little gift which can be useful in an invitation or card.
+This only works for the owner.
+
+The Book script is full perm, so it can be adapted to your needs and requirements. It's
+licensed under the BSD license with the addition that it must not be resold or otherwise
+given away standalone in parts or as whole. It can be used in your creations as long as
+these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Card Script v0.50  【ツ】
+============================================================
+
+The Card script can be put in a congratulations card or any other object, e.g. with
+a nice image, that attaches to the HUD or can be rezzed. It fades the card in upon
+attaching or rezzing it and on click it's faded out and detached. Ideal for a nice
+greeting at holidays or for special occasions like weddings, birthdays, rezdays etc.
+You can configure sounds and sound volume to be played when the card fades in and out.
+The package contains a simple example card.
+
+The Card script is full perm, so it can be adapted to your needs and requirements. It's
+licensed under the BSD license with the addition that it must not be resold or otherwise
+given away standalone in parts or as whole. It can be used in your creations as long as
+these license conditions are met.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Cloner v0.52  【ツ】
+============================================================
+
+The main purpose of the Cloner script is to clone an object or a linked prim of an object.
+It creates a script or a set of scripts which then have to be dropped into a new object
+consisting of as many prims as the original. A click on this new object creates a copy of
+the original prim or object. The script also prints useful information about the object,
+its linked prims and their faces.
+
+Features:
+
+- creates exact copies of objects or linked prims
+- no setup, just drop the script in, click one second and start cloning
+- operated with an easy to use menu
+- different clone modes: short, normal and full
+- outputs a script or a set of scripts which must be dropped into a new object
+- these scripts can also be stored on your computer as a backup copy
+- no need for additional tools, just drop these scripts into an object and touch it
+- included manual with detailed instructions
+- shows you as the creator of the cloned object, i.e. you could create it with a building
+  alt and then clone it for the selling alt
+- all possible prim parameters are cloned: name, description, size, position, rotation,
+  physics, material, flexible, light, mapping, glow, fullbright, bump, shiny, color,
+  transparency, texture, materials (normal and specular maps), sculptmaps, prim type etc.
+- no rounding errors for single floating point attributes
+- tries to group face-dependent parameters if they are the same for all sides
+
+SL Limitations:
+
+- objects, textures and sculptmaps must be full perm or created by you
+- megaprims (larger than 64m) will be cloned with a size of 64m
+- mesh, animated textures, particles and prim contents cannot be cloned
+
+The Cloner script is copy only. It's licensed under the BSD license with the addition
+that it must not be resold or otherwise given away standalone in parts or as whole. It
+can be used as long as these license conditions are met.
+
+You are only allowed to use this script for cloning your own objects or objects you have
+full permission for. This does not only mean technical permissions as used by the SL
+permissions system, but also the permission by the creator of this object (as e.g. stated
+in licenses, allowed usages etc.). It also means you need full permissions for all
+textures and sculptmaps used in this object. This is no copybot tool - it only makes
+legitimate use of the possibilities Second Life and its scripting language offers. You
+must ensure and are solely responsible for ensuring the proper use of this product in
+conjunction with Section 2. CONTENT LICENSES AND INTELLECTUAL PROPERTY RIGHTS of the
+Linden Lab Terms of Service (http://lindenlab.com/tos#tos2). This also applies for usage
+in other grids, such as Avination.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+Drop the Cloner script in the object you want to clone or inspect and click at least
+1 second to get the following menu:
+
+ⓘ OBJECT: prints information about the object
+ⓘ PRIM: prints information about the touched prim
+ⓘ FACE: prints information about the touched face
+▣ Short: print all parameters except flexible, point light, text, omega, materials, comments
+▣ Normal: print all parameters except (commented) global position
+▣ Full: print all parameters (same as in v0.47)
+『』 OBJECT: outputs the object into a couple of scripts usable to clone it
+『』 PRIM: outputs the linked prim you clicked on into a script usable to clone it
+- CLOSE: closes the menu, obviously ^^
+
+Leave the menu open and click on another linked prim or face to see link and face number.
+Clone the selected linked prim or the whole object by choosing the appropriate option
+from the menu. The script will then output a lot of script code in the local chat window.
+This will take some time, so please be patient.
+
+Once it's finished, copy the whole output into any editor of your choice - I don't
+recommend copying into a notecard because its editing options are quite limited. Delete
+all lines like "[12:34] Object:" where "12:34" is the current time and "Object" is your
+object's name. Then look for comments like:
+
+// Script #1 - generated by Shui_Cloner v0.52
+
+Each of these comments denotes the beginning of a new script. The number of scripts
+depends on the number of prims in your object: for each 11 prims a new script is created.
+
+Rez as many prims as your original object consists of and link them. Create as many
+scripts inside the new object's contents as are generated by the Cloner script. Then copy
+every part into one script each - please compile as Mono!
+Remark: When using the official Second Life viewer, you have to create the scripts inside
+an object - when creating them in your inventory, they don't use Mono! Otherwise you also
+could create them in your inventory and drop them in the object later.
+
+When you are finished, just click on the new object and it should transform into an exact
+copy of the original object.
+
+___________________________________________________________________________
+
+LICENSE
+
+Copyright (c) 2012-2020, Shuichi Shinji
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+- Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
+- Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+- Standalone redistribution in parts or as whole is not permitted, it may
+  only be sold as part of your own products, either copy or transfer only,
+  keeping script name and creator intact.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+
+
+============================================================
+  【秀】  [.Shuggles.] Door Script v0.53  【ツ】
+============================================================
+
+The Door script opens and closes doors. On touch or when walking into the door, it is
+opened and on next touch, it is closed again. It also closes itself automatically after
+a configurable time (can be disabled as well). On long touch (one second), it opens
+a configuration menu where you can select the access level, manage lists for authorized
+avatars and managers, lock the door, change the open time and reset the script. You can
+use single-prim and multi-prim doors (incl. mesh), linked to the house or not. Opening
+angle, number of steps and the delay in between, sounds and messages can be configured
+in the script. Detailed configuration options:
+
+- access level all, group only, owner only, list of authorized avatars or managers only
+- owners always have access, managers have access if not set to owner only
+- only owner and managers are allowed to change the configuration
+- add and remove avatars by username to list of authorized avatars and manager list
+- lists use case insensitive usernames (first.last) or legacy names
+- lock and unlock the door, only authorized avatars (access level) can open it then
+- configure to use touch and/or collision (in script only)
+- time the door stays open between 0 seconds (off) and 60 seconds in steps of 10 seconds
+- opening angle, number of steps and the delays in between (in script only)
+- configurable rotation axis and offsets, determine automatically (in script only)
+- configurable sounds that are played when opening and closing the door
+- commands to open, close and hold the door using a configurable channel and distance
+- spoken texts on startup, opening and closing the door and when it is locked
+
+The Door script rotates the door around a configurable axis with a configurable offset to
+the rotation center. Both can be determined automatically (rotate around largest side and
+with an offset that is half the distance to the main prim's center. If you want to rotate
+it around its own center, you can use path cut to make a prim appear to rotate around its
+edge and link the rest of the door object (e.g. a nice mesh door) to it. Then automatic
+detection doesn't work anymore, though. The door also works when linked to a house etc.,
+both as single-prim or multi-prim object (incl. mesh). It is made phantom when open if
+not linked to the house or its physics shape is set to none if linked to the house, which
+has the same effect, but can be set for child prims only (so your whole house doesn't
+become phantom). It also includes a workaround for rotation drift and checks if the door
+was moved before opening it.
+
+The Door script is full perm. It's licensed under the BSD license with the addition that
+it must not be resold or otherwise given away standalone in parts or as whole. It can be
+used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+Put the script in the main prim of the door. This can be the root prim if the door is not
+linked to the house or the prim that defines the door's main shape (which is used for
+automatic axis and offsets detection). If you have a multi-prim door that is linked to
+the house, the names of all other prims that belong to the door must start with the same
+string as the name of the main prim! For doors that are not linked to the house or single-
+prim doors, it does not matter, but be careful not to accidentally have other prims in
+the house that use the same name.
+
+To configure the script, please open it and change the following constants according to
+your needs:
+
+ACCESS_LEVEL
+
+Set the access level: 0 for all, 1 for group only, 2 for owner only, 3 for list of
+authorized avatars, 4 for list of managers. Owners always have access, managers have
+access if not set to owner only. Only owner and managers are allowed to change the
+configuration.
+
+CMD_CHANNEL
+
+Channel to open, close or hold the door. Set to -1 to disable chat commands.
+
+LISTEN_DIST
+
+Listening distance in meters for chat commands. Use small values if doors are close
+together.
+
+USE_TOUCH and USE_COLLISION
+
+Use touch and/or collision to open and close door. Set the respective constant to TRUE to
+enable the feature and to FALSE to disable it.
+
+USE_CURRENT
+
+Use current rotation for opening/closing door, not stored ones, like in versions before
+v0.51. This only works for unlinked or single-prim doors, though. Default is FALSE.
+
+OPEN_SIDE
+
+Opening side for automatic offsets detection (1 or -1, see OFFSETS). Use 0 to disable
+automatic detection, otherwise set to 1 or -1 to select the side the door is rotating
+about.
+
+OPEN_ANGLE, OPEN_STEPS, OPEN_DELAY, CLOSE_DELAY and CLOSE_TIME
+
+The angle of the fully opened door (in degrees, rotates around AXIS), the number of steps
+to open the door,) the delay between the opening and closing steps (in seconds) and the
+time before the door closes automatically (in seconds, use 0 to disable).
+
+AXIS
+
+The rotation axis of the door (1 as one coordinate, others 0), e.g. <0, 0, 1> to rotate
+around the Z axis. Use ZERO_VECTOR to determine automatically, depending on dimensions of
+the door (largest side wins). This does not work if path cut is used.
+
+OFFSETS
+
+Offsets to door hinge (0.5 or -0.5 as one coordinate, depending on door orientation,
+others 0.0), e.g. <0.0, -0.5, 0.0> to have an offset in Y direction. This determines
+where the axis lies it rotates around. Set OPEN_SIDE to 1 or -1 to determine offsets
+automatically. This does not work if path cut is used.
+
+SOUND_OPEN, SOUND_CLOSE, SOUND_LOCK, SOUND_UNLOCK, SOUND_LOCKED and SOUND_HOLD
+
+Sounds that are played when opening, closing, locking, unlocking, accessing a locked door
+or holding the door. The sounds must be in the door's inventory or a UUID. Set to "" to
+disable a sound.
+
+SOUND_VOLUME
+
+The sound volume (in percent). Default is 50% (half max. volume).
+
+CMD_OPEN, CMD_CLOSE and CMD_HOLD
+
+Chat commands to open, close or hold the door (on CMD_CHANNEL).
+
+MSG_OPEN, MSG_CLOSE, MSG_LOCKED and MSG_STARTUP
+
+These messages are printed when the door is opened or closed, when it is locked (i.e. the
+avatar is not allowed due to the current access level) and on startup of the script. With
+the exception of MSG_STARTUP (which only the owner gets), "%s" is replaced by the avatar
+name. Set to "" to disable a message.
+
+
+============================================================
+  【秀】  [.Shuggles.] Hue Cycle v0.51  【ツ】
+============================================================
+
+The Hue Cycle script cycles through the color (hue) of an object, single prim, single
+face or multiple prims and faces in configurable speed. It works on sculpties and mesh
+as well as simple prims. If you configure it to emit light, it changes the light color,
+too. This can be used as a great effect for store logos, club floors, room illumination
+etc. You can also specify a color to add to the hue, e.g. for less vibrant colors. To
+adjust the parameters, please edit the script and change the customizable constants at
+the top. By default, it changes all faces of the prim that contains the script.
+
+The Hue Cycle script is full perm. It's licensed under the BSD license with the addition
+that it must not be resold or otherwise given away standalone in parts or as whole. It
+can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Inspector v0.52  【ツ】
+============================================================
+
+The purpose of the Inspector script is to print useful information about an object, its
+linked prims and their faces. Additionally, you can color the faces to tell them apart
+more easily or apply a grid texture to better see distortions in mesh UV maps. Please
+only operate on a copy because this destroys the original colors and textures!
+
+Drop the Inspector script in the object you want to inspect and click at least 1 second
+to get the following menu:
+
+ⓘ OBJECT: prints information about the object
+ⓘ PRIM: prints information about the touched prim
+ⓘ FACE: prints information about the touched face
+田 OBJECT: applies a grid texture to the whole object
+田 PRIM: applies a grid texture to the touched prim
+田 FACE: applies a grid texture to the touched face
+✎ OBJECT: colors the faces of the whole object in different colors
+✎ PRIM: colors the faces of the touched prim in different colors
+- CLOSE: closes the menu, obviously ^^
+
+Leave the menu open and click on another linked prim or face to see link and face number.
+
+The Inspector script is full perm. It's licensed under the BSD license with the addition
+that it must not be resold or otherwise given away standalone in parts or as whole. It
+can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Inventory Giver v0.59  【ツ】
+============================================================
+
+The Inventory Giver script scans the inventory of the prim it is in and gives its items
+to avatars, either by menu or diretcly on rez, on touch or on payment.
+
+The menu asks which inventory item it shall give. It contains submenus for the following
+items: All, Textures, Animations, Bodyparts, Clothing, Gestures, Landmarks, Notecards,
+Objects, Scripts and Sounds; empty submenus are not displayed. You have the choice of
+selecting one item out of these categories or get all of them delivered in a folder.
+
+On long touch (one second), it opens the options menu where you can select the access
+level (all, group, owner) and reset the script.
+
+The script can be used as an inventory giver on items you own or as an unpacker in boxes
+you give away, as well. Preconfigured scripts for these usecases are included. You don't
+need to look for other scripts anymore, it should be able to do everything you need:
+
+- configurable "All" button in each menu to give all items of a type (e.g. textures)
+- configure to include an "ALL" menu with all types of items
+- configure to include scripts or leave them out
+- configure default access level (all, group, owner, specific avatar), changeable by menu
+- configure whether to pass touches to root prim if script is in child prim
+- give on rez, on touch, on payment or only a specified date, with or without menu
+- give all items or a random item without opening a menu first (configurable type)
+- optionally remove copiable items after giving and delete itself when empty
+- allow attaching or only rezzing
+- optionally detach (if attached) or delete (if rezzed) after giving
+- optional floating text for delivery
+- configurable initial floating text
+- configurable folder name and appended suffix
+- configurable holding animation when attached
+- configurable sound that plays when giving items
+- item names are shortened to 24 characters for menus (duplicates are not allowed)
+- they should be no longer than ~14 characters so they can be displayed completely
+- description field can contain giving date or receiver name or "name:date"
+- disable payments if in use to prevent concurrent usage
+
+Typical usage scenarios:
+
+- Unpackers: give all items, floating text, optionally give on rez or delete/detach on give
+  (box is given away, perms change to next owner, be careful with no copy items)
+- Present: give all items, give on date, specific receiver, optionally floating text
+- Give multiple items: allow "All" button and configure "ALL" menu
+- Give random item: configure to give random item
+- Give unique, but copiable items: remove items after giving, optionally delete when empty
+- Give no copy items: no "All" button, no give all items, no remove items, optionally delete when empty
+
+The Inventory Giver scripts are full perm. They're licensed under the BSD license with
+the addition that they must not be resold or otherwise given away standalone in parts or
+as whole. They can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+To configure the script, please open it and change the following constants according to
+your needs:
+
+Typical usage scenarios:
+
+- Boxes/Unpackers: GIVE_ALL_ITEMS, FLOATING_TEXT, ACCESS_LEVEL=2,
+  optionally GIVE_ON_REZ or DELETE_ON_GIVE/DETACH_ON_GIVE
+  (box is given away, perms change to next owner, be careful with no copy items)
+- Present: GIVE_ALL_ITEMS, GIVE_ON_DATE, ACCESS_LEVEL=3, optionally FLOATING_TEXT
+- Give multiple items: ALLOW_ALL_BUTTON, INCLUDE_ALL (default config)
+- Give random item: GIVE_RANDOM_ITEM
+- Give unique, but copiable items: REMOVE_ITEMS, optionally DELETE_ON_EMPTY
+- Give no copy items: no ALLOW_ALL_BUTTON, no GIVE_ALL_ITEMS, no REMOVE_ITEMS,
+  optionally DELETE_ON_EMPTY
+- description field can contain giving date or receiver name or "name:date";
+  for receiver name, ACCESS_LEVEL needs to be set to 3
+
+Preconfigured scripts for these usecases are included.
+
+ALLOW_ALL_BUTTON
+
+Allow an "All" button in each menu: TRUE or FALSE.
+Please note: This doesn't work with no copy items.
+
+GIVE_ALL_ITEMS
+
+Give all items at once without menu: TRUE or FALSE.
+Please note: This doesn't work with no copy items.
+
+GIVE_RANDOM_ITEM
+
+Give randomly selected item without menu: TRUE or FALSE.
+
+GIVE_ITEM_TYPE
+
+The type of the random item you want to give or when giving all items: objects,
+notecards, textures, clothing, all etc. Use the following values: INVENTORY_OBJECT,
+INVENTORY_NOTECARD, INVENTORY_TEXTURE, INVENTORY_CLOTHING, INVENTORY_ALL etc. For a
+complete list, please refer to https://wiki.secondlife.com/wiki/LlGetInventoryType
+
+Please note: The Inventory Giver script, holding anim and giving sound are never given.
+However, if you happen to configure built-in animation or the sound is given by UUID and
+by chance you also have other items with the same name (even with a different type) in
+your object, then it might not work correctly! For the same reason, you should not use
+an item that is called "All".
+
+GIVE_ON_PAY
+
+The price to pay before getting items. Use PAY_HIDE to disable. This is not really useful
+in connection with using the menu, use at your own risk in this case. Please also disable
+GIVE_ON_REZ when using GIVE_ON_PAY.
+
+GIVE_ON_REZ
+
+Whether to give on rez (TRUE) or touch only (FALSE): TRUE or FALSE.
+This can be used for unpackers. Please disable when using GIVE_ON_PAY.
+
+GIVE_ON_DATE
+
+Whether to give only on a certain date: TRUE or FALSE. The date is read from description
+field: YYYY-MM-DD. If a receiver name is also given (ACCESS_LEVEL 3), the description
+field contains the name and date, separated by a colon: "name:date". If no date is given,
+this option is ignored.
+This can be used for gift boxes, but only when they are not given to the recipient of the
+gift. If they are the owner of the gift box, they can change the access level and even
+just easily unpack it without the script.
+
+REMOVE_ITEMS
+
+Delete (copiable) items after giving them: TRUE or FALSE.
+
+ALLOW_ATTACH
+
+Allow attaching (TRUE) or only rezzing (FALSE). Set to FALSE to enforce DELETE_ON_GIVE
+and DELETE_ON_EMPTY, otherwise they will silently fail if the object is attached and only
+detach it.
+
+DETACH_ON_GIVE
+
+Auto-detach object after give: TRUE or FALSE.
+This can be used for unpackers.
+
+DELETE_ON_GIVE
+
+Auto-delete object after give: TRUE or FALSE.
+This can be used for unpackers.
+Please note: Also set ALLOW_ATTACH to FALSE to enforce.
+
+DELETE_ON_EMPTY
+
+Auto-delete object when empty: TRUE or FALSE.
+Please note: Also set ALLOW_ATTACH to FALSE to enforce.
+
+DELETE_NO_COPY
+
+Auto-delete object even if no copy: TRUE or FALSE.
+Attention: Handle with care, the deleted object can't be recovered!
+
+INCLUDE_ALL
+
+This option adds a menu with all items of all types.
+Set to TRUE to enable it and to FALSE otherwise.
+
+INCLUDE_SCRIPTS
+
+Because you usually don't give scripts, you can disable it with this option.
+Set to TRUE to include scripts and to FALSE otherwise.
+
+FLOATING_TEXT
+
+This option displays a floating text while giving items.
+Set to TRUE to enable it and to FALSE otherwise.
+
+PASS_TOUCHES
+
+Whether to pass touches to the root prim if the script is in a child prim:
+PASS_IF_NOT_HANDLED, PASS_ALWAYS or PASS_NEVER.
+
+ACCESS_LEVEL
+
+Set the access level: 0 for all, 1 for group only, 2 for owner only, 3 for a specific
+avatar. The avatar name (legacy name, username or UUID) is read from description field.
+If a giving date is also specified, the description field contains the name and date,
+separated by a colon: "name:date". If no name is given, this option is ignored. The
+access level can be changed in the menu, too.
+
+ATTACH_ANIM
+
+Holding anim, use "hold_r_handgun" as default.
+
+GIVING_SOUND
+
+Sound played on giving the items, use "" for none.
+
+FOLDER_NAME
+
+Folder name of items, uses object name if empty.
+Please note: It always adds the type to the name (if menu is used).
+
+FOLDER_SUFFIX
+
+Suffix to append to the folder name for GIVE_ALL_ITEMS (no menu used).
+
+INITIAL_TEXT
+
+Floating text which is displayed initially, use "" for none.
+
+TEXT_COLOR
+
+Set the color of the initial floating text in the form <R, G, B> where R, G and B range
+from 0 to 255.
+
+___________________________________________________________________________
+
+PRESENTS
+
+This chapter covers giving a present to someone, using the Shui_Inventory_Giver_Present
+script in the gift box and the Shui_Inventory_Giver_Box script to unpack the box inside
+the gift box. This can be used to transfer "no transfer" items in a "no copy" box (no
+transfer for next owner, you need transfer permissions, of course) from avatar A (you)
+to avatar B (the one making the present) to avatar C (the one getting the present).
+
+A: Put your items (no transfer for next owner) in a box and add Shui_Inventory_Giver_Box
+   (copy+transfer, which is only allowed for this special usecase). Set DELETE_ON_GIVE
+   and DELETE_NO_COPY to TRUE in the script. Other items can be no mod+no transfer. Then
+   take the box and make it no copy+transfer for next owner after taking it (in your
+   inventory). Give the box to avatar B.
+
+B: Rez a gift box and change the description field to e.g. "shuichi.shinji:2020-12-24" if
+   it should only work on that day and for the avatar with the specified name; otherwise
+   only specify either name or date or leave it empty. Then add the box from avatar A and
+   Shui_Inventory_Giver_Present (copy only). If you specified a name in the description,
+   set ACCESS_LEVEL to 3 in the script; if you specified a date, set GIVE_ON_DATE to TRUE.
+   Leave the gift box rezzed, but NEVER take it or the box from avatar A back into your
+   inventory - the box would become no transfer and you couldn't give it away anymore.
+
+C: Touch the gift box (on 2020-12-24 or any day) and receive your gift (the box from A). 
+   Rez the received box and touch it to get its contents. Then the box deletes itself!
+
+
+============================================================
+  【秀】  [.Shuggles.] Inventory UUIDs v0.53  【ツ】
+============================================================
+
+The Inventory UUIDs script prints out the UUIDs and names of all items of the configured
+type in a prim's inventory: all, textures, animations, bodyparts, clothing, gestures,
+landmarks, notecards, objects, scripts or sounds. The output is done with minimal
+interruption by timestamps and object names to allow easier copy & paste into notecards.
+Please note: You need the appropriate permissions on the items.
+
+The item type can be selected by menu after touching the object, either all or only one
+specific item type. You can also configure the script to automatically delete the items
+from the object's inventory after their UUIDs have been printed. Optionally, you can have
+the script removed afterwards as well.
+
+The Inventory UUIDs script is full perm. It's licensed under the BSD license with the
+addition that it must not be resold or otherwise given away standalone in parts or as
+whole. It can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Limited Attach v0.49  【ツ】
+============================================================
+
+The Limited Attach script can be used to allow only a limited use of certain attachments,
+e.g. a cup that can only be used once, a bag of chips that can only be used a number of
+times before it's empty or a pack of cigarettes that can also give a cigarette each time.
+
+The attachment containing this script automatically detaches when the maximum number of
+uses has been reached. It will say a configurable message to the owner then. It can also
+detach automatically after a configurable time when the maximum number is not reached yet.
+An optional animation and sound can be played and a configurable object or the first that
+is found in the attachment's inventory can be given. Configuration options are explained
+in the script and the included manual.
+
+The Limited Attach script is full perm. It's licensed under the BSD license with the
+addition that it must not be resold or otherwise given away standalone in parts or as
+whole. It can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+To configure the script, please open it and change the following constants according to
+your needs:
+
+GIVE_ON_ATTACH
+
+TRUE to give an object on attach, FALSE otherwise. Default is TRUE.
+
+GIVE_OBJECT
+
+Name of the object to give, must be in atachment's inventory or first in inventory if
+empty. If empty and no object is found in inventory, nothing is given. Default is "".
+
+ATTACH_ANIM
+
+Name of an animation to play after attaching. It must be in the object's inventory or an
+SL internal animation. If empty, the first animation in inventory is used. Default is
+"hold_r_handgun" which is an internal animation.
+
+ATTACH_SOUND
+
+Name of a sound to play after attaching. It must be in the object's inventory. If empty,
+the first sound in inventory is used. Default is "" (so, first in inventory is used).
+
+MSG_DONE
+
+The message when maximum number of uses has been reached, before it automatically
+detaches.
+
+DETACH_ON_TIMER
+
+Timer in seconds to stop animation and detach automatically (normal usecase, before
+maximum number is reached), use 0 to disable. Use 0 to disable. Default is 10.
+
+MAX_USAGE
+
+Maximum number of uses before it stops working. Use 0 to disable. Default is 1.
+
+
+============================================================
+  【秀】  [.Shuggles.] Profile Image v0.51  【ツ】
+============================================================
+
+The Profile Image script displays the profile image of a nearby avatar on a configurable
+prim and face on your object. It displays the image of the nearest avatar that gave their
+permission (Yes, No, Once) and/or on touch (configurable). It does not cycle through all
+avatars nor does it check for newly arrived avatars, but it keeps track of the last 100
+avatars that gave permission and the last 100 who didn't, to not bother them with asking
+too often. When no avatar is present, a configurable default image is displayed. Scan
+rate and range are also configurable. The script works both in Second Life and Avination.
+The title for the permission dialog is taken from the object's description field.
+
+The Profile Image script is full perm. It's licensed under the BSD license with the
+addition that it must not be resold or otherwise given away standalone in parts or as
+whole. It can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Pulse Object v0.50  【ツ】
+============================================================
+
+The Pulse Object script changes the size of an object up and down in configurable speed.
+It works on sculpties and mesh as well as on simple prims, even with manual resizing.
+The prims appear to pulse, similar to a heartbeat. This can be used as a great effect for
+store logos, tip jars, speakers etc. By default, it affects only the prim that contains
+the script, so you can put it directly into the child prims you want to pulse. However,
+you can also configure a list of prims that are resized together and put only this one
+script into the root prim of the object. To adjust the parameters, please edit the script
+and change the customizable constants at the top.
+
+The Pulse Object script is full perm. It's licensed under the BSD license with the
+addition that it must not be resold or otherwise given away standalone in parts or as
+whole. It can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Script Library v0.64  【ツ】
+============================================================
+
+The Script Library contains some useful functions I often need in my scripts. I'm pretty
+sure they can be helpful to other scripters as well. Just copy the necessary functions to
+your scripts to use them.
+
+It contains a small testframe to test some typical usecases and special cases of the
+included functions. Just rez a prim, drop the scripts in and touch it. Check the output
+manually. Be sure to verify your usecases as well.
+
+Provided functions:
+
+- compare strings lexically
+- replace all occurences of one string in another (in 2 different implementations)
+- get substring that is enclosed by a start and an end string, e.g. to parse simple XML data
+- parse a string into a list without the 8 items limit
+- print long strings, split into max. 1024 bytes long parts at line breaks
+- get string length in bytes
+- convert characters to their 7 bit and 8 bit ASCII code and vice versa
+- convert integers and floats to their hexadecimal notation
+- round floats and vectors with a specified precision, returned as string
+- get whether a given string is an integer, a float, Base64-encoded, a vector or a rotation
+- norm and scale rotations, constrain to a plane, interpolate rotations
+- get the position at the given distance in front of your avatar
+- check the VM the script is running on (Mono or LSO)
+- get a list of an object's inventory items of a given type
+- get prim number and face from specified prim name and face
+- get number of prims of an object (without seated avatars) and number of seated avatars
+- create random listener channels or channels based on given UUID(s)
+- get legacy name of an agent with a given ID, but without " Resident"
+- get display name of an agent with a given ID, or legacy name if only ??? can be read
+- get first name of an agent with a given ID (using display name if possible, otherwise legacy name)
+- get combined display and legacy name of an agent with a given ID
+- get about name URL of an agent with a given ID (suitable for display in the viewer)
+- get agent link URL of an agent with a given ID (suitable for display in the viewer)
+- check ownership of an object even if it's group-owned
+- show a dialog with buttons ordered correctly and a menu with fancy heading and timeout
+- get whether a given year is a leap year
+- get number of days in a given month of a given year
+- get numeric day of week, month or year for a given date or timestamp, starting with 1
+- convert color and alpha to/from integer representation of the ARGB value
+- compress and decompress UUIDs/keys to save memory
+
+The Script Library is full perm and given for free. It's licensed under the BSD license
+with the addition that it must not be resold or otherwise given away standalone in parts
+or as whole. All functions can be used freely in your scripts as long as these license
+conditions are met. It also contains some script examples from the Second Life Wiki. The
+copyright on those remains with the appropriate authors and the license may differ. The
+authorship is marked in the script as comment to the affected functions.
+
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Script Notecard v0.49  【ツ】
+============================================================
+
+Reading notecards can take a considerable amount of time because there's a 0.1 seconds
+delay for reading each line. The Script Notecard script circumvents this limitation by
+using a script as notecard replacement. All you have to do is put your notecard's content
+into the script and renaming the script to your notecard's name, then changing the read
+procedure in the script that reads the notecard (example with comparison included).
+
+To test the script, rez a cube, put the example Normal_Notecard and Script_Notecard as
+well as the Shui_Script_NC_Reader example script inside. Click once for reading the
+normal notecard and again for the script notecard. You should notice a considerable
+speedup. Repeat as often as you wish :-)
+
+Please compile the Script Notecard script as Mono, especially for large notecards, else
+you could run out of memory. Remark: When using the official Second Life viewer, you have
+to edit the script inside an object - when editing it in your inventory, it doesn't use
+Mono! Otherwise you also could edit it in your inventory and drop it in the object later.
+
+The Script Notecard script is full perm. It's licensed under the BSD license with the
+addition that it must not be resold or otherwise given away standalone in parts or as
+whole. It can be used in your creations as long as these license conditions are met.
+Of course you can give it away full perm with your creations because your customer might
+need to edit the script notecard (just as they edited a normal notecard before).
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+LICENSE
+
+Copyright (c) 2014-2020, Shuichi Shinji
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+- Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
+- Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+- Standalone redistribution in parts or as whole is not permitted, it may
+  only be sold as part of your own products. You are allowed to include it
+  full perm, rename it and also change the creator.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+
+
+============================================================
+  【秀】  [.Shuggles.] SHUI-BASIC v0.47  【ツ】
+============================================================
+
+The SHUI-BASIC script implements a BASIC interpreter that can be used from the local chat
+window. It tries to implement the BASIC dialect used in the East German KC85 series and
+the KC85/4 in particular (KC = Kleincomputer, home computer, literally: small computer).
+This dialect orients itself on Microsoft's BASIC and is similar to GW-BASIC as well.
+Functions which require positioning on screen or coloring as well as graphics functions
+are not implemented, also not hardware-oriented functionality.
+
+Some functionality (e.g. arrays) are not implemented yet, but will be in subsequent
+versions. These new versions may be more expensive, but if you bought a previous version,
+you can always update for free.
+
+The input channel can be configured, also the access for Owner only, for Group or All. If
+it is set to Owner only, output is for owner only as well, otherwise in local chat (20m).
+Programs can be entered manually or loaded from notecards - a few examples are included.
+Commands can be entered in direct mode, too. After script reset, it starts in a minimal
+version of CAOS (Cassette Aided Operating System) also used in the KC85 series. BASIC can
+be started by entering "BASIC" in local chat, other commands as well as all BASIC commands
+and functions are described in detail in the included manual. However, it does not provide
+a complete tutorial - basic knowledge of the BASIC programming language is expected.
+
+You can use the script for several purposes such as simple calculator in chat, to execute
+simple programs if you are not familiar with LSL, to interact with other objects inworld
+(on different communication channels) or just for teh geek factor :-)
+
+Example:
+  INPUT "Enter °C:"; C
+  LET F=C*1.8+32
+  PRINT C; "°C ="; F; "°F"
+
+The SHUI-BASIC script is copy only. It's licensed under the BSD license with the addition
+that it must not be resold or otherwise given away standalone in parts or as whole. It
+can be used as long as these license conditions are met.
+
+Literature (mostly in German):
+
+- https://de.wikipedia.org/wiki/Kleincomputer_KC_85/2-4
+- https://en.wikipedia.org/wiki/KC_85
+- http://www.robotron-net.de
+- http://www.kcclub.de
+- https://www.iee.et.tu-dresden.de/~kc-club/
+- http://www.kc85-museum.de
+- http://www.robotrontechnik.de/index.htm?/html/computer/kc.htm
+- http://www.robotrontechnik.de/html/forum/thwb/showtopic.php?threadid=1739
+- http://www.kc85emu.de
+- http://www.mpm-kc85.com
+- http://www.mpm-kc85.de
+- http://www.mpm-kc85.de/dokupack/D001_BASIC_HB.pdf
+- http://www.mpm-kc85.de/dokupack/D001_BUE.pdf
+- http://www.homecomputermuseum.de/doku/man27_de.htm
+- http://www.homecomputermuseum.de/doku/man28_de.htm
+- http://www.sax.de/~zander/index2h.html
+- http://hc-ddr.hucki.net/wiki/doku.php/z9001:basic
+- http://hc-ddr.hucki.net/wiki/doku.php/z9001:basic_tipps
+- http://waste.informatik.hu-berlin.de/diplom/robotron/diplom/texte/basic/basic.html
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+Simply drop the script, example programs and sounds you want to use into any object (can
+be rezzed, an attachment or HUD). You can use an existing attachment, for instance, the
+SHUI-BASIC script doesn't need any user interaction apart from chat or inventory loading.
+Then you are ready to go...
+
+After script reset, minimal version of CAOS (Cassette Aided Operating System) is started.
+You can use the following commands in chat (all uppercase):
+
+BASIC
+
+Starts the BASIC interpreter and initializes everything to default values.
+
+REBASIC
+
+Restarts the BASIC interpreter without deleting a loaded program.
+
+SWITCH m [n]
+
+Originally, this was used to switch on hardware modules or memory banks. We use it to
+configure the input channel and access rights:
+
+SWITCH C0,1 ... set input channel to 1
+SWITCH C0,0 ... reset it to public channel 0 (use /1SWITCH if you set it to channel 1)
+SWITCH C1,0 ... set access rights to All
+SWITCH C1,1 ... set access rights to Group
+SWITCH C1,2 ... set access rights to Owner
+
+JUMP m
+
+Originally, it gave control to another hardware module. We don't use it yet.
+
+MENU
+
+Prints out the CAOS menu with all above commands:
+
+* SHUI-CAOS 4.2
+%BASIC
+%REBASIC
+%SWITCH
+%JUMP
+%MENU
+%_
+
+Please note: All other CAOS commands (SAVE, VERIFY, LOAD, COLOR, DISPLAY, MODIFY, WINDOW,
+KEY, KEYLIST, MODUL, SYSTEM, V24OUT, V24DUP) are not used.
+
+___________________________________________________________________________
+
+COMMANDS
+
+After started with "BASIC" from the CAOS menu, it prints out the following (the free
+memory varies):
+
+SHUI-BASIC V0.47
+MEMORY END ? : 
+10240 BYTES FREE
+OK
+>_
+
+Now it is ready for your input. You can either use is in direct mode by entering commands
+in chat or you can write or load programs which you can run then. Program lines always
+begin with a line number, followed by a space sign and then the commands. In direct mode,
+line numbers are not used and the commands are executed directly. Please note, that in
+direct mode, only uppercase is allowed and not all errors are checked, so normal chat
+doesn't interfere with the BASIC interpreter.
+
+Example:
+  PRINT 10*1.8+32
+
+You can use variables to store numerical and string values. Variables begin with a letter
+and are followed by letters or numbers. String variables end with a dollar sign ("$").
+KC-BASIC only used the first 2 characters of each variable, but we don't limit that.
+
+Example:
+  INPUT "Enter °C:"; C
+  LET F=C*1.8+32
+  PRINT C; "°C ="; F; "°F"
+
+The following commands are supported by KC-BASIC. The ones implemented in SHUI-BASIC are
+marked with a plus sign, the unimplemented ones with a minus sign. When using unsupported
+commands, you'll get an ?US WARNING, but the program continues.
+
+- AUTO [line[,step]]
+  Automatic line numbering stating with line in steps of step, defaults: 10.
+  End with <BRK>.
+
++ BEEP [n]
+  Emit one or n signal tones (same as for error messages).
+
+- BLOAD
+  Load machine program.
+
++ BYE
+  Return to operating system.
+
+- CALL address, CALL*address
+  Call a machine program (address is decimal, *address hexadecimal).
+
+- CIRCLE xm,ym,r[,f]
+  Draw a circle with radius r and color f around xm,ym. If color is not given, last color
+  is used.
+
+- COLOR f,b
+  Set text foreground and background color.
+  f=0..15 (add 16 for blinking, 64 for XOR, 128 for delete), b=0..7
+  0=black, 1=blue, 2=red, 3=purple, 4=green, 5=cyan, 6=yellow, 7=white/grey, 8=black,
+  9=violet, 10=orange, 11=magenta, 12=green-blue, 13=blue-green, 14=yellow-green, 15=white
+  In high-res mode, only 4 colors (black, red, cyan, white) and no special modes.
+
++ CLEAR [expr[,expr]]
+  Clears variables memory. Also limits string and BASIC memory (not implemented).
+
++ CLOAD "NAME"
+  Loads BASIC program "NAME". The name must be uppercase and the corresponding notecard
+  must be called "NAME.BAS".
+
+- CLOAD*"NAME";arrayname
+  Loads an array.
+
++ CLOSEI#n, CLOSEO#n
+  Close input or output channel n.
+
++ CLS
+  Clear screen, i.e. scroll chat window content upwards.
+
++ CONT
+  Resume halted program.
+
++ CSAVE "NAME"
+  Store BASIC program "NAME". Does the same as list because we can't store notecards.
+
+- CSAVE*"NAME";arrayname
+  Saves an array.
+
++ DATA constant[,constant,...]
+  Data list, read with READ; constant can be number or string (with or without quotes).
+
+- DEEK(addr)
+  Read addresses addr and addr+1 and assign to a variable, addr=-32768..32767.
+
+- DEF FNname(parameter)=expr
+  Define a function with the given expression.
+
++ DELETE b[,e]
+  Delete program lines b to e. If e is omitted, only b is deleted. This can also be done
+  by just entering the line number and pressing ENTER.
+
+- DIM arrayname(max[,max1,...])
+  Define an array (1 to n dimensions), indices range from 0..max (inclusive). Arrays can
+  contain numerical or string values, in the latter case, the name must end with a dollar
+  sign. Arrays are initialized with zero and must be defined before they can be used.
+
++ DIR
+  List BASIC programs in object contents (notecards that end with .BAS).
+  Not an original KC-BASIC command.
+
+- DOKE addr,value
+  Write value to addresses addr and addr+1, addr=-32768..32767.
+
++ EDIT line
+  Edit program line, use ENTER to take over or Down to cancel. In our case, it just
+  prints the line, editing has to be done by re-entering.
+
++ END
+  End the program, i.e. stop execution.
+
++ FOR var=start TO end [STEP step] ... NEXT [var[,var,..]]
+  Loop variable var from start to end and execute commands between FOR and NEXT which
+  increments var by step (default: 1) until end is reached. The loop is executed at least
+  once. If NEXT is used without var, then the variable from the innermost loop is used.
+  Several variables in NEXT behave like several NEXT commands with one variable each (in
+  the same order).
+
++ GOSUB line ... RETURN
+  Call subroutine at the given line. RETURN returns to where it was called.
+
++ GOTO line
+  Jump to the given line.
+
++ IF expr THEN/GOTO line[:ELSE line]
++ IF expr THEN cmd[:cmd...][:ELSE cmd[:cmd...]]
+  Evaluate given expression and jump to line if it is true or execute specified commands.
+  If it is false, take the ELSE path.
+
+- INK f
+  Set foreground color.
+
+- INP(port)
+  Read byte from given port and assign to a variable, port=0..255.
+
++ INPUT ["msg";] var[,var,...]
+  Read provided input and assign to given variables (input comma-separated). The given
+  msg is printed before. A question mark is always printed. If not enough input is given,
+  the missing ones are requested with a double question mark. If too many are provided,
+  the extras are ignored. If types don't match, input has to be repeated.
+
++ INPUT#n var
+  Input from channel n.
+
+- JOYST(n)
+  Get direction of joystick n (n=1..2): 1=left, 2=right, 4=down, 8=up, 16=fire1, 32=fire2.
+  Up to 3 return values can be combined, e.g. 26=up right and fire1.
+
+- KEY n
+  Assign commands to function key n. End input with <STOP>.
+
+- KEYLIST
+  List function keys (F1..FC, can be saved with SAVE B900 B99B).
+
++ [LET] var=expr
+  Assign the result of the given expression to variable var. In direct mode, LET is
+  required, otherwise it can be omitted.
+
+- LINE x1,y1,x2,y2[,f]
+  Draw a line from x1,y1 to x2,y2 in color f. If color is not given, last color is used.
+
++ LINES [n]
+  Limit number of lines to LIST.
+
++ LIST [line]
+  List program, starting from line or at beginning.
+
++ LIST#n "NAME"
+  Output program to channel n.
+
+- LOAD#n "NAME"
+  Load program from channel n.
+
+- LOCATE y,x
+  Place cursor in current window.
+
++ NEW
+  Clear program and variables memory.
+
+- NULL [n]
+  Set number of dummy characters at end of line.
+
++ ON expr GOTO line[,line,...]
+  Conditional jump to given lines. If expression results in 1, go to first given line,
+  on 2 go to second line, on 3 to third etc.
+
++ ON expr GOSUB line[,line,...]
+  Conditional call of subroutines. If expression results in 1, go to first given line,
+  on 2 go to second line, on 3 to third etc. RETURN returns to where it was called.
+
++ OPENI#n, OPENO#n
+  Open input or output channel n.
+
+- OUT i,j
+  Output byte j on port i, 0<=i,j<=255.
+
+- PAPER b
+  Set background color.
+
++ PAUSE [t] or <STOP>
+  Pause t * 0.1s; if t is omitted, pause forever (continue with CONT).
+
+- PEEK(addr)
+  Read byte from address addr and assign to a variable, addr=-32768..32767.
+
+- POKE addr,value
+  Write byte value to address addr, addr=-32768..32767, negative interpreted as 65536+addr.
+
+- PRESET x,y
+  Delete a pixel.
+
++ PRINT [expr[[;format];expr;...]]
+  Print expressions. If separated by semicolon, numerical expressions get enclosed in
+  spaces. Comma separator is not supported. Unless there's a semicolon at the end, a
+  line break is also printed. Since the output in the chat window only works with line
+  breaks, the output is delayed until a PRINT without semicolon at the end is provided.
+  You can use formatting functions in the PRINT list: COLOR, INK, PAPER, AT, SPC and TAB
+  (see below, only SPC and TAB are supported). Instead of PRINT, you can also use "?".
+
++ PRINT#n [expr[;expr;...]]
+  Output to channel n. Formatting functions are not supported. Output is always immediate
+  and an explicit line break is added unless there's a semicolon at the end.
+
+- PSET x,y[,f]
+  Set a pixel in the given color.
+
++ RANDOMIZE
+  Initialize random number generator. Does nothing in SL.
+
++ READ var[,var,..]
+  Read values from DATA lines.
+
++ REM comment
+  Comment. Instead of REM, you can also use "!".
+
+- RENUMBER [from[,to[,newfrom[,newstep]]]]
+  Renumber program lines. If no parameters are given, renumbers from first line in steps
+  of 10. If newstep is omitted, it defaults to 10. Adjusts line numbers in the program,
+  e.g. in GOTO, as well. It does not check that line numbers fit to those outside the
+  given range.
+
++ RESTORE [line]
+  DATA pointer is set to given or first DATA line.
+
++ RUN [line]
+  Run program from line or from beginning.
+
++ SOUND z1,v1,z2,v2[,vol[,dur]]
++ SOUND "sound"[,vol[,dur]]
+  Emit a sound. z1, v1, z2, v2, vol and dur are numbers. z1,v1 control channel 1, z2,v2
+  channel 2. We can only use one of them. Alternatively, a sound from the object's
+  contents can be played. Actually, "z1,v1" and "z2,v2" are also tried to be loaded as
+  sound from contents because we cannot control the sound generator as KC-BASIC could
+  (these sounds are not provided, though). vol is the sound volume (0-31), volume 0 was
+  still output to diode jack, but we just map it to SL sound volume. dur is the sound
+  duration, 0 would mean and endless tone. Durations only work if the sound is shorter.
+  If no volume or duration are given, the previous values are used.
+
++ STOP or <BRK>
+  Stop a program. Can be continued with CONT.
+
++ SWITCH m,n
+  Originally, this was used to switch on hardware modules or memory banks. We use it to
+  configure the input channel and access rights:
+  SWITCH 192,n ... set input channel to n
+  SWITCH 193,n ... set access rights to All (n=0), Group (n=1) or Owner (n=2)
+
++ TROFF
+  Disable line number tracing.
+
++ TRON
+  Enable line number tracing.
+
++ VARS
+  List variables. Not an original KC-BASIC command.
+
+- VPEEK(addr)
+  Read byte from IRM (video RAM) address addr+32768 and assign to a variable.
+
+- VPOKE addr,value
+  Write byte value to IRM (video RAM) address addr+32768.
+
+- WAIT i,j[,k]
+  Program stops if value at port i XOR'ed with k and AND'ed with j is zero.
+
+- WIDTH [n]
+  Set length of output line in characters, default: 0 (unlimited).
+
+- WINDOW [y1,y2,x1,x2]
+  Define a window, default: WINDOW 1,30,0,39, maximum: WINDOW 0,31,0,39.
+
+___________________________________________________________________________
+
+FUNCTIONS
+
++ ABS(X) - absolute value of X        
++ ATN(X) - arcustangens, result in radians
++ COS(X) - cosinus (X in radians)
++ EXP(X) - exponential function: e^X, X<88.722843170166022731, originally X<=87.3365
++ INT(X) - integral value of X
++ LN(X)  - natural logarithm of X, X>0
++ SGN(X) - sign/signum function
++ SIN(X) - sinus (X in radians)
++ SQR(X) - square root of X, X>=0
++ TAN(X) - tangens (X in radians)
+  
++ INSTR(A$,B$) - position of A$ in B$ (starting with 1)
++ LEFT$(A$,N) - first N characters of A$
++ LEN(A$) - string length of A$
++ MID$(A$,M,N) - N characters of A$, starting with the M-th
++ RIGHT$(A$,N) - last N characters of A$
++ STRING$(N,A$) - N times A$
++ STR$(N) - converts N to a string
++ VAL(A$) - numerical value of A$
+- VGET$ - content at cursor position
+  
++ ASC(A$) - ASCII code of first character of A$
+- AT(Y,X) - PRINT at given position
++ CHR$(X) - character with ASCII codes X
+- CSRLIN(N) - line number of cursor, N=0: relative to max. window (32 lines), N>0: current window, N<0: undefined
++ FRE(N) - free memory, N=dummy, best use 0 (using string variable to get free string memory is not supported)
+- INKEY$ - get pressed key without stopping, e.g. A$=INKEY$
+- PTEST(X) - test pixel (returns 1 or 0) at X (Y is taken from last graphics command)
+- POS(N) - cursor position in current line, N=dummy
++ RND(N) - random number between 0 and 1 (if N>0), N<0 (calculated from N) and N=0 (last result) are not supported
++ SPC(N) - PRINT formatting function, add N spaces, N=0..255
++ TAB(N) - PRINT formatting function, N spaces from line beginning, in SL: add N tabs, N=0..255
+- USR(X) - call machine program
+
+You can define the following functions yourself if you need them:
+
+- Secans SEC(X) = 1/COS(X)
+- Cosecans CSC(X) = 1/SIN(X)
+- Cotangens COT(X) = 1/TAN(X)
+- Arcussinus ARSIN(X) = ATN(X/SQR(1-X*X))
+- Arcuscosinus ARCOS(X) = -ATN(X/SQR(1-X*X))+PI/2
+- Arcuscotangens ARCOT(X) = ATN(X)+PI/2
+- Arcussecans ARSEC(X) = ATN(X/SQR(X*X-1))
+- Arcuscosecans ARCSC(X) = ATN(X/SQR(X*X-1))+(SGN(X)-1)*PI/2
+- Sinus Hyperbolicus SINH(X) = (EXP(X)-EXP(-X))/2
+- Cosinus Hyperbolicus COSH(X) = (EXP(X)+EXP(-X))/2
+- Tangens Hyperbolicus TANH(X) = 1-EXP(-X)/(EXP(X)+EXP(-X))*2
+- Cotangens Hyperbolicus COTH(X) = EXP(-X)/(EXP(X)-EXP(-X))*2+1
+- Secans Hyperbolicus SECH(X) = 2/(EXP(X)+EXP(-X))
+- Cosecans Hyperbolicus CSCH(X) = 2/(EXP(X)-EXP(-X))
+- Arcussinus Hyperbolicus ARSINH(X) = LN(X+SQR(X*X+1))
+- Arcuscosinus Hyperbolicus ARCOSH(X) = LN(X+SQR(X*X-1))
+- Arcustangens Hyperbolicus ARTANH(X) = LN((1+X)/(1-X))/2
+- Arcuscotangens Hyperbolicus ARCOTH(X) = LN((X+1)/(X-1))/2
+- Arcussecans Hyperbolicus ARSECH(X) = LN(SQR(1-X*X)+1)/X)
+- Arcuscosecans Hyperbolicus ARCSCH(X) = LN((SQR(1+X*X)+1)/X)*SGN(X)
+
+___________________________________________________________________________
+
+ERRORS
+
+There the following error codes. In direct mode, some errors and warnings are disabled,
+so normal chat input doesn't trigger it.
+
+- BAD - Wrong usage of array elements
+- BAD IN - Error during loading/saving an array
+- BS - Subscript out of range (array index out of defined range)
++ CN - Can't continue (with CONT)
+- DD - Doubly defined array
++ FC - Illegal function call
++ ID - Illegal direct (command not allowed in direct mode)
++ IO - Input/output error (wrong name when loading program)
+- LS - String too long (more than 255 characters)
++ MO - Missing operand (command or expression incomplete)
++ NF - NEXT without FOR (variables don't match)
++ OD - Out of data (not enough DATA for READ)
+- OM - Out of memory
+- OS - Out of string space
++ OV - Numeric overflow
++ RG - RETURN without GOSUB
++ SN - Syntax error
++ ST - Literal string pool table full
++ TM - Type mismatch (numbers vs. strings)
+- UF - Undefined user function
++ UL - Undefined line
++ US - Unsupported function or command (only a warning, not an original KC-BASIC error)
++ /0 - Division by zero
+
+___________________________________________________________________________
+
+LICENSE
+
+Copyright (c) 2015-2016, Shuichi Shinji
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+- Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
+- Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+- Standalone redistribution in parts or as whole is not permitted, it may
+  only be sold as part of your own products, either copy or transfer only,
+  keeping script name and creator intact.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+
+
+============================================================
+  【秀】  [.Shuggles.] Snow Emitter v0.49  【ツ】
+============================================================
+
+The Snow Emitter script emits snow particles from all prims of a linked object, so you
+don't need to put a script in each prim. Emitters can also be rezzed by a control object
+(rezzed or as HUD) - just add their target position in their description field and put
+them into the control object. Then you can rez/derez them and start/stop/toggle snow.
+You can also configure a custom channel in case you want to have independent emitter
+clusters in one region. Manually rezzed emitters can be toggled by touching them.
+
+Rez buttons support different sets, i.e. they only rez emitters whose names start with
+a configurable string (per button). Each emitter can emit particles with a configurable
+texture (from their inventory, description field or in the script). Optionally, you can
+configure a channel to control the emitters by chat commands instead of using a control
+object.
+
+If you want to use the rezzing feature on group-owned land, you need to deed the control
+object! Rezzing on group-owned land only works if owner is present or object is set to
+group AND group can rez or object is deeded to group ('can always rez' in group role is
+not enough).
+
+The particle emitter and access level can be configured in the script. A detailed manual
+as well as example objects are included in the package, to help you making your own or
+just use them as they are.
+
+The Snow Emitter script is full perm. It's licensed under the BSD license with the
+addition that it must not be resold or otherwise given away standalone in parts or as
+whole. It can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+Create an emitter object and name so that its name contains the word "Emitter" (case-
+insensitive). It can contain as many linked prims as you want - snow is emitted from each
+of them. Put the Snow Emitter script inside (root prim only) and take the object. If you
+want to have them rezzed by a control object, make as many copies as you need and put the
+respective target coordinates in their description field in the form "Config:<x,y,z>"
+(without the quotes). If you want to rez it manually, you can also add the coordinates
+or move it by hand. Emitters rezzed by the control object are positioned upon rezzing,
+manually rezzed emitters only on touch.
+
+To use a diferent snow texture, add the texture name or UUID behind the position like so:
+"Config:<x,y,z>:texture". If you specify the texture by name, it must be in the emitter's
+inventory. If you don't specify one, the first texture in the inventory or the default
+texture specified in the script is used. Please always reset the script after you changed
+any of these options.
+
+To control the emitters by chat on a custom channel, add that channel to the emitters'
+description as last option: "Config:<x,y,z>:texture:channel". In case you want a channel,
+but no texture, just leave the texture empty, like so: "Config:<x,y,z>::channel". Usable
+chat commands are: /channel snow.start to start snowing, snow.stop to stop snowing,
+snow.derez or snow.die to remove all emitters.
+
+Create the control object and add button prims that need to be named "Start", "Stop",
+"Toggle", "Rez", "Derez" (case-insensitive and only the ones you need). The names should
+be self-explanatory. Be careful not to include the word "Emitter" in the object's name.
+Put the Snow Emitter script and all emitters inside (root prim only) and take the object.
+If you want to have independent emitter clusters in one region, add a custom channel in
+the description field like: "Config:1" (without the quotes). This is not an actual SL
+channel, but it influences the selected channel the objects communicate on.
+
+Rez buttons can optionally only rez emitters whose names start with the string you put
+into the Rez buttons description field, e.g if a Rez button has "Light Snow" in its
+description field, emitters named "Light Snow 1", "Light Snow 1", "Light Snow xyz" are
+rezzed. If the decription field is empty, all emitters are rezzed.
+
+Now you can rez or attach the control object and rez the emitters by pressing the
+appropriate button, start/stop/toggle the rezzed snow emitters and derez them. Or just
+use the provided examples or simply rez the emitters manually and touch them to move to
+position them if a target position is configured. Touching them also toggles snowing.
+
+If you want to use the rezzing feature on group-owned land, you need to deed the control
+object! Rezzing on group-owned land only works if owner is present or object is set to
+group AND group can rez or object is deeded to group ('can always rez' in group role is
+not enough).
+
+To configure the Snow Emitter script, please open it (best before you put it into the
+objects) and change the following constants according to your needs or just keep the
+default values:
+
+ACCESS_LEVEL
+
+Set the access level: 0 for all, 1 for group only, 2 for owner only.
+
+PARTICLE_PATTERN
+
+Here you can set the source pattern, e.g. PSYS_SRC_PATTERN_EXPLODE,
+PSYS_SRC_PATTERN_ANGLE_CONE etc. Default is PSYS_SRC_PATTERN_EXPLODE.
+
+PARTICLE_TURN_DIRECT
+
+Set to TRUE to make particles turn towards their flying direction, FALSE otherwise.
+Default is TRUE.
+
+PARTICLE_EMIT
+
+Duration in seconds particles are emitted. Default is 0 (endless).
+
+PARTICLE_LIFE
+
+Duration in seconds particles live. Default is 30 (maximum).
+
+PARTICLE_BURST_RATE
+
+Particle burst rate in seconds, i.e. how often bursts occur. Default is 0.01 which means
+that every 0.01 seconds a burst happens.
+
+PARTICLE_BURST_COUNT
+
+Particle burst count, i.e. number of particles during burst. Default is 10.
+
+PARTICLE_BURST_RADIUS
+
+Particle burst radius, i.e. the distance from the emitter where particles will be created.
+Default is 0.1.
+
+PARTICLE_START_SCALE and PARTICLE_END_SCALE
+
+Particle start and end scale during their lifetime. Default is <0.1, 0.1, 0.0> for both.
+
+PARTICLE_START_COLOR and PARTICLE_END_COLOR
+
+Particle start and end color during their lifetime, ranging from 0-255 for each channel.
+Default is <255, 255, 255> (white) for both.
+
+PARTICLE_START_TRANS and PARTICLE_END_TRANS
+
+Particle start and end transparency in percent during their lifetime.
+Default is 0 (opaque) for both.
+
+PARTICLE_ACCEL
+
+Particle acceleration, use negative values to slow down. Valid values are 0 to 100 for
+each direction, positive and negative, in region coordinates. Default is <0.0, 0.0,-0.03>.
+
+PARTICLE_SPEED_MIN and PARTICLE_SPEED_MAX
+
+Particle minimum and maximum speed. Defaults are 0.3 and 0.4.
+
+PARTICLE_ANGLE_BEGIN and PARTICLE_ANGLE_END
+
+Specifies a half angle in degrees, of a circular or spherical "dimple" or conic section
+(starting from the emitter facing) within which particles will (END) or will not (BEGIN)
+be emitted. Valid values for END are 0 (particles emitted in a straight line in direction
+of the emitter facing) to 180 (particles emitted in a full circular/spherical arc around
+the emitter, not including the "dimple" or conic section defined by BEGIN).
+
+If PARTICLE_PATTERN is PSYS_SRC_PATTERN_ANGLE, the presentation is a 2D flat circular
+section, for ANGLE_CONE or ANGLE_CONE_EMPTY, it is a 3D spherical section. For BEGIN,
+valid values are the same as for END, though the effects are reversed accordingly.
+
+Please note that the value of BEGIN and END are internally re-ordered such that END gets
+the larger of the two values. Default is 180 for both values.
+
+PARTICLE_OMEGA
+
+Sets how far to rotate the "pattern" after each particle burst, approximately degrees per
+burst around the prim's global (not local) axes. Has no visible effect on DROP, EXPLODE
+and certain specific ANGLE and ANGLE_CONE patterns, depending on prim orientation.
+Default is <0, 0, 0>.
+
+PARTICLE_TEXTURE
+
+The default particle texture to use if none is in the emitter's description field and
+none in its inventory. Leave empty to use default particles. Default is the UUID of a
+snowflake texture.
+
+For configuring the particle system to your needs, please also refer to:
+http://wiki.secondlife.com/wiki/LlParticleSystem
+There is also a nice tutorial at:
+https://eloisepasteur.wordpress.com/learning-about-particles/
+
+

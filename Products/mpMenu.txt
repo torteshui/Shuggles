@@ -1,0 +1,1106 @@
+﻿============================================================
+  【秀】  [.Shuggles.] Colorizer v0.59  【ツ】
+============================================================
+
+The Colorizer script can change the color and transparency on an object, linked prim or
+face. On touch, it opens a menu letting you change the parameters. You can choose between
+changing the whole object, the touched prim or only the touched face. Default prim and
+face as well as additional faces can be configured in the script, the target selection
+can be disabled. You can also specify that certain parameters are only to be applied to
+specific prims (by name or link number) and faces.
+
+There are several script variants with a different feature set. Please make sure you buy
+the correct one:
+
+- Colorizer: coloring
+- Texturizer: texturing
+- Sculptor: sculptmap changer
+- Lighter: light changer
+- Coverizer: all of the above and fullbright, glow, shininess
+
+All parameters can be configured in a config notecard containing the word "mpMenuConfig"
+somewhere in its name; a description and examples are included. If no config notecard can
+be found, it uses a set of 32 predefined colors that can be changed in the script:
+
+- white, light gray, gray, dark gray, black
+- red, green, blue, yellow, magenta, cyan, orange, pink, purple (normal, bright, pastel)
+
+On long touch (one second), it opens the options menu where you can select the access
+level (all, group, owner) and reset the script.
+
+Touch to open a menu can be configured to only work when no avatar is sitting on the
+object. This makes it usable together with sitting scripts which only display a menu for
+selecting poses if an avatar is seated.
+
+If the object's name contains the word "DEMO", the script is usable by everyone, not just
+the owner. Additionally, it displays a floating text using the object's description.
+
+The Colorizer script is full perm. It's licensed under the BSD license with the addition
+that it must not be resold or otherwise given away standalone in parts or as whole. It
+can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Lighter v0.59  【ツ】
+============================================================
+
+The Lighter script can change the light color of an object or linked prim. On touch, it
+opens a menu letting you change the parameters. You can choose between changing the whole
+object, the touched prim or only the touched face. Default prim and face as well as
+additional faces can be configured in the script, the target selection can be disabled.
+You can also specify that certain parameters are only to be applied to specific prims
+(by name or link number) and faces.
+
+There are several script variants with a different feature set. Please make sure you buy
+the correct one:
+
+- Colorizer: coloring
+- Texturizer: texturing
+- Sculptor: sculptmap changer
+- Lighter: light changer
+- Coverizer: all of the above and fullbright, glow, shininess
+
+All parameters can be configured in a config notecard containing the word "mpMenuConfig"
+somewhere in its name; a description and examples are included. If no config notecard can
+be found, it uses a set of 32 predefined colors that can be changed in the script:
+
+- white, light gray, gray, dark gray, black
+- red, green, blue, yellow, magenta, cyan, orange, pink, purple (normal, bright, pastel)
+
+On long touch (one second), it opens the options menu where you can select the access
+level (all, group, owner) and reset the script. Automatic glow, fullbright and coloring
+depending on light status and color can also be enabled here. You can also configure the
+script to enable light on touch (and the main menu on long touch).
+
+Touch to open a menu can be configured to only work when no avatar is sitting on the
+object. This makes it usable together with sitting scripts which only display a menu for
+selecting poses if an avatar is seated.
+
+If the object's name contains the word "DEMO", the script is usable by everyone, not just
+the owner. Additionally, it displays a floating text using the object's description.
+
+The Lighter script is full perm. It's licensed under the BSD license with the addition
+that it must not be resold or otherwise given away standalone in parts or as whole. It
+can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Sculptor v0.59  【ツ】
+============================================================
+
+The Sculptor script can change the sculptmap on an object or linked prim. On touch, it
+opens a menu letting you change the parameters. You can choose between changing the whole
+object or only the touched prim. The default prim can be configured in the script, the
+target selection can be disabled. You can also specify that certain parameters are only
+to be applied to specific prims (by name or link number).
+
+There are several script variants with a different feature set. Please make sure you buy
+the correct one:
+
+- Colorizer: coloring
+- Texturizer: texturing
+- Sculptor: sculptmap changer
+- Lighter: light changer
+- Coverizer: all of the above and fullbright, glow, shininess
+
+All parameters can be configured in a config notecard containing the word "mpMenuConfig"
+somewhere in its name; a description and examples are included. If no config notecard can
+be found, sculptmaps are read from the object's inventory.
+
+Texture names are automatically shortened to 24 characters. They should be no longer than
+~14 characters so they can be displayed completely in the menu. If linked prims other
+than the one the script is in shall be textured, the textures must be copy and transfer
+due to an SL limitation.
+
+Sculptmap texture names also need to start with "$" to be recognized as sculptmaps. This
+can be changed by modifying the global constant SCULPT_PREFIX, however.
+
+On long touch (one second), it opens the options menu where you can select the access
+level (all, group, owner) and reset the script.
+
+Touch to open a menu can be configured to only work when no avatar is sitting on the
+object. This makes it usable together with sitting scripts which only display a menu for
+selecting poses if an avatar is seated.
+
+If the object's name contains the word "DEMO", the script is usable by everyone, not just
+the owner. Additionally, it displays a floating text using the object's description.
+
+The Sculptor script is full perm. It's licensed under the BSD license with the addition
+that it must not be resold or otherwise given away standalone in parts or as whole. It
+can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Texturizer v0.59  【ツ】
+============================================================
+
+The Texturizer script can change the texture on an object, linked prim or face. On touch,
+it opens a menu letting you change the parameters. You can choose between changing the
+whole object, the touched prim or only the touched face. Default prim and face as well as
+additional faces can be configured in the script, the target selection can be disabled.
+You can also specify that certain parameters are only to be applied to specific prims
+(by name or link number) and faces.
+
+There are several script variants with a different feature set. Please make sure you buy
+the correct one:
+
+- Colorizer: coloring
+- Texturizer: texturing
+- Sculptor: sculptmap changer
+- Lighter: light changer
+- Coverizer: all of the above and fullbright, glow, shininess
+
+All parameters can be configured in a config notecard containing the word "mpMenuConfig"
+somewhere in its name; a description and examples are included. If no config notecard can
+be found, textures are read from the object's inventory.
+
+Texture names are automatically shortened to 24 characters. They should be no longer than
+~14 characters so they can be displayed completely in the menu. If linked prims other
+than the one the script is in shall be textured, the textures must be copy and transfer
+due to an SL limitation.
+
+On long touch (one second), it opens the options menu where you can select the access
+level (all, group, owner) and reset the script.
+
+Touch to open a menu can be configured to only work when no avatar is sitting on the
+object. This makes it usable together with sitting scripts which only display a menu for
+selecting poses if an avatar is seated.
+
+If the object's name contains the word "DEMO", the script is usable by everyone, not just
+the owner. Additionally, it displays a floating text using the object's description.
+
+The Texturizer script is full perm. It's licensed under the BSD license with the addition
+that it must not be resold or otherwise given away standalone in parts or as whole. It
+can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+
+============================================================
+  【秀】  [.Shuggles.] Coverizer v0.59  【ツ】
+============================================================
+
+The Coverizer script can change the texture, sculptmap, color, transparency, light,
+fullbright, glow and shininess on an object, linked prim or face. On touch, it opens
+a menu letting you change the parameters. You can choose between changing the whole
+object, the touched prim or only the touched face. Default prim and face as well as
+additional faces can be configured in the script, the target selection can be disabled.
+You can also specify that certain parameters are only to be applied to specific prims
+(by name or link number) and faces.
+
+There are several script variants with a different feature set. Please make sure you buy
+the correct one:
+
+- Colorizer: coloring
+- Texturizer: texturing
+- Sculptor: sculptmap changer
+- Lighter: light changer
+- Coverizer: all of the above and fullbright, glow, shininess
+
+All parameters can be configured in a config notecard containing the word "mpMenuConfig"
+somewhere in its name; a description and examples are included. If no config notecard can
+be found, textures and sculptmaps are read from the object's inventory and colors and
+lights use a set of 32 predefined colors that can be changed in the script:
+
+- white, light gray, gray, dark gray, black
+- red, green, blue, yellow, magenta, cyan, orange, pink, purple (normal, bright, pastel)
+
+Texture names are automatically shortened to 24 characters. They should be no longer than
+~14 characters so they can be displayed completely in the menu. If linked prims other
+than the one the script is in shall be textured, the textures must be copy and transfer
+due to an SL limitation.
+
+Sculptmap texture names also need to start with "$" to be recognized as sculptmaps. This
+can be changed by modifying the global constant SCULPT_PREFIX, however.
+
+On long touch (one second), it opens the options menu where you can select the access
+level (all, group, owner) and reset the script. Automatic glow, fullbright and coloring
+depending on light status and color can also be enabled here. You can also configure the
+script to enable light on touch (and the main menu on long touch).
+
+Touch to open a menu can be configured to only work when no avatar is sitting on the
+object. This makes it usable together with sitting scripts which only display a menu for
+selecting poses if an avatar is seated.
+
+If the object's name contains the word "DEMO", the script is usable by everyone, not just
+the owner. Additionally, it displays a floating text using the object's description.
+
+The Coverizer script is full perm. It's licensed under the BSD license with the addition
+that it must not be resold or otherwise given away standalone in parts or as whole. It
+can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL (for all variants)
+
+The simplest way to use the script is to put textures and the script into your object,
+click on it, select whether you want to change the whole object, only the clicked prim or
+face and then select from the provided options in the menu to change textures, colors,
+lights, sculptmaps, fullbright, shininess and glow - depending on the actual script
+variant. However, you can do a lot more by configuring the script or using a config
+notecard.
+
+To configure the script, please open it and change the following constants according to
+your needs. Please note that not all options apply for all script variants:
+
+ACCESS_LEVEL
+
+Set the access level: 0 for all, 1 for group only, 2 for owner only. This can also be set
+in the notecard and changed in the options menu later.
+
+LISTENER_CHANNEL
+
+Optional channel to send texture/color/light/sculptmap/fullbright/shiny/glow commands
+to other objects which must contain the Skin Listener script (with the same configured
+channel). If you use texture names, these textures must be in the other object. This
+feature is marked as EXPERIMENTAL, so it might not work completely and could be changed
+in future versions. Use -1 to disable.
+
+Please note: You need to provide a prim (name or link number) of the other object for
+this to work - or none to change the whole other object.
+
+ALLOW_SITTING
+
+TRUE to ignore if an avatar sits on the object, i.e. always open the menu on touch,
+FALSE to do nothing when an avatar is sitting on an object.
+
+TEXTURE_GIVER
+
+TRUE to use a simple texture giver instead of texturing, FALSE otherwise. This can only
+be used for the Texturizer script variant. Default is FALSE.
+
+LONG_PRESS_MENU
+
+TRUE to use long press (at least 1 second) to open menu, FALSE otherwise. This should
+only be used for the Coverizer script variant, otherwise you might not be able to access
+the options menu under certain conditions. Default is FALSE.
+
+KEEP_MENU_OPEN
+
+TRUE to keep menu open after a selection, FALSE otherwise. Default is TRUE.
+
+USE_FULLBRIGHT
+
+TRUE to have a Fullbright menu item, FALSE otherwise. Only applies for Coverizer.
+Default is TRUE.
+
+USE_SHINY
+
+TRUE to have a Shiny menu item, FALSE otherwise. Only applies for Coverizer.
+Default is TRUE.
+
+USE_GLOW
+
+TRUE to have a Glow menu item, FALSE otherwise. Only applies for Coverizer.
+Default is TRUE.
+
+AUTO_GLOW
+
+TRUE to make light sources glow, FALSE otherwise. Only applies for Coverizer and Lighter.
+Default is FALSE.
+
+AUTO_BRIGHT
+
+TRUE to make light sources fullbright, FALSE otherwise. Only applies for Coverizer and
+Lighter. Default is FALSE.
+
+AUTO_COLOR
+
+TRUE to make light sources change their color to the light color, FALSE otherwise. Only
+applies for Coverizer and Lighter. Default is FALSE.
+
+CLICK_TO_LIGHT
+
+TRUE to enable light by click on a face, FALSE otherwise. Only applies for Coverizer and
+Lighter. This also requires LONG_PRESS_MENU. Default is FALSE.
+
+TARGET_SELECTION
+
+TRUE to show Object/Prim/Face selection, FALSE otherwise. This can be used with the
+default prim or face. For single-prim objects with just one face, it is never displayed.
+This can also be set in the notecard. Default is TRUE.
+
+IGNORE_FACES
+
+TRUE to ignore faces in target selection, FALSE otherwise. Default is TRUE for Sculptor
+and Lighter, FALSE otherwise.
+
+DEFAULT_FACE
+
+Default prim[.face] to use, useful without target selection, use "" for whole object
+(default), "root" for root prim, "touched" for touched prim and/or face, e.g.:
+
+- "touched": touched prim
+- "touched.2": face 2 of touched prim
+- "touched.touched": touched face of touched prim
+- "root.touched": touched face of any prim on root prim (not very useful)
+
+ADDITIONAL_FACES
+
+Additional faces to use, useful without target selection, use [] to disable.
+Default is []. This is only needed for very special cases, so best leave it empty.
+
+TEXTURE_PREFIX (only Coverizer, Texturizer and Sculptor)
+
+Normal textures must start with this prefix - use "" for none. This can also be set in
+the notecard. Default is "".
+
+SCULPT_PREFIX (only Coverizer, Texturizer and Sculptor)
+
+Sculptmap textures must start with this prefix - use "" for none. This can also be set in
+the notecard. Default is "$".
+
+TEXTURES, SCULPTMAPS, COLORS and COLOR_PAGES
+
+Lists of default textures, sculptmaps (names or UUIDs) and colors. You can use them if no
+config notecard is present. Textures and sculptmaps in inventory are ignored then. Please
+specify them as name-value pairs. COLORS is used for colors and lights. Pages are for 9
+name-value pairs each.
+
+___________________________________________________________________________
+
+CONFIG NOTECARD
+
+All parameters can be configured in a config notecard containing the word "mpMenuConfig"
+somewhere in its name. If no config notecard can be found, textures and sculptmaps are
+read from the object's inventory and colors and lights use a set of 32 predefined colors.
+
+----------------------------------------------------------------
+# Example mpMenuConfig for Shui_Coverizer, Shui_Colorizer, Shui_Texturizer, Shui_Sculptor and Shui_Lighter
+
+# Access level (Access or AccessLevel): 0/All, 1/Group, 2/Owner
+AccessLevel=All
+# Optional channel to send texture/color/light to other objects, use -1 to disable - EXPERIMENTAL
+ListenerChannel=-1
+# Use 1 to show Object/Prim/Face selection, 0 otherwise
+TargetSelection=1
+# Use 1 to ignore faces (Sculptor and Lighter set this by default), 0 otherwise
+IgnoreFaces=0
+# Default prim[.face] to use, useful without target selection, leave empty for whole object,
+# "root" for root prim, "touched" for touched prim and/or face
+DefaultFace=
+# Normal textures must start with this prefix - leave empty for none
+TexturePrefix=
+# Sculptmap textures must start with this prefix - leave empty for none
+SculptPrefix=$
+
+# only Coverizer and Texturizer
+[Textures]
+Pages=Example Textures
+Default=default|Plywood=plywood|Blank=blank|Transparent=transparent|Media=media
+Arrow SL=e547f1bd-a7ff-b01f-2124-b527dd73b533
+Arrow AVN=83988955-f8f8-4bb3-9eac-0110d371029d
+Frame SL=2e2bf11d-0ca9-45a6-ef2d-e20f469f1fb4
+Frame AVN=babb4281-0229-486e-912b-eca5dc655005
+
+# only Coverizer and Sculptor
+[Sculptmaps]
+Pages=Example Sculptmaps
+Apple SL=bea82b0f-27c6-730b-fd7f-733f2340b449
+Apple AVN=99581600-833b-428e-979d-cfc2767647de
+Stem SL=d1b6cc53-ac61-291f-9ce1-dc18170aa6a6
+Stem AVN=d1f4faa7-0ed1-496a-bc87-5c38250bdc99
+Banana SL=d962089b-2197-993c-9ec9-4993eb0a95f2,4
+Banana AVN=8a688b0d-6ab3-45b3-9ff1-b2b924b7f7fa,4
+Plate SL=fb39e9be-0609-2d1e-0988-803d1c04411e,193
+Plate AVN=49fc4aff-1de6-426b-a263-3e970eb90943,193
+None=null
+
+# only Coverizer and Colorizer
+[Colors]
+Pages=Shades Of Gray|Normal Colors|Bright Colors|Pastel Colors
+Transparent=50|White=<255,255,255>|Light Gray=<192,192,192>|Gray=<128,128,128>|Dark Gray=<64,64,64>|Black=<10,10,10>|-=|-=|-=
+Red=<128,0,0>|Green=<0,128,0>|Blue=<0,0,128>|Yellow=<200,200,0>|Magenta=<200,0,200>|Cyan=<0,200,200>|Orange=<200,100,0>|Pink=<200,80,125>|Purple=<100,40,140>
+Br. Red=<255,0,0>|Br. Green=<0,255,0>|Br. Blue=<0,0,255>|Br. Yellow=<255,255,0>|Br. Magenta=<255,0,255>|Br. Cyan=<0,255,255>|Br. Orange=<255,128,0>|Br. Pink=<255,0,128>|Br. Purple=<200,0,200>
+Pa. Red=<255,128,128>|Pa. Green=<128,255,128>|Pa. Blue=<128,128,255>|Pa. Yellow=<255,255,128>|Pa. Magenta=<255,128,255>|Pa. Cyan=<128,255,255>|Pa. Orange=<255,200,128>|Pa. Pink=<255,128,200>|Pa. Purple=<200,128,200>
+
+[Colors:1.2]
+Pages=Prim 1, Face 2
+Red 1=<128,0,0>|Green 1=<0,128,0>|Blue 1=<0,0,128>|Yellow 1=<200,200,0>|Magenta 1=<200,0,200>|Cyan 1=<0,200,200>|Orange 1=<200,100,0>|Pink 1=<200,80,125>|Purple 1=<100,40,140>
+
+# only Coverizer and Lighter
+[Lights]
+Pages=Shades Of Gray|Normal Colors|Bright Colors|Pastel Colors
+On/off=100|White=<255,255,255>,100|Light Gray=<192,192,192>,80|Gray=<128,128,128>,50|Dark Gray=<64,64,64>,40|Black=10,<10,10,10>|-=|-=|-=
+Red=<128,0,0>|Green=<0,128,0>|Blue=<0,0,128>|Yellow=<200,200,0>|Magenta=<200,0,200>|Cyan=<0,200,200>|Orange=<200,100,0>|Pink=<200,80,125>|Purple=<100,40,140>
+Br. Red=<255,0,0>|Br. Green=<0,255,0>|Br. Blue=<0,0,255>|Br. Yellow=<255,255,0>|Br. Magenta=<255,0,255>|Br. Cyan=<0,255,255>|Br. Orange=<255,128,0>|Br. Pink=<255,0,128>|Br. Purple=<200,0,200>
+Pa. Red=<255,128,128>|Pa. Green=<128,255,128>|Pa. Blue=<128,128,255>|Pa. Yellow=<255,255,128>|Pa. Magenta=<255,128,255>|Pa. Cyan=<128,255,255>|Pa. Orange=<255,200,128>|Pa. Pink=<255,128,200>|Pa. Purple=<200,128,200>
+----------------------------------------------------------------
+
+- empty lines and comment lines starting with "#", "//" or "--" are ignored
+- sections are enclosed in "[]"; possible sections: Textures, Sculptmaps, Colors, Lights
+  - can contain an optional ":prim.face" definition
+  - prim and face are the linked prim (name or link number) and optional face number
+  - use "root" as prim name to specify root prim
+  - values are only applied to the specified prim and face
+  - if Prim or Face is selected in the menu, then only the touched prim or face are affected
+  - best is to put these special sections into an own page and disable TARGET_SELECTION
+- parameters are given as "name=value" pairs, separated by newline or "|"
+  - be careful to use different names over all sections of the same type!
+  - ":prim.face" can also be appended to single values
+- texture and sculptmap values can be texture names (must be in inventory then) or UUIDs
+  - ":prim.face" can also be appended to textures in inventory
+- there are some symbolic texture names to set certain default textures:
+  default, plywood, blank, transparent, media, null
+- sculptmap values can also contain an additional sculpt type, separated by ","
+  - if type is omitted, it is set to Sphere if the prim was no sculptie before
+  - otherwise the type is not changed
+  - if a sculptmap type is provided, it is set to the given value:
+    1: Sphere, 2: Torus, 3: Plane, 4: Cylinder, add 64 to invert and 128 to mirror it
+  - this also works when the sculptmap is read from inventory (without notecard)
+  - if symbolic texture name null is used, the sculpted prim gets reset to a normal prim
+- color and light values are in the form <R,G,B>,L or L,<R,G,B>
+  - R, G and B values are the respective color channels and range from 0 to 255
+  - L is the transparency or light level and toggled between L (0-100%) and opaque/off
+  - color or level can be omitted (also the separator then)
+- if a "Pages=page1|page2|..." option is present; "page1" etc. are used in the menu as
+  heading for a group of 9 value pairs ("Pages" is case-insensitve)
+- to fill pages with empty buttons, you can add "-=" or "-=-" as often as needed
+
+___________________________________________________________________________
+
+CONFIGURATION MENU
+
+Click (if configured, at least 1 second) to get a menu:
+
+▣ Object: applies parameters to whole object
+▣ Prim: applies parameters to touched prim only
+▣ Face: applies parameters to touched face only
+▣ Fullbright: toggles full brightness
+▣ Shiny: toggles between shiny modes none/low/medium/high
+▣ Glow: toggles glow effect
+▣ Rotation: only used in Star Lights to turn rotation on and off
+▣ Particles: only used in Star Lights to turn particles on and off
++ TEXTURE: opens submenu to change the texture, use MAIN to return
++ COLOR: opens submenu to change the color, use MAIN to return
++ LIGHT: opens submenu to change light color and toggle light, use MAIN to return
++ SCULPTMAP: opens submenu to change the sculptmap, use MAIN to return
++ SLIDESHOW: only used in Slideshow Frames to open the Slideshow menu
++ OPTIONS: opens submenu to change access levels for menus, use MAIN to return
+  ▣ All: everyone can access the menu
+  ▣ Group: only group members and owner can access the menu
+  ▣ Owner: only owner can access the menu
+  ▣ AutoGlow: glow effect is toggled together with light
+  ▣ AutoBright: full brightness is toggled together with light
+  ▣ AutoColor: object/prim/face color is set to light color if light is enabled
+  - Reset: reset the script
+- CLOSE: closes the menu, obviously ^^
+
+Please note that all menu options affect the whole object, the touched prim or the
+touched face, depending on what you selected.
+
+___________________________________________________________________________
+
+NOTECARD EXAMPLES
+
+Simple example for the Texturizer:
+
+----------------------------------------------------------------
+[Textures]
+Pages=Example Textures
+Default=default|Plywood=plywood|Blank=blank|Transparent=transparent|Media=media
+Arrow SL=e547f1bd-a7ff-b01f-2124-b527dd73b533
+Arrow AVN=83988955-f8f8-4bb3-9eac-0110d371029d
+Frame SL=2e2bf11d-0ca9-45a6-ef2d-e20f469f1fb4
+Frame AVN=babb4281-0229-486e-912b-eca5dc655005
+----------------------------------------------------------------
+
+Example to texture furniture with drawers and knobs:
+
+----------------------------------------------------------------
+# Hide target selection
+TargetSelection=0
+
+# Drawer and Knob are the actual prim names
+[Textures:Drawer]
+Pages=Drawer Textures
+Drawer 1=default
+Drawer 2=plywood
+Drawer 3=blank
+# fill page with 6 empty buttons
+-=|-=|-=|-=|-=|-=
+
+# Only texture face 2 of the knob
+[Textures:Knob.2]
+Pages=Knob Textures
+Knob 1=default
+Knob 2=plywood
+Knob 3=blank
+# fill page with 6 empty buttons
+-=|-=|-=|-=|-=|-=
+----------------------------------------------------------------
+
+Simple sculptmap changer:
+
+----------------------------------------------------------------
+[Sculptmaps]
+Pages=Example Sculptmaps
+Apple SL=bea82b0f-27c6-730b-fd7f-733f2340b449
+Apple AVN=99581600-833b-428e-979d-cfc2767647de
+Stem SL=d1b6cc53-ac61-291f-9ce1-dc18170aa6a6
+Stem AVN=d1f4faa7-0ed1-496a-bc87-5c38250bdc99
+Banana SL=d962089b-2197-993c-9ec9-4993eb0a95f2,4
+Banana AVN=8a688b0d-6ab3-45b3-9ff1-b2b924b7f7fa,4
+Plate SL=fb39e9be-0609-2d1e-0988-803d1c04411e,193
+Plate AVN=49fc4aff-1de6-426b-a263-3e970eb90943,193
+None=null
+----------------------------------------------------------------
+
+Color changer that only colors certain faces:
+
+----------------------------------------------------------------
+# Hide target selection
+TargetSelection=0
+
+# Prim names are names if they exist and link numbers otherwise
+[Colors:1.2]
+Pages=Prim 1, Face 2
+Red 1=<128,0,0>|Green 1=<0,128,0>|Blue 1=<0,0,128>|Yellow 1=<200,200,0>|Magenta 1=<200,0,200>|Cyan 1=<0,200,200>|Orange 1=<200,100,0>|Pink 1=<200,80,125>|Purple 1=<100,40,140>
+
+[Colors:2.3]
+Pages=Prim 2, Face 3
+Red 2=<128,0,0>|Green 2=<0,128,0>|Blue 2=<0,0,128>|Yellow 2=<200,200,0>|Magenta 2=<200,0,200>|Cyan 2=<0,200,200>|Orange 2=<200,100,0>|Pink 2=<200,80,125>|Purple 2=<100,40,140>
+----------------------------------------------------------------
+
+Light changer for 3 linked lamps for owner access only:
+
+----------------------------------------------------------------
+Access=Owner
+
+[Lights:Lamp 1]
+Red 1=<128,0,0>|Green 1=<0,128,0>|Blue 1=<0,0,128>
+
+[Lights:Lamp 2]
+Red 2=<128,0,0>|Green 2=<0,128,0>|Blue 2=<0,0,128>
+
+[Lights:Lamp 3]
+Red 3=<128,0,0>|Green 3=<0,128,0>|Blue 3=<0,0,128>
+
+# Fill with 2 empty buttons
+-=|-=
+----------------------------------------------------------------
+
+
+============================================================
+  【秀】  [.Shuggles.] Resizer v0.59  【ツ】
+============================================================
+
+The Resizer script can resize an object and each linked prim separately, keeping the
+object's shape or resizing each prim individually around its own center. On touch, it
+opens a menu asking which part of the object you want to resize and then another one to
+select the scaling factor and the stretch directions. With OK, you apply the new size,
+with Cancel you restore it to the previous one. Using Pose, you can pose your avatar
+without the need for a posing stand.
+
+On long touch (one second), it opens the Options menu where you can select the access
+level (all, group, owner) and reset or delete the script. With Store you can store the
+current size, with Restore you reset it to the stored or original size.
+
+Touch to open a menu can be configured to only work when no avatar is sitting on the
+object. This makes it usable together with sitting scripts which only display a menu for
+selecting poses if an avatar is seated. It works on rezzed objects and attachments and
+keeps running on no script land.
+
+The script checks upper and lower resize limits and also checks that prims in the linkset
+never get too far apart. Since the distance check can be too restrictive, it can be
+disabled.
+
+Starting with this version, resize steps can be calculated from the size when opening
+the menu (default) or the saved size, so increasing and decreasing by the same percentage
+always leads to the same results without the need of special treatments. If necessary,
+the legacy algorithm which uses the current size can still be used.
+
+If the object's name contains the word "DEMO", the script is usable by everyone, not just
+the owner. Additionally, it displays a floating text using the object's description.
+
+The Resizer script is full perm. It's licensed under the BSD license with the addition
+that it must not be resold or otherwise given away standalone in parts or as whole. It
+can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+To configure the script, please open it and change the following constants according to
+your needs:
+
+ACCESS_LEVEL
+
+Set the access level: 0 for all, 1 for group only, 2 for owner only. This can be changed
+in the options menu later.
+
+ALLOW_SITTING
+
+TRUE to ignore if an avatar sits on the object, i.e. always open the menu on touch,
+FALSE to do nothing when an avatar is sitting on an object.
+
+TARGET_SELECTION
+
+TRUE to show Object/Prim Relative/Prim Local selection, FALSE otherwise. This can be used
+with the default prim and local. For single-prim objects, it is never displayed. Default
+is TRUE.
+
+DEFAULT_LINK
+
+Default prim to use, useful without target selection, use LINK_SET for whole object,
+0 for touched prim. Default is LINK_SET.
+
+DEFAULT_LOCAL
+
+Default flag to specify whether to use local resizing or not. TRUE to do a local resize
+per prim, FALSE otherwise. Useful without target selection or for the whole object (which
+otherwise always uses relative resizing for its prims).
+
+RESIZE_METHOD
+
+Starting with this version, resize steps can be calculated from the size when opening
+the menu (default) or the saved size, so increasing and decreasing by the same percentage
+always leads to the same results without the need of special treatments. If necessary,
+the legacy algorithm which uses the current size can still be used.
+
+Set to 0 to use legacy resize method (% of current size), to 1 for % of size when opening
+menu, or to 2 for % of saved size. Default is 1.
+
+Please note: The mpHUD system uses resize method 2.
+
+DISTANCE_CHECK
+
+The script checks upper and lower resize limits and also checks that prims in the linkset
+never get too far apart. Since the distance check can be too restrictive, it can be
+disabled. The exact way to do this by calculating the bounding sphere around all prim
+centers and checking that its diameter is max. 54m is either non-trivial or inefficient,
+so we just check if all prim centers stay within 27m of the root center. By putting the
+root prim near the center of the linkset, this provides good results.
+
+TRUE to check max. distance between prims to avoid breaking linkset (restrictive), FALSE
+otherwise. Default is TRUE.
+
+POSE_ANIM
+
+Posing animation to use with the Pose button. It must be in the object's inventory or an
+SL internal animation. Default is "turn_180" which is an internal animation and the same
+as the one for Edit Appearance.
+
+___________________________________________________________________________
+
+RESIZE MENU
+
+Click to get the resize menu:
+
+- Object: resizes whole object
+- Prim: resizes touched prim only
+▣ Local: performs a local resize (around each prim's center)
+- +1/+5/+10/-1/-5/-10: change size by given number (in percent)
+▣ Stretch X: stretch in X direction
+▣ Stretch Y: stretch in Y direction
+▣ Stretch Z: stretch in Z direction
+- OK: apply size and close menu
+- CANCEL: revert size and close menu
+▣ Pose: pose avatar
+
+Click at least 1 second to get the options menu:
+
+▣ All: everyone can access the menu
+▣ Group: only group members and owner can access the menu
+▣ Owner: only owner can access the menu
+- Store: store current size, this will overwrite the previously stored size
+- Restore: restore size to stored one
+- Reset: reset the script, this will overwrite the stored size
+- Delete: deletes the script
+- CLOSE: closes the menu, obviously ^^
+
+
+============================================================
+  【秀】  [.Shuggles.] Skin Applier v0.58  【ツ】
+============================================================
+
+The Skin Applier script can change an object's textures, materials, sculptmap, alpha mode,
+colors, alpha, fullbright, bumpiness, shininess, glow, light and size. Texture names or
+UUIDs as well as values for the other commands are configured in the script for linked
+prims (by name) and face. For textures, normal maps and specular maps, texture repeat,
+offset and rotation can be specified; if not, they stay unchanged. Fullbright can be set,
+reset or toggled. Bumpiness, shininess, glow and light can be set, toggled or changed
+relative to the current value. The size can be changed relatively with different factors
+for each axis or absolutely. Examples are given in the script and two additional example
+scripts. After everything has been applied when dropping the script in or on touch, the
+script can be configured to delete itself.
+
+It can e.g. be used as a simple applier for modifiable mesh avatars or body parts: just
+drop the configured script inside - that's it. Creators can hand out ready-configured
+scripts no mod, no trans to protect their texture UUIDs. An example template for the
+Solarian mesh avatar is included.
+
+Please note that toggle and relative changes only work for face 0 or all faces currently
+because face 0 is used to get the current value. For normal and specular maps, the face
+needs to be given if only the texture is specified, otherwise only face 0 is changed.
+
+The Skin Applier script is full perm. It's licensed under the BSD license with the
+addition that it must not be resold or otherwise given away standalone in parts or as
+whole. It can be used in your creations as long as these license conditions are met.
+You are allowed to sell the renamed edited script with your changes under your name.
+Please remember to change script permissions to copy or transfer only before you put
+your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+Please configure the script by changing the following constants and rename the linked
+prims in the object to put them into different prim groups that can be changed together.
+In the simplest case, group names are just the existing prim names. Then you can use the
+script to change the object you are putting it into. You can also hand out configured
+scripts no mod, no trans to your customers, e.g. as a simple applier for modifiable mesh
+avatars or body parts. Your customers only need to drop the script e.g. in their avatar
+and it changes the skin.
+
+APPLY_ON_START
+
+Set to TRUE to apply parameters on script start, FALSE if not. This should be set for an
+applier you are handing out to your customers, so they only have to drop the script into
+their mesh avatar or body part. Default is FALSE.
+
+APPLY_ON_TOUCH
+
+Set to TRUE to apply parameters on touch, FALSE if not. Default is TRUE.
+
+AUTO_DELETE
+
+Set to TRUE to automatically delete script afterwards, FALSE if not. This should be set
+for an applier you are handing out to your customers, so the script doesn't stay in their
+mesh avatar or body part. Default is FALSE.
+
+USE_TOUCHED_PRIM
+
+Set to TRUE to only change touched prim, FALSE if not. This can be set e.g. to change
+different lights in one object consisting of different prims that are used as light
+sources (see example below). Default is FALSE.
+
+SKIN_PARAMS
+
+Remove the examples and add your own commands instead. The syntax is described in the
+script and also here. Empty lines and comment lines starting with "#", "//" or "--"
+are ignored.
+
+Command syntax:
+
+Texture:group[.face]|texture,repeat,offset,rotation
+Normal:group[.face]|texture,repeat,offset,rotation
+Specular:group[.face]|texture,repeat,offset,rotation,color,gloss,env
+Sculpt:group|texture[,type] or
+Sculptmap:group|texture[,type] or
+Map:group|texture[,type]
+AlphaMode:group[.face]|mode[,cutoff]
+Color:group[.face]|color
+Alpha:group[.face]|[[+/-]value]
+Fullbright:group[.face]|[value]
+Bump:group[.face]|[[+/-]mode]
+Shiny:group[.face]|[[+/-]level]
+Glow:group[.face]|[[+/-]level]
+Light:group|[[+/-]level[,color]] or
+Light:group|[color[,[+/-]level]]
+SetSize:group|size[L]
+SetScale:group|scale[L]
+
+Please note that the parameters are separated by comma, separating them by ":" is not
+supported anymore! Please change your scripts accordingly. Size and Scale commands have
+been renamed to SetSize and SetScale; the former are still supported, but deprecated.
+From v0.56 on, group names are case-insensitive. From v0.57 on, SKIN_PARAMS is a string
+and not a list anymore. This should make it easier to use your commands.
+
+Groups are optional now; if you omit them, the whole object is changed. You still need to
+provide the colon after the command! You can also use the special group "root" to change
+the root prim only. If you prepend the command by "-", error messages are supressed.
+
+Please also note that changing the size does not work for rigged mesh attachments.
+
+Parameters:
+
+- group: case-insensitive name of a group of linked prims to change (prims with same name belong to one group)
+         can be empty for whole object (but keep the colon), use "root" for root prim
+- face: face number or empty for all sides
+- texture: name or UUID, must be copy and transfer or a UUID
+- there are some symbolic texture names to set certain default textures:
+  default, plywood, blank, transparent, media, null
+- texture repeat: use <1, 1, 0> for no repeat, omit to leave values unchanged
+- texture offset: use <0, 0, 0> for no offset
+- texture rotation: in degrees, use 0 for no rotation
+- specular color: use <R, G, B>, ranging from 0 to 255 each
+- specular gloss: glossiness exponent, in the range 0 to 255
+- specular env: environmental reflection exponent, in the range 0 to 255
+- sculptmap type: 1=Sphere, 2=Torus, 3=Plane, 4=Cylinder, +64 to invert, +128 to mirror
+- alpha mode: use 0-3 (None, Blend, Mask, Emissive)
+- alpha mode cutoff: use 0-100 (%) for transparency (0 is opaque) to become transparent when using mode 2 (Mask)
+- color: use <R, G, B>, ranging from 0 to 255 each
+- alpha: use 0-100 (%) transparency (like in edit dialog), omit to toggle, use sign for relative changes
+- fullbright value: use 1 to switch on, 0 to switch off, omit to toggle
+- bumpiness mode: use 0-17, omit to toggle, use sign for relative changes
+- shininess level: use 0-3 (Off, Low, Medium and High), omit to toggle, use sign for relative changes
+- glow level: use 0-100 (%), omit to toggle between 10% and 0%, use sign for relative changes
+- light level: use 0-100 (%), omit to toggle between 100% and 0%, use sign for relative changes
+- light color: use <R, G, B>, ranging from 0 to 255 each, omit to leave unchanged
+- size: use <X, Y, Z> for the new size, add "L" to resize locally (around the prim's center instead of the object's)
+- scale: use <X, Y, Z> for the scale factor the current size is multiplied with, add "L" to resize locally
+
+If you are using Second Life prior to 3.7.26 (299610) or any TPV using its older code,
+please note: Your diffuse textures (Texture button) should contain an alpha channel when
+using materials. Reason is an issue with the alpha mode which needs to be set correctly.
+Usually the viewer does it when the texture is set manually, but if a script sets it, the
+alpha mode is not changed to the correct one. If you want to use diffuse textures without
+alpha channel, you have to prepare the object to use alpha mode "None" in the edit dialog.
+To change it, you have to temporarily apply a texture with alpha channel, otherwise it
+stays grayed out. Afterwards, you can set your correct texture. In newer viewers, this
+issue is fixed; alpha mode "Blend" also works with textures without alpha channel now.
+
+___________________________________________________________________________
+
+EXAMPLES
+
+- Examples for all parameters:
+  Please see Shui_Skin_Applier script. Use this as starting point for your own scripts,
+  best on a copy, so you keep the original version.
+
+- Example to switch on different lights (with USE_TOUCHED_PRIM set to TRUE):
+  Please see Shui_Skin_Applier_Lights script.
+
+- Template for the Solarian mesh avatar:
+  Please see Shui_Skin_Applier_Solarian script.
+
+
+============================================================
+  【秀】  [.Shuggles.] Skin Listener v0.58  【ツ】
+============================================================
+
+The Skin Listener script can change an object's textures, materials, alpha mode,
+sculptmaps, colors, alpha, fullbright, bumpiness, shininess, glow, light and size. It
+listens on a configurable channel (in the script) for certain commands (from owner or
+their objects only - or everyone if configured). These commands contain texture names or
+UUIDs as well as values for the other commands for linked prims (by name) and face. For
+textures, normal maps and specular maps, texture repeat, offset and rotation can be
+specified; if not, they stay unchanged. Fullbright can be set, reset or toggled.
+Bumpiness, shininess, glow and light can be set, toggled or changed relative to the
+current value. The size can be changed relatively with different factors for each axis
+or absolutely. Examples are provided.
+
+You can configure these commands in gestures and also mix them with animations, sounds,
+delays and normal chats. This way you can enhance gestures with also affecting the look
+of your avatar or rezzed objects. For instance, use an angry face as trigger to turn
+your eyes first yellow, then red or use a <3 to put little hearts in your eyes (only
+works with modifiable attachments, e.g. mesh avatars, and rezzed objects). An example
+gesture is provided; just rez a simple cube, name it "0" (without the quotes), drop the
+script inside and use the gesture.
+
+The script also sends a request command when the object is rezzed. This can be used to
+let another object issue commands to change the rezzed object. A simple example server
+script that sets the color of another object's child prims depending on the name of its
+root prim and color of the server (child) prim is included. In case you want to use this
+feature, you need to adapt the server script to your needs. If you are unsure about it,
+you probably don't need it.
+
+Before using the script in your creations, please change the channel in it. To do that,
+just open the script and change the constant CHANNEL to the channel you prefer.
+
+Please note that toggle and relative changes only work for face 0 or all faces currently
+because face 0 is used to get the current value. For normal and specular maps, the face
+needs to be given if only the texture is specified, otherwise only face 0 is changed.
+
+The Skin Listener script is full perm. It's licensed under the BSD license with the
+addition that it must not be resold or otherwise given away standalone in parts or as
+whole. It can be used in your creations as long as these license conditions are met.
+Please use the original scripts, keeping script name and creator intact, and remember to
+change script permissions to copy or transfer only before you put your products on sale.
+
+To update or redeliver a product, wear the included Updater and follow the instructions.
+Store policies and info about custom scripting at my MP store and the inworld terminals.
+
+___________________________________________________________________________
+
+MANUAL
+
+Please put the script in the object you want to change, rename the linked prims in the
+object to put them into different prim groups that can be changed together. In the
+simplest case, group names are just the existing prim names. Then create gestures to
+send the following commands in chat. Of course you can also send them by other means,
+as long as they come from the owner or their objects. A simple example server script is
+included which sends commands after being contacted when the object that contains the
+Skin Listener script is rezzed.
+
+Command syntax:
+
+/channel skin.texture:group[.face]|texture,repeat,offset,rotation
+/channel skin.normal:group[.face]|texture,repeat,offset,rotation
+/channel skin.specular:group[.face]|texture,repeat,offset,rotation,color,gloss,env
+/channel skin.sculpt:group|texture[,type] or
+/channel skin.sculptmap:group|texture[,type] or
+/channel skin.map:group|texture[,type]
+/channel skin.alphamode:group[.face]|mode[,cutoff]
+/channel skin.color:group[.face]|color
+/channel skin.alpha:group[.face]|[[+/-]value]
+/channel skin.fullbright:group[.face]|[value]
+/channel skin.bump:group[.face]|[[+/-]mode]
+/channel skin.shiny:group[.face]|[[+/-]level]
+/channel skin.glow:group[.face]|[[+/-]level]
+/channel skin.light:group|[[+/-]level[,color]] or
+/channel skin.light:group|[color[,[+/-]level]]
+/channel skin.setsize:group|size[L]
+/channel skin.setscale:group|scale[L]
+
+Please note that the parameters are separated by comma, separating them by ":" is not
+supported anymore! Please change your scripts accordingly. Size and Scale commands have
+been renamed to SetSize and SetScale; the former are still supported, but deprecated.
+From v0.56 on, group names are case-insensitive.
+
+Groups are optional now; if you omit them, the whole object is changed. You still need to
+provide the colon after the command! You can also use the special group "root" to change
+the root prim only. If you prepend the command by "-", error messages are supressed.
+
+Please also note that changing the size does not work for rigged mesh attachments.
+
+Parameters:
+
+- channel: the channel you need to define in the script
+- group: case-insensitive name of a group of linked prims to change (prims with same name belong to one group)
+         can be empty for whole object (but keep the colon), use "root" for root prim
+- face: face number or empty for all sides
+- texture: name or UUID, must be copy and transfer or a UUID
+- there are some symbolic texture names to set certain default textures:
+  default, plywood, blank, transparent, media, null
+- texture repeat: use <1, 1, 0> for no repeat, omit to leave values unchanged
+- texture offset: use <0, 0, 0> for no offset
+- texture rotation: in degrees, use 0 for no rotation
+- specular color: use <R, G, B>, ranging from 0 to 255 each
+- specular gloss: glossiness exponent, in the range 0 to 255
+- specular env: environmental reflection exponent, in the range 0 to 255
+- sculptmap type: 1=Sphere, 2=Torus, 3=Plane, 4=Cylinder, +64 to invert, +128 to mirror
+- alpha mode: use 0-3 (None, Blend, Mask, Emissive)
+- alpha mode cutoff: use 0-100 (%) for transparency (0 is opaque) to become transparent when using mode 2 (Mask)
+- color: use <R, G, B>, ranging from 0 to 255 each
+- alpha: use 0-100 (%) transparency (like in edit dialog), omit to toggle, use sign for relative changes
+- fullbright value: use 1 to switch on, 0 to switch off, omit to toggle
+- bumpiness mode: use 0-17, omit to toggle, use sign for relative changes
+- shininess level: use 0-3 (Off, Low, Medium and High), omit to toggle, use sign for relative changes
+- glow level: use 0-100 (%), omit to toggle between 10% and 0%, use sign for relative changes
+- light level: use 0-100 (%), omit to toggle between 100% and 0%, use sign for relative changes
+- light color: use <R, G, B>, ranging from 0 to 255 each, omit to leave unchanged
+- size: use <X, Y, Z> for the new size, add "L" to resize locally (around the prim's center instead of the object's)
+- scale: use <X, Y, Z> for the scale factor the current size is multiplied with, add "L" to resize locally
+
+If you are using Second Life prior to 3.7.26 (299610) or any TPV using its older code,
+please note: Your diffuse textures (Texture button) should contain an alpha channel when
+using materials. Reason is an issue with the alpha mode which needs to be set correctly.
+Usually the viewer does it when the texture is set manually, but if a script sets it, the
+alpha mode is not changed to the correct one. If you want to use diffuse textures without
+alpha channel, you have to prepare the object to use alpha mode "None" in the edit dialog.
+To change it, you have to temporarily apply a texture with alpha channel, otherwise it
+stays grayed out. Afterwards, you can set your correct texture. In newer viewers, this
+issue is fixed; alpha mode "Blend" also works with textures without alpha channel now.
+
+___________________________________________________________________________
+
+EXAMPLES
+
+- apply plywood texture on all sides of group 0, keeping repeat, offset and rotation
+  /12345 skin.texture:0|89556747-24cb-43ed-920b-47caed15465f
+- apply plywood texture on face 3 of group 1, no repeat, offset or rotation
+  /12345 skin.texture:1.3|89556747-24cb-43ed-920b-47caed15465f,<1,1,0>,<0,0,0>,0
+- apply blank texture on face 4 of group 2, repeat 2, offset 1, rotation 90°
+  /12345 skin.texture:2.4|5748decc-f629-461c-9a36-a35a221fe21f,<2,2,0>,<1,1,0>,90
+
+- apply plywood normal map on face 3 of group 0, keeping repeat, offset and rotation
+  /12345 skin.normal:0.3|89556747-24cb-43ed-920b-47caed15465f
+- apply plywood normal map on all sides of group 1, no repeat, offset or rotation
+  /12345 skin.normal:1|89556747-24cb-43ed-920b-47caed15465f,<1,1,0>,<0,0,0>,0
+- apply blank normal map on face 4 of group 2, repeat 2, offset 1, rotation 90°
+  /12345 skin.normal:2.4|5748decc-f629-461c-9a36-a35a221fe21f,<2,2,0>,<1,1,0>,90
+
+- apply plywood specular map on face 3 of group 0, keeping repeat, offset and rotation, color, glossiness and env. reflection
+  /12345 skin.specular:0.3|89556747-24cb-43ed-920b-47caed15465f
+- apply plywood specular map on all sides of group 1, no repeat, offset or rotation, color green, glossiness 51, no env. reflection
+  /12345 skin.specular:1|plywood,<1,1,0>,<0,0,0>,0,<0,255,0>,51,0
+- apply blank specular map on face 4 of group 2, repeat 2, offset 1, rotation 90°, color blue, full glossiness and env. reflection
+  /12345 skin.specular:2.4|blank,<2,2,0>,<1,1,0>,90,<0,0,255>,255,0
+
+- apply alpha mode Blend on face 3 of group 0
+  /12345 skin.alphamode:0.3|1
+- apply alpha mode Mask on all sides of group 1, transparency over 40% becomes fully transparent
+  /12345 skin.alphamode:1|2,40
+
+- apply yellow color on all sides of group 0, red on face 2 of group 1
+  /12345 skin.color:0|<255,255,0>
+  /12345 skin.color:1.2|<255,0,0>
+
+- make whole group 0 100% transparent, increase transparency on face 2 of group 1 by 10%
+  /12345 skin.alpha:0|100
+  /12345 skin.alpha:1.2|+10
+
+- set fullbright on face 1 of group 2, toggle fullbright on all sides of group 1
+  /12345 skin.fullbright:2.1|1
+  /12345 skin.fullbright:1
+
+- set bumpiness on face 1 of group 1 to 3, increase bumpiness on face 0 of group 1 by 1
+  /12345 skin.bump:1.1|3
+  /12345 skin.bump:1.0|+1
+- toggle bumpiness on all sides of group 2 between all modes
+  /12345 skin.bump:2
+
+- set shininess on face 1 of group 1 to High (3), increase shininess on face 0 of group 1 by 1
+  /12345 skin.shiny:1.1|3
+  /12345 skin.shiny:1.0|+1
+- toggle shininess on all sides of group 2 between Off, Low, Medium and High
+  /12345 skin.shiny:2
+
+- set glow on face 3 of group 1 to 80%, increase glow on face 0 of group 2 by 10%
+  /12345 skin.glow:1.3|80
+  /12345 skin.glow:2.0|+10
+- toggle glow on face 0 of group 0 between 10% and 0%
+  /12345 skin.glow:0.0
+
+- set light of group 0 to yellow, group 1 to 50% red, increase light of group 2 by 10%
+  /12345 skin.light:0|<255,255,0>
+  /12345 skin.light:1|50,<255,0,0>
+  /12345 skin.light:2|+10
+- toggle light on group 3 (using current light color)
+  /12345 skin.light:3
+
+- set size of group 0 to 1x2x3m
+  /12345 skin.setsize:0|<1,2,3>
+- set size of group 1 to 1x2x3m, resize around the prims' center
+  /12345 skin.setsize:1|<1,2,3>L
+
+- scale group 2 by factor 2 on all axes
+  /12345 skin.setscale:2|<2,2,2>
+- scale group 3 by factor 0.5 on all axes, resize around the prims' center
+  /12345 skin.setscale:3|<0.5,0.5,0.5>L
+
+- change group 3 to an apple sculptmap (type Sphere)
+  /12345 skin.sculpt:3|bea82b0f-27c6-730b-fd7f-733f2340b449,1
